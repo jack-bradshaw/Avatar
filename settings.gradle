@@ -1,0 +1,4 @@
+rootProject.name = 'java-compiler-utilities'
+
+include 'library'
+findProject(':library')?.name = 'Library'

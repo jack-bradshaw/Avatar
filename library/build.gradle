@@ -1,0 +1,30 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+ext {
+	PUBLISH_GROUP_ID = 'com.matthew-tamlin'
+	PUBLISH_ARTIFACT_ID = 'java-compiler-utilities'
+	PUBLISH_VERSION = '1.0.0'
+}
+
+repositories {
+	mavenCentral()
+
+	maven {
+		url "http://jcenter.bintray.com/"
+	}
+}
+
+dependencies {
+	compile 'com.google.guava:guava:21.0'
+	compile 'com.matthew-tamlin:java-utilities:1.3.3'
+
+	testCompile 'com.google.testing.compile:compile-testing:0.8'
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
+
+// run 'clean build generateRelease' to build the release
+apply from: 'buildRelease.gradle'
