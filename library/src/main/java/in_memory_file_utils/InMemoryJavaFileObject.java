@@ -12,7 +12,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * A Java file object which stores data in memory instead of on disk. This class is not currently part of the public
- * API.
+ * API because if does not fully comply with the {@link JavaFileObject} interface contract.
  */
 public class InMemoryJavaFileObject extends SimpleJavaFileObject {
 	private final Charset charset = Charset.defaultCharset();
