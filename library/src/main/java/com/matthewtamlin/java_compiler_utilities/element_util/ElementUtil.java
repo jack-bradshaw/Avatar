@@ -99,6 +99,7 @@ public class ElementUtil {
 			throws CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
+		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
 		return ImmutableSet.copyOf(getElementsUsingCollector(javaFileObject, new SpecificIdElementCollector(id)));
 	}
