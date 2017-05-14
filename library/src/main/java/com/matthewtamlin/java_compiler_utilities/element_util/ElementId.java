@@ -1,11 +1,11 @@
 package com.matthewtamlin.java_compiler_utilities.element_util;
 
 /**
- * Identifies an element so that the ElementUtil can retrieve it.
+ * Defines an ID for an element in a source file.
  */
 public @interface ElementId {
 	/**
-	 * @return an identifier which is unique within a single Java file
+	 * @return the identifier, not necessary unique
 	 */
 	int value();
 }
