@@ -5,8 +5,8 @@ import javax.lang.model.element.Element;
 import java.util.Collection;
 
 /**
- * An annotation processor which collects elements as it processes them. The implementation determines which elements
- * are retained if any.
+ * An annotation processor which collects elements as it processes them. The implementation is free to discriminate
+ * between elements and choose which (if any) are collected.
  */
 public abstract class ElementCollector<T extends Collection<? extends Element>> extends AbstractProcessor {
 	/**
