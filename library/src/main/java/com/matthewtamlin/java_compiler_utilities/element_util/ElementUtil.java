@@ -7,6 +7,7 @@ import in_memory_file_utils.InMemoryJavaFileManager;
 import javax.lang.model.element.Element;
 import javax.tools.*;
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
- * Creates hierarchical Java element models from Java file objects.
+ * Creates Java elements from Java file objects.
  */
 @Tested(testMethod = "automated")
 public class ElementUtil {
@@ -25,21 +26,20 @@ public class ElementUtil {
 			"Cannot get elements if there is no Java compiler available at runtime.");
 	
 	/**
-	 * Returns all root elements in the supplied Java file. A full element model is generated to mirror the
-	 * conditions in an annotation processor, and can be explored via successive method calls on the elements. This
-	 * method might return an empty set but it will never return null.
+	 * Returns all root elements in the supplied Java file. This method might return an empty set but it will never
+	 * return null.
 	 *
 	 * @param javaFileObject
 	 * 		the Java file object to get the elements from, not null
 	 *
-	 * @return the root elements found in the supplied file, not null, unmodifiable
+	 * @return all root elements in the supplied file, not null, unmodifiable
 	 *
 	 * @throws CompilerMissingException
 	 * 		if no Java compiler is found at runtime
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
 	 */
-	public static Set<Element> getRootElementsFrom(final JavaFileObject javaFileObject) throws
+	public static Set<Element> getRootElements(final JavaFileObject javaFileObject) throws
 			CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
@@ -48,17 +48,15 @@ public class ElementUtil {
 	}
 	
 	/**
-	 * Returns all elements in the supplied Java file object which have at least one of the supplied tags. A full
-	 * element model is generated to mirror the conditions in an annotation processor, and can be explored via
-	 * successive method calls on the elements. This method might return an empty set but it will never return null.
+	 * Returns all elements in the supplied Java file object which have at least one of the supplied tags. This method
+	 * might return an empty set but it will never return null.
 	 *
 	 * @param javaFileObject
 	 * 		the Java file object to get the elements from, not null
 	 * @param tags
 	 * 		the tags to use when searching for elements, not null
 	 *
-	 * @return all elements found in the file object which have at least one of the supplied tags, not null,
-	 * unmodifiable
+	 * @return all elements in the supplied file which have at least one of the supplied tags, not null, unmodifiable
 	 *
 	 * @throws CompilerMissingException
 	 * 		if no Java compiler is found at runtime
@@ -67,7 +65,7 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code tags} is null
 	 */
-	public static Set<Element> getTaggedElementsFrom(
+	public static Set<Element> getTaggedElements(
 			final JavaFileObject javaFileObject,
 			final Set<Class<? extends Annotation>> tags) throws CompilerMissingException {
 		
@@ -75,6 +73,35 @@ public class ElementUtil {
 		checkNotNull(tags, "Argument \'tags\' cannot be null.");
 		
 		return ImmutableSet.copyOf(getElementsUsingCollector(javaFileObject, new TaggedElementCollector(tags)));
+	}
+	
+	/**
+	 * Returns all elements in the supplied Java file object which have an ElementId tag containing the supplied ID.
+	 * This method might return an empty set but it will never return null.
+	 *
+	 * @param javaFileObject
+	 * 		the Java file object to get the elements from, not null
+	 * @param id
+	 * 		the element ID to search for, not null
+	 *
+	 * @return all elements found in the supplied file which have an ElementId tag containing the supplied ID, not
+	 * null,
+	 * unmodifiable
+	 *
+	 * @throws CompilerMissingException
+	 * 		if no Java compiler is found at runtime
+	 * @throws IllegalArgumentException
+	 * 		if {@code javaFileObject} is null
+	 */
+	public static Set<Element> getElementsById(
+			final JavaFileObject javaFileObject,
+			final String id)
+			throws CompilerMissingException {
+		
+		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
+		checkNotNull(id, "Argument \'id\' cannot be null.");
+		
+		return ImmutableSet.copyOf(getElementsUsingCollector(javaFileObject, new SpecificIdElementCollector(id)));
 	}
 	
 	/**
@@ -95,9 +122,9 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code collector} is null
 	 */
-	private static Set<Element> getElementsUsingCollector(
+	private static <T extends Collection<? extends Element>> T getElementsUsingCollector(
 			final JavaFileObject javaFileObject,
-			final ElementCollector collector)
+			final ElementCollector<T> collector)
 			throws CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'javaFileObject\' cannot be null.");

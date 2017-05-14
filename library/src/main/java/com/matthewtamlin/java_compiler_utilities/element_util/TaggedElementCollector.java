@@ -15,7 +15,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 /**
  * A collector which only collects elements tagged with specific annotations.
  */
-public class TaggedElementCollector extends ElementCollector {
+public class TaggedElementCollector extends ElementCollector<ImmutableSet<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
