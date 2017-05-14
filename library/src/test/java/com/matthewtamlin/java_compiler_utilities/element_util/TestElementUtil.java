@@ -157,6 +157,48 @@ public class TestElementUtil {
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetElementsByIdFrom_nullFile() throws CompilerMissingException {
+		ElementUtil.getElementsByIdFrom(null, "something");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetElementsByIdFrom_nullId() throws CompilerMissingException {
+		ElementUtil.getElementsByIdFrom(normalJavaFileObject, null);
+	}
+	
+	@Test
+	public void testGetElementsByIdFrom_normalFile_noElementsFoundForId() throws CompilerMissingException {
+		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "nothing");
+		
+		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
+		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
+	}
+	
+	@Test
+	public void testGetElementsByIdFrom_normalFile_oneElementFoundForId() throws CompilerMissingException {
+		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "1");
+		
+		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
+		assertThat("Incorrect elements returned.", toElementNames(elements), is(getId1ElementNames()));
+	}
+	
+	@Test
+	public void testGetElementsByIdFrom_normalFile_multipleElementsFoundForId() throws CompilerMissingException {
+		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "2");
+		
+		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
+		assertThat("Incorrect elements returned.", toElementNames(elements), is(getId2ElementNames()));
+	}
+	
+	@Test
+	public void testGetElementsByIdFrom_emptyFile() throws CompilerMissingException {
+		final Set<Element> elements = ElementUtil.getElementsByIdFrom(emptyJavaFileObject, "2");
+		
+		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
+		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
+	}
+	
 	private Set<String> toElementNames(Set<Element> elements) {
 		final Set<String> names = new HashSet<>();
 		
@@ -202,5 +244,13 @@ public class TestElementUtil {
 		combinedNames.addAll(getTag2ElementNames());
 		
 		return ImmutableSet.copyOf(combinedNames);
+	}
+	
+	public Set<String> getId1ElementNames() {
+		return ImmutableSet.of("methodWithId1");
+	}
+	
+	public Set<String> getId2ElementNames() {
+		return ImmutableSet.of("methodWithId2", "fieldWithId2");
 	}
 }
