@@ -95,7 +95,7 @@ public class ElementUtil {
 	 */
 	public static Set<Element> getElementsByIdFrom(
 			final JavaFileObject javaFileObject,
-			final int id)
+			final String id)
 			throws CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
