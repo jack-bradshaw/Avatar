@@ -17,6 +17,9 @@ public class NormalJavaFile {
 	
 	private Object fieldWithoutTag = '\u0203';
 	
+	@ElementId("2")
+	private boolean fieldWithId2 = true;
+	
 	@Tag1
 	public void methodWithTag1(@Tag1 Object parameterWithTag1) {}
 	
@@ -27,6 +30,14 @@ public class NormalJavaFile {
 	
 	private short methodWithoutTag(Object parameterWithoutTag) {
 		return 0;
+	}
+	
+	@ElementId("1")
+	private void methodWithId1() {}
+	
+	@ElementId("2")
+	private String methodWithId2(String parameterWithoutTag) {
+		return null;
 	}
 	
 	@Tag1
