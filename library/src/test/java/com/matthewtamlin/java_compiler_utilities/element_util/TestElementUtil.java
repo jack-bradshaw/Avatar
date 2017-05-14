@@ -9,8 +9,6 @@ import org.junit.runners.JUnit4;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
-import javax.tools.JavaFileObject.Kind;
-import javax.tools.SimpleJavaFileObject;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
@@ -50,12 +48,12 @@ public class TestElementUtil {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetRootElementsFrom_nullFile() throws CompilerMissingException {
-		ElementUtil.getRootElementsFrom(null);
+		ElementUtil.getRootElements(null);
 	}
 	
 	@Test
 	public void testGetRootElementsFrom_normalJavaFile() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getRootElementsFrom(normalJavaFileObject);
+		final Set<Element> elements = ElementUtil.getRootElements(normalJavaFileObject);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("Incorrect elements returned.", toElementNames(elements), is(getRootElementNames()));
@@ -63,7 +61,7 @@ public class TestElementUtil {
 	
 	@Test
 	public void testGetRootElementsFrom_emptyJavaFile() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getRootElementsFrom(emptyJavaFileObject);
+		final Set<Element> elements = ElementUtil.getRootElements(emptyJavaFileObject);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -74,12 +72,12 @@ public class TestElementUtil {
 		final Set<Class<? extends Annotation>> tags = new HashSet<>();
 		tags.add(Tag1.class);
 		
-		ElementUtil.getTaggedElementsFrom(null, tags);
+		ElementUtil.getTaggedElements(null, tags);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetTaggedElementsFrom_nullTags() throws CompilerMissingException {
-		ElementUtil.getTaggedElementsFrom(normalJavaFileObject, null);
+		ElementUtil.getTaggedElements(normalJavaFileObject, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -88,14 +86,14 @@ public class TestElementUtil {
 		tags.add(Tag1.class);
 		tags.add(null);
 		
-		ElementUtil.getTaggedElementsFrom(normalJavaFileObject, tags);
+		ElementUtil.getTaggedElements(normalJavaFileObject, tags);
 	}
 	
 	@Test
 	public void testGetTaggedElementsFrom_normalJavaFile_noTags() throws CompilerMissingException {
 		final Set<Class<? extends Annotation>> tags = new HashSet<>();
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(normalJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(normalJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -106,7 +104,7 @@ public class TestElementUtil {
 		final Set<Class<? extends Annotation>> tags = new HashSet<>();
 		tags.add(Tag1.class);
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(normalJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(normalJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("Incorrect elements returned.", toElementNames(elements), is(getTag1ElementNames()));
@@ -118,7 +116,7 @@ public class TestElementUtil {
 		tags.add(Tag1.class);
 		tags.add(Tag2.class);
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(normalJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(normalJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("Incorrect elements returned.", toElementNames(elements), is(getBothTagsElementNames()));
@@ -128,7 +126,7 @@ public class TestElementUtil {
 	public void testGetTaggedElementsFrom_emptyJavaFile_noTags() throws CompilerMissingException {
 		final Set<Class<? extends Annotation>> tags = new HashSet<>();
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(emptyJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(emptyJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -139,7 +137,7 @@ public class TestElementUtil {
 		final Set<Class<? extends Annotation>> tags = new HashSet<>();
 		tags.add(Tag1.class);
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(emptyJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(emptyJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -151,7 +149,7 @@ public class TestElementUtil {
 		tags.add(Tag1.class);
 		tags.add(Tag2.class);
 		
-		final Set<Element> elements = ElementUtil.getTaggedElementsFrom(emptyJavaFileObject, tags);
+		final Set<Element> elements = ElementUtil.getTaggedElements(emptyJavaFileObject, tags);
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -159,17 +157,17 @@ public class TestElementUtil {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetElementsByIdFrom_nullFile() throws CompilerMissingException {
-		ElementUtil.getElementsByIdFrom(null, "something");
+		ElementUtil.getElementsById(null, "something");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetElementsByIdFrom_nullId() throws CompilerMissingException {
-		ElementUtil.getElementsByIdFrom(normalJavaFileObject, null);
+		ElementUtil.getElementsById(normalJavaFileObject, null);
 	}
 	
 	@Test
 	public void testGetElementsByIdFrom_normalFile_noElementsFoundForId() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "nothing");
+		final Set<Element> elements = ElementUtil.getElementsById(normalJavaFileObject, "nothing");
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
@@ -177,7 +175,7 @@ public class TestElementUtil {
 	
 	@Test
 	public void testGetElementsByIdFrom_normalFile_oneElementFoundForId() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "1");
+		final Set<Element> elements = ElementUtil.getElementsById(normalJavaFileObject, "1");
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("Incorrect elements returned.", toElementNames(elements), is(getId1ElementNames()));
@@ -185,7 +183,7 @@ public class TestElementUtil {
 	
 	@Test
 	public void testGetElementsByIdFrom_normalFile_multipleElementsFoundForId() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getElementsByIdFrom(normalJavaFileObject, "2");
+		final Set<Element> elements = ElementUtil.getElementsById(normalJavaFileObject, "2");
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("Incorrect elements returned.", toElementNames(elements), is(getId2ElementNames()));
@@ -193,7 +191,7 @@ public class TestElementUtil {
 	
 	@Test
 	public void testGetElementsByIdFrom_emptyFile() throws CompilerMissingException {
-		final Set<Element> elements = ElementUtil.getElementsByIdFrom(emptyJavaFileObject, "2");
+		final Set<Element> elements = ElementUtil.getElementsById(emptyJavaFileObject, "2");
 		
 		assertThat("Returned collection should never be null.", elements, is(notNullValue()));
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));

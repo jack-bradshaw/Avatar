@@ -39,7 +39,7 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
 	 */
-	public static Set<Element> getRootElementsFrom(final JavaFileObject javaFileObject) throws
+	public static Set<Element> getRootElements(final JavaFileObject javaFileObject) throws
 			CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
@@ -65,7 +65,7 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code tags} is null
 	 */
-	public static Set<Element> getTaggedElementsFrom(
+	public static Set<Element> getTaggedElements(
 			final JavaFileObject javaFileObject,
 			final Set<Class<? extends Annotation>> tags) throws CompilerMissingException {
 		
@@ -93,7 +93,7 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
 	 */
-	public static Set<Element> getElementsByIdFrom(
+	public static Set<Element> getElementsById(
 			final JavaFileObject javaFileObject,
 			final String id)
 			throws CompilerMissingException {
