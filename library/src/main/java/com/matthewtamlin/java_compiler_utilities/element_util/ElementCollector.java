@@ -15,5 +15,5 @@ public abstract class ElementCollector<T extends Collection<? extends Element>> 
 	 *
 	 * @return the elements collected by this collector, not null
 	 */
-	public abstract T getResult();
+	public abstract T getCollectedElements();
 }
