@@ -7,5 +7,5 @@ public @interface ElementId {
 	/**
 	 * @return the identifier, not necessary unique
 	 */
-	int value();
+	String value();
 }
