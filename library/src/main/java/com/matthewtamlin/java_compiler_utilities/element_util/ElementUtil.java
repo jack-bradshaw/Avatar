@@ -79,6 +79,33 @@ public class ElementUtil {
 	}
 	
 	/**
+	 * Returns all elements in the supplied Java file object which have an ElementId tag with the supplied ID. This
+	 * method might return an empty set but it will never return null.
+	 *
+	 * @param javaFileObject
+	 * 		the Java file object to get the elements from, not null
+	 * @param id
+	 * 		the ID to look for in the ElementId tags, not null
+	 *
+	 * @return all elements found in the file object which have an ElementId tag wit the supplied ID, not null,
+	 * unmodifiable
+	 *
+	 * @throws CompilerMissingException
+	 * 		if no Java compiler is found at runtime
+	 * @throws IllegalArgumentException
+	 * 		if {@code javaFileObject} is null
+	 */
+	public static Set<Element> getElementsByIdFrom(
+			final JavaFileObject javaFileObject,
+			final int id)
+			throws CompilerMissingException {
+		
+		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
+		
+		return ImmutableSet.copyOf(getElementsUsingCollector(javaFileObject, new SpecificIdElementCollector(id)));
+	}
+	
+	/**
 	 * Compiles the supplied Java file object using the system Java compiler and the supplied collector, and returns
 	 * the collected elements. This method might return an empty set but it will never return null.
 	 *
