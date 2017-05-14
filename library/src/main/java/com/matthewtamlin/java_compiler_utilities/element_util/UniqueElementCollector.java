@@ -36,7 +36,7 @@ public class UniqueElementCollector extends ElementCollector<Element> {
 	}
 	
 	@Override
-	public Element getCollectedElements() {
+	public Element getResult() {
 		return collectedElement;
 	}
 }
