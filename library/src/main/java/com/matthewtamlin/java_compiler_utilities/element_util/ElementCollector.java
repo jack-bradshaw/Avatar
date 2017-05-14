@@ -13,5 +13,5 @@ public abstract class ElementCollector<T> extends AbstractProcessor {
 	 *
 	 * @return the elements collected by this collector, not null
 	 */
-	public abstract T getCollectedElements();
+	public abstract T getResult();
 }
