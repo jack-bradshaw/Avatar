@@ -95,9 +95,9 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code collector} is null
 	 */
-	private static Set<Element> getElementsUsingCollector(
+	private static <T> T getElementsUsingCollector(
 			final JavaFileObject javaFileObject,
-			final ElementCollector collector)
+			final ElementCollector<T> collector)
 			throws CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'javaFileObject\' cannot be null.");
