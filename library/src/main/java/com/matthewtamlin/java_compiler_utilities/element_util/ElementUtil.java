@@ -7,6 +7,7 @@ import in_memory_file_utils.InMemoryJavaFileManager;
 import javax.lang.model.element.Element;
 import javax.tools.*;
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
 
@@ -95,7 +96,7 @@ public class ElementUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code collector} is null
 	 */
-	private static <T> T getElementsUsingCollector(
+	private static <T extends Collection<? extends Element>> T getElementsUsingCollector(
 			final JavaFileObject javaFileObject,
 			final ElementCollector<T> collector)
 			throws CompilerMissingException {
