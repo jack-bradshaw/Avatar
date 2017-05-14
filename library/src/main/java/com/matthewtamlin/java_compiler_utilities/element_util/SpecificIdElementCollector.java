@@ -8,13 +8,15 @@ import javax.lang.model.element.TypeElement;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
+
 public class SpecificIdElementCollector extends ElementCollector<ImmutableSet<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
-	private final int id;
+	private final String id;
 	
-	public SpecificIdElementCollector(final int id) {
-		this.id = id;
+	public SpecificIdElementCollector(final String id) {
+		this.id = checkNotNull(id, "Argument \'id\' cannot be null.");
 	}
 	
 	@Override
@@ -25,9 +27,9 @@ public class SpecificIdElementCollector extends ElementCollector<ImmutableSet<El
 	@Override
 	public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
 		for (final Element element : roundEnv.getElementsAnnotatedWith(ElementId.class)) {
-			final ElementId idProvider = element.getAnnotation(ElementId.class);
+			final ElementId annotation = element.getAnnotation(ElementId.class);
 			
-			if (idProvider.value() == id) {
+			if (id.equals(annotation.value())) {
 				collectedElements.add(element);
 			}
 		}
