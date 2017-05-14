@@ -62,7 +62,7 @@ public class TaggedElementCollector extends ElementCollector<ImmutableSet<Elemen
 	}
 	
 	@Override
-	public ImmutableSet<Element> getResult() {
+	public ImmutableSet<Element> getCollectedElements() {
 		return ImmutableSet.copyOf(collectedElements);
 	}
 }

@@ -27,7 +27,7 @@ public class RootElementCollector extends ElementCollector<ImmutableSet<Element>
 	}
 	
 	@Override
-	public ImmutableSet<Element> getResult() {
+	public ImmutableSet<Element> getCollectedElements() {
 		return ImmutableSet.copyOf(collectedElements);
 	}
 }
