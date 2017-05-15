@@ -92,6 +92,8 @@ public class ElementUtil {
 	 * 		if no Java compiler is found at runtime
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code id} is null
 	 */
 	public static Set<Element> getElementsById(
 			final JavaFileObject javaFileObject,
