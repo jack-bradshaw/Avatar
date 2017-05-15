@@ -105,6 +105,48 @@ public class ElementUtil {
 	}
 	
 	/**
+	 * Returns the element in the supplied Java file object which has an ElementId tag containing the supplied ID.
+	 * This method expects to find exactly one element with the supplied ID, and will throw a runtime exception if
+	 * this condition is not satisfied.
+	 *
+	 * @param javaFileObject
+	 * 		the Java file object to get the element from, not null
+	 * @param id
+	 * 		the element ID to search for, not null
+	 *
+	 * @return the found element, not null
+	 *
+	 * @throws CompilerMissingException
+	 * 		if no Java compiler is found at runtime
+	 * @throws IllegalArgumentException
+	 * 		if {@code javaFileObject} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code code id} is null
+	 * @throws UniqueElementNotFoundException
+	 * 		if no elements in the supplied file have the supplied ID
+	 * @throws UniqueElementNotFoundException
+	 * 		if multiple elements in the supplied file have the supplied ID
+	 */
+	public static Element getUniqueElementById(
+			final JavaFileObject javaFileObject,
+			final String id)
+			throws CompilerMissingException, UniqueElementNotFoundException {
+		
+		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
+		checkNotNull(id, "Argument \'id\' cannot be null.");
+		
+		final Set<Element> elements = getElementsById(javaFileObject, id);
+		
+		if (elements.isEmpty()) {
+			throw new UniqueElementNotFoundException("No element found for ID: " + id);
+		} else if (elements.size() > 1) {
+			throw new UniqueElementNotFoundException("Multiple elements for ID: " + id);
+		} else {
+			return elements.iterator().next();
+		}
+	}
+	
+	/**
 	 * Compiles the supplied Java file object using the system Java compiler and the supplied collector, and returns
 	 * the collected elements. This method might return an empty set but it will never return null.
 	 *
