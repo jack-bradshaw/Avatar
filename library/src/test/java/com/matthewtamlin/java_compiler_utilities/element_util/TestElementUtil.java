@@ -197,6 +197,38 @@ public class TestElementUtil {
 		assertThat("No elements should have been returned.", elements.isEmpty(), is(true));
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUniqueElementById_nullFile() throws CompilerMissingException {
+		ElementUtil.getUniqueElementById(null, "1");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUniqueElementById_nullId() throws CompilerMissingException {
+		ElementUtil.getUniqueElementById(normalJavaFileObject, null);
+	}
+	
+	@Test(expected = UniqueElementNotFoundException.class)
+	public void testGetUniqueElementById_idNotFound() throws CompilerMissingException {
+		ElementUtil.getUniqueElementById(emptyJavaFileObject, "anything");
+	}
+	
+	@Test
+	public void testGetUniqueElementById_idFoundOnce() throws CompilerMissingException {
+		final Element element = ElementUtil.getUniqueElementById(normalJavaFileObject, "1");
+		
+		assertThat("Returned element should never be null.", element, is(notNullValue()));
+		
+		final String elementName = element.getSimpleName().toString();
+		final String expectedElementName = getId1ElementNames().iterator().next();
+		
+		assertThat("Incorrect element returned.", elementName, is(expectedElementName));
+	}
+	
+	@Test(expected = UniqueElementNotFoundException.class)
+	public void testGetUniqueElementById_idFoundTwice() throws CompilerMissingException {
+		ElementUtil.getUniqueElementById(normalJavaFileObject, "2");
+	}
+	
 	private Set<String> toElementNames(Set<Element> elements) {
 		final Set<String> names = new HashSet<>();
 		
