@@ -45,9 +45,6 @@ public class Validator {
     }
 }
 ```
-
-These are our source files.
-
 ### Test files
 We're good developers, so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
 - Validation passes if the element is null
