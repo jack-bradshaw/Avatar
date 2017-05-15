@@ -38,6 +38,8 @@ public class Validator {
         TypeMirror returnType = ((ExecutableElement) element).getReturnType();
         
         if (returnType instanceof NoType && ((NoType) returnType).equals(TypeKind.VOID) {
+            // This is fine
+        } else {
             throw new ValidationException("ReturnsNothing tag found with non-void return type");
         }
     }
