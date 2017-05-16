@@ -5,8 +5,8 @@ import com.matthewtamlin.java_compiler_utilities.element_util.collectors.Element
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.RootElementCollector;
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.SpecificIdElementCollector;
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.TaggedElementCollector;
-import com.matthewtamlin.java_utilities.testing.Tested;
 import com.matthewtamlin.java_compiler_utilities.element_util.in_memory_file_utils.InMemoryJavaFileManager;
+import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
 import javax.tools.*;
@@ -28,6 +28,21 @@ public class ElementSupplier {
 	 */
 	private static final CompilerMissingException NO_COMPILER_EXCEPTION = new CompilerMissingException(
 			"Cannot get elements if there is no Java compiler available at runtime.");
+	
+	private final JavaFileObject source;
+	
+	/**
+	 * Constructs a new ElementSupplier and sets the source.
+	 *
+	 * @param source
+	 * 		the source to get elements from, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code source} is null
+	 */
+	private ElementSupplier(final JavaFileObject source) {
+		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
+	}
 	
 	/**
 	 * Returns all root elements in the supplied Java file. This method might return an empty set but it will never
