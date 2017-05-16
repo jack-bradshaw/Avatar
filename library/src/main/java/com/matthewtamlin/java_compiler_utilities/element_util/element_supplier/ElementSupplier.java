@@ -6,7 +6,7 @@ import com.matthewtamlin.java_compiler_utilities.element_util.collectors.RootEle
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.SpecificIdElementCollector;
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.TaggedElementCollector;
 import com.matthewtamlin.java_utilities.testing.Tested;
-import in_memory_file_utils.InMemoryJavaFileManager;
+import com.matthewtamlin.java_compiler_utilities.element_util.in_memory_file_utils.InMemoryJavaFileManager;
 
 import javax.lang.model.element.Element;
 import javax.tools.*;
