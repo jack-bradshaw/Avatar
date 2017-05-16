@@ -43,7 +43,7 @@ public class ElementSupplier {
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
 	 */
-	public static Set<Element> getRootElements(final JavaFileObject javaFileObject) throws
+	public Set<Element> getRootElements(final JavaFileObject javaFileObject) throws
 			CompilerMissingException {
 		
 		checkNotNull(javaFileObject, "Argument \'source\' cannot be null.");
@@ -69,7 +69,7 @@ public class ElementSupplier {
 	 * @throws IllegalArgumentException
 	 * 		if {@code tags} is null
 	 */
-	public static Set<Element> getTaggedElements(
+	public Set<Element> getTaggedElements(
 			final JavaFileObject javaFileObject,
 			final Set<Class<? extends Annotation>> tags) throws CompilerMissingException {
 		
@@ -99,7 +99,7 @@ public class ElementSupplier {
 	 * @throws IllegalArgumentException
 	 * 		if {@code id} is null
 	 */
-	public static Set<Element> getElementsById(
+	public Set<Element> getElementsById(
 			final JavaFileObject javaFileObject,
 			final String id)
 			throws CompilerMissingException {
@@ -133,7 +133,7 @@ public class ElementSupplier {
 	 * @throws UniqueElementNotFoundException
 	 * 		if multiple elements in the supplied file have the supplied ID
 	 */
-	public static Element getUniqueElementById(
+	public Element getUniqueElementById(
 			final JavaFileObject javaFileObject,
 			final String id)
 			throws CompilerMissingException, UniqueElementNotFoundException {
