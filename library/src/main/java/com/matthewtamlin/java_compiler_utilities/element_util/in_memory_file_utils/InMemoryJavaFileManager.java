@@ -1,4 +1,4 @@
-package in_memory_file_utils;
+package com.matthewtamlin.java_compiler_utilities.element_util.in_memory_file_utils;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
