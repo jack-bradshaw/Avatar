@@ -6,7 +6,90 @@ This library solves the problem by providing a utility which directly converts s
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.2.0'` to your gradle build file to use the latest version.
 
-## Usage
+## Basic examples
+This example provide enough information to start using the library within minutes. A more in depth example is shown in the End-to-end example section. The main class of this library is the ElementsUtil class. It contains methods which can be used to convert source files to element objects.
+
+### Get a JavaFileObject for the source file
+Consider the following source file defined in `src/main/java/com/matthewtamlin/example/MyClass.java`:
+```java
+public class MyClass {
+    @SomeAnnotation
+    public String method1() {
+        return "example method";
+    }
+}
+
+@SomeAnnotation
+class MyOtherClass {
+   @ElementId("some ID")
+   private static final boolean field1 = true;
+   
+   @ElementId("some other ID")
+   @SomeAnnotation
+   private static final boolean field2 = false;
+   
+   @ElementId("some other ID")
+   public String field3 = "example field";
+}
+```
+
+The elements in this file are entirely made up, except for the `@ElementId` annotation which belongs to this library.
+
+To get elements from this source file, we must first get a JavaFileObject to represent it. Creating JavaFileObjects is not a trivial task, but luckily Google's [compile testing](https://github.com/google/compile-testing) library has a great utility for this.
+```java
+File srcFile = new File("src/test/java/com/matthewtamlin/example/MyClass.java")
+JavaFileObject srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toURL());
+```
+
+### Get all root elements
+The ElementUtil class can be used to get all root elements in a file. For example:
+```java
+Set<Element> foundElements = ElementUtil.getRootElements(srcFileObject);
+
+for (Element e : foundElements) {
+    System.out.println("Found element " + e.getSimpleName().toString());
+}
+```
+produces:
+```
+Found element MyClass
+Found element MyOtherClass
+```
+
+### Get elements with a particular annotation
+The ElementUtil class can be used to get all elements with a particular annotation. For example:
+```java
+Set<Element> foundElements = ElementUtil.getTaggedElements(srcFileObject, SomeAnnotation.class);
+
+for (Element e : foundElements) {
+    System.out.println("Found element " + e.getSimpleName().toString());
+}
+```
+produces:
+```
+Found element MyOtherClass
+Found element method1
+Found element field2
+```
+
+### Get elements with a particular ID
+The ElementUtil class can be used to get elements by ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element, and uses String values for the IDs. For example:
+```java
+Set<Element> foundElements = ElementUtil.getElementsById(srcFileObject, "some other ID");
+
+for (Element e : foundElements) {
+    System.out.println("Found element " + e.getSimpleName().toString());
+}
+```
+produces:
+```
+Found element field2
+Found element field3
+```
+
+Additionally, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method can be used to get a single element by ID. This method expects to find only one element with the supplied ID, and will throw an exception if none or multiple are found.
+
+## End-to-end example
 Some context is necessary for a good example, so we will define a few source files and then some tests files. This example assumes you are familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
