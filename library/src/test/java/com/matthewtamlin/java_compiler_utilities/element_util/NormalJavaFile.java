@@ -1,5 +1,7 @@
 package com.matthewtamlin.java_compiler_utilities.element_util;
 
+import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.ElementId;
+
 public class NormalJavaFile {
 	@Tag1
 	private static final String constantWithTag1 = "Hello";

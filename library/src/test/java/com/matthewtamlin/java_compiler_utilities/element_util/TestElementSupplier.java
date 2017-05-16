@@ -2,6 +2,9 @@ package com.matthewtamlin.java_compiler_utilities.element_util;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
+import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.CompilerMissingException;
+import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.ElementSupplier;
+import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.UniqueElementNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
