@@ -7,7 +7,7 @@ This library solves the problem by providing a utility which directly converts s
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.2.0'` to your gradle build file to use the latest version.
 
 ## Basic examples
-This example provide enough information to start using the library within minutes. A more in depth example is shown in the End-to-end example section. The main class of this library is the ElementsUtil class. It contains methods which can be used to convert source files to element objects.
+These examples provide enough information to start using the library within minutes. For a more in depth example, see the End-to-end example section. The main class of this library is the ElementsUtil class. It contains methods which can be used to convert source files to element objects.
 
 ### Get a JavaFileObject for the source file
 Consider the following source file defined in `src/main/java/com/matthewtamlin/example/MyClass.java`:
