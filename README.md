@@ -37,7 +37,7 @@ The elements in this file are entirely made up, except for the `@ElementId` anno
 
 To get elements from this source file, we must first get a JavaFileObject to represent it. Creating JavaFileObjects is not a trivial task, but luckily Google's [compile testing](https://github.com/google/compile-testing) library has a great utility for this.
 ```java
-File srcFile = new File("src/test/java/com/matthewtamlin/example/MyClass.java")
+File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
 JavaFileObject srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toURL());
 ```
 
