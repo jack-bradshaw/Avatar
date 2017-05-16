@@ -42,8 +42,35 @@ JavaFileObject srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toUR
 ```
 
 ### Get all root elements
-The ElementUtil class can be used to get all root elements in a file. For example:
+The ElementUtil class can be used to get all root elements in a source file.
+
+If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
+public class MyClass {
+    @SomeAnnotation
+    public String method1() {
+        return "example method";
+    }
+}
+
+@SomeAnnotation
+class MyOtherClass {
+   private static final boolean field1 = true;
+   
+   @SomeAnnotation
+   private static final boolean field2 = false;
+   
+   @ElementId("some other ID")
+   public String field3 = "example field";
+}
+```
+then executing the following code:
+```java
+File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
+
+// Using a utility from the Google compile testing library to create the JavaFileObject
+JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
+
 Set<Element> foundElements = ElementUtil.getRootElements(srcFileObject);
 
 for (Element e : foundElements) {
@@ -56,10 +83,34 @@ Found element MyClass
 Found element MyOtherClass
 ```
 
-### Get elements with a particular annotation
-The ElementUtil class can be used to get all elements with a particular annotation. For example:
+### Get all elements with a particular annotation
+The ElementUtil class can be used to get all elements in a source file with a particular annotation. 
+
+If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
-Set<Element> foundElements = ElementUtil.getTaggedElements(srcFileObject, SomeAnnotation.class);
+@Unobtainium
+public class MyClass {
+    @Unobtainium
+    public void method1() {}
+}
+
+class MyOtherClass {
+   private static final boolean field1 = true;
+   private static final boolean field2 = false;
+   
+   @Unobtainium   
+   public String field3 = "Hello, World!";
+}
+```
+then executing the following code:
+```java
+File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
+
+// Using a utility from the Google compile testing library to create the JavaFileObject
+JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
+
+// Get all Unobtainium elements from the source file
+Set<Element> foundElements = ElementUtil.getTaggedElements(srcFileObject, Unobtainium.class);
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
@@ -67,25 +118,54 @@ for (Element e : foundElements) {
 ```
 produces:
 ```
-Found element MyOtherClass
+Found element MyClass
 Found element method1
-Found element field2
-```
-
-### Get elements with a particular ID
-The ElementUtil class can be used to get elements by ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element, and uses String values for the IDs. For example:
-```java
-Set<Element> foundElements = ElementUtil.getElementsById(srcFileObject, "some other ID");
-
-for (Element e : foundElements) {
-    System.out.println("Found element " + e.getSimpleName().toString());
-}
-```
-produces:
-```
-Found element field2
 Found element field3
 ```
+
+### Get all elements with a particular ID
+The ElementUtil class can be used to get all elements in a source file which have a particular ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element, and uses Strings for the IDs.
+
+If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+```java
+public class MyClass {
+    @ElementId("Cat")
+    public String method1() {
+        return "example method";
+    }
+}
+
+@ElementId("Dog")
+class MyOtherClass {
+   private static final boolean field1 = true;
+   
+   @ElementId("Dog")
+   private static final boolean field2 = false;
+   
+   @ElementId("dog")
+   public String field3 = "example field";
+}
+```
+then executing the following code:
+```java
+File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
+
+// Using a utility from the Google compile testing library to create the JavaFileObject
+JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
+
+Set<Element> foundElements = ElementUtil.getElementsById(srcFileObject, "Dog");
+
+for (Element e : foundElements) {
+    System.out.println("Found element " + e.getSimpleName().toString());
+}
+```
+produces:
+```
+Found element field1
+Found element field2
+```
+
+<strong>Remember: IDs are case sensitive.</strong>
 
 Additionally, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method can be used to get a single element by ID. This method expects to find only one element with the supplied ID, and will throw an exception if none or multiple are found.
 
