@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Automated tests for the {@link ElementSupplier} class.
  */
 @RunWith(JUnit4.class)
-public class TestElementUtil {
+public class TestElementSupplier {
 	private static final File NORMAL_JAVA_FILE = new File("src/test/java/com/matthewtamlin/" +
 			"java_compiler_utilities/element_util/NormalJavaFile.java");
 	
