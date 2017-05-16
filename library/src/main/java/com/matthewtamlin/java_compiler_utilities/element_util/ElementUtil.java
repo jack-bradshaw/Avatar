@@ -1,6 +1,10 @@
 package com.matthewtamlin.java_compiler_utilities.element_util;
 
 import com.google.common.collect.ImmutableSet;
+import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
+import com.matthewtamlin.java_compiler_utilities.element_util.collectors.RootElementCollector;
+import com.matthewtamlin.java_compiler_utilities.element_util.collectors.SpecificIdElementCollector;
+import com.matthewtamlin.java_compiler_utilities.element_util.collectors.TaggedElementCollector;
 import com.matthewtamlin.java_utilities.testing.Tested;
 import in_memory_file_utils.InMemoryJavaFileManager;
 
