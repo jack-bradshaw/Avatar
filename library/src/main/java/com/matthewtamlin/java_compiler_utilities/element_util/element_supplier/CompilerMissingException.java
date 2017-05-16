@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_util;
+package com.matthewtamlin.java_compiler_utilities.element_util.element_supplier;
 
 import javax.tools.JavaCompiler;
 
