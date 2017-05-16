@@ -9,42 +9,10 @@ Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:ja
 ## Basic examples
 These examples provide enough information to start using the library within minutes. For a more in depth example, see the End-to-end example section. The main class of this library is the ElementsUtil class. It contains methods which can be used to convert source files to element objects.
 
-### Get a JavaFileObject for the source file
-Consider the following source file defined in `src/main/java/com/matthewtamlin/example/MyClass.java`:
-```java
-public class MyClass {
-    @SomeAnnotation
-    public String method1() {
-        return "example method";
-    }
-}
-
-@SomeAnnotation
-class MyOtherClass {
-   @ElementId("some ID")
-   private static final boolean field1 = true;
-   
-   @ElementId("some other ID")
-   @SomeAnnotation
-   private static final boolean field2 = false;
-   
-   @ElementId("some other ID")
-   public String field3 = "example field";
-}
-```
-
-The elements in this file are entirely made up, except for the `@ElementId` annotation which belongs to this library.
-
-To get elements from this source file, we must first get a JavaFileObject to represent it. Creating JavaFileObjects is not a trivial task, but luckily Google's [compile testing](https://github.com/google/compile-testing) library has a great utility for this.
-```java
-File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-JavaFileObject srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toURL());
-```
-
 ### Get all root elements
 The ElementUtil class can be used to get all root elements in a source file.
 
-If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @SomeAnnotation
@@ -84,9 +52,9 @@ Found element MyOtherClass
 ```
 
 ### Get all elements with a particular annotation
-The ElementUtil class can be used to get all elements in a source file with a particular annotation. 
+The ElementUtil class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
 
-If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -124,7 +92,7 @@ Found element field3
 ```
 
 ### Get all elements with a particular ID
-The ElementUtil class can be used to get all elements in a source file which have a particular ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element, and uses Strings for the IDs.
+The ElementUtil class can be used to get all elements in a source file which have a particular ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element and uses Strings for IDs.
 
 If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
@@ -165,9 +133,7 @@ Found element field1
 Found element field2
 ```
 
-<strong>Remember: IDs are case sensitive.</strong>
-
-Additionally, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method can be used to get a single element by ID. This method expects to find only one element with the supplied ID, and will throw an exception if none or multiple are found.
+For convenience, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method is also provided. This method returns a single element, but it will throw an exception if the requested ID is not unique or is not found.
 
 ## End-to-end example
 Some context is necessary for a good example, so we will define a few source files and then some tests files. This example assumes you are familiar with the basic concepts of Java annotations, annotation processors and unit testing.
