@@ -22,7 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Creates Java elements from Java file objects.
  */
 @Tested(testMethod = "automated")
-public class ElementUtil {
+public class ElementSupplier {
 	/**
 	 * The exception to throw if there is no Java compiler available.
 	 */
