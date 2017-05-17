@@ -19,7 +19,7 @@ public abstract class CollectorBasedElementSupplier<T extends Collection<? exten
 		implements ElementSupplier<T> {
 	
 	/**
-	 * The exception to throw if there is no Java compiler available.
+	 * The exception to throw if there is no Java compiler available at Runtime.
 	 */
 	private static final CompilerMissingException NO_COMPILER_EXCEPTION = new CompilerMissingException(
 			"Cannot get elements if there is no Java compiler available at runtime.");
