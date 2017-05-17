@@ -26,8 +26,7 @@ public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	private final Class<? extends Annotation> targetAnnotation;
 	
 	/**
-	 * Constructs a new AnnotatedElementCollector. Only elements annotated with the supplied annotation will be
-	 * collected.
+	 * Constructs a new AnnotatedElementCollector. Only elements with the supplied annotation will be collected.
 	 *
 	 * @param targetAnnotation
 	 * 		the annotation to search for when collecting elements, not null
