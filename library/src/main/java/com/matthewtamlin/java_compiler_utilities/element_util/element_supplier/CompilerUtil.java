@@ -34,7 +34,7 @@ public class CompilerUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code collector} is null
 	 */
-	private static void compileUsingCollector(
+	public static void compileUsingCollector(
 			final JavaFileObject javaFileObject,
 			final ElementCollector<?> collector)
 			throws CompilerMissingException {
