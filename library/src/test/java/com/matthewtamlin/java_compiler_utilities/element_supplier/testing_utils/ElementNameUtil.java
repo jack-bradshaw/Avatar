@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_supplier;
+package com.matthewtamlin.java_compiler_utilities.element_supplier.testing_utils;
 
 import javax.lang.model.element.Element;
 import java.util.HashSet;
