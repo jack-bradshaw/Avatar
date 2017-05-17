@@ -17,7 +17,6 @@ public class CompilerUtil {
 	private static final CompilerMissingException NO_COMPILER_EXCEPTION = new CompilerMissingException(
 			"Cannot get elements if there is no Java compiler available at runtime.");
 	
-	
 	/**
 	 * Compiles the supplied Java file object using the system Java compiler and the supplied collector. All
 	 * generated files are stored in memory and will not be written to the disk.
