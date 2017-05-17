@@ -12,6 +12,9 @@ import java.util.Set;
  * Collects all received root elements.
  */
 public class RootElementCollector extends ElementCollector<Set<Element>> {
+	/**
+	 * The elements which have been collected during processing.
+	 */
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	@Override
