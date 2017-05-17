@@ -22,7 +22,7 @@ public abstract class CollectorBasedElementSupplier<T extends Collection<? exten
 	public T getFrom(final JavaFileObject source) throws CompilerMissingException {
 		checkNotNull(source, "Argument \'source\' cannot be null.");
 		
-		final ElementCollector<T> collector = getNewCollector();
+		final ElementCollector<? extends T> collector = getNewCollector();
 		
 		CompilerUtil.compileUsingCollector(source, collector);
 		
