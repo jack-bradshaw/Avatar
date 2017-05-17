@@ -2,11 +2,9 @@ package com.matthewtamlin.java_compiler_utilities.element_util.element_supplier;
 
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.RootElementCollector;
-import com.matthewtamlin.java_compiler_utilities.element_util.collectors.SpecificIdElementCollector;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
-
 import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
