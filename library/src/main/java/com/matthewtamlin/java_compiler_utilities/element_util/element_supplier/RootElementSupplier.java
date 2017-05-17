@@ -19,9 +19,7 @@ public class RootElementSupplier {
 		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
 	}
 	
-	public Set<Element> getRootElements(final String id) throws CompilerMissingException {
-		checkNotNull(id, "Argument \'id\' cannot be null.");
-		
+	public Set<Element> getRootElements() throws CompilerMissingException {
 		final ElementCollector<Set<Element>> collector = new RootElementCollector();
 		
 		CompilerUtil.compileUsingCollector(source, collector);
