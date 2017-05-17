@@ -3,5 +3,5 @@ package com.matthewtamlin.java_compiler_utilities.element_supplier.annotated_ele
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface Tag2 {}
