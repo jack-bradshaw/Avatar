@@ -4,6 +4,7 @@ import com.matthewtamlin.java_compiler_utilities.element_util.collectors.Annotat
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
 
 import javax.lang.model.element.Element;
+import javax.tools.JavaFileObject;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
@@ -14,14 +15,5 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
  * for is defined by passing its class to the constructor.
  */
 public class AnnotatedElementSupplier extends ElementSupplier {
-	private final Class<? extends Annotation> targetAnnotation;
 	
-	public AnnotatedElementSupplier(final Class<? extends Annotation> targetAnnotation) {
-		this.targetAnnotation = checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
-	}
-	
-	@Override
-	protected ElementCollector<Set<Element>> getNewCollector() {
-		return new AnnotatedElementCollector(targetAnnotation);
-	}
 }
