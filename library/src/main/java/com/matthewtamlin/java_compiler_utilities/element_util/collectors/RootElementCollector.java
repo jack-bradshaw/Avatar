@@ -17,6 +17,11 @@ public class RootElementCollector extends ElementCollector<Set<Element>> {
 	 */
 	private final Set<Element> collectedElements = new HashSet<>();
 	
+	/**
+	 * Constructs a new RootElementCollector.
+	 */
+	public RootElementCollector() {}
+	
 	@Override
 	public Set<String> getSupportedAnnotationTypes() {
 		return ImmutableSet.of("*");
