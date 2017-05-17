@@ -10,6 +10,6 @@ import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
-public class AnnotatedElementSupplier extends ElementSupplier {
+public class AnnotatedElementSupplier {
 	
 }
