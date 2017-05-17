@@ -27,8 +27,8 @@ public class SpecificIdElementCollector extends ElementCollector<Set<Element>> {
 	private final String id;
 	
 	/**
-	 * Constructs a new SpecificIdElementCollector. The collector will collect all elements found during processing
-	 * which have the supplied ID (as defined by {@link ElementId} annotations in the source).
+	 * Constructs a new SpecificIdElementCollector. Only elements with the supplied ID will be collected, where IDs
+	 * are defined by placing {@link ElementId} annotations in the source.
 	 *
 	 * @param id
 	 * 		the ID to search for when collecting elements, not null
