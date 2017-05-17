@@ -14,4 +14,4 @@ public class RootElementSupplier extends CollectorBasedElementSupplier<Set<Eleme
 	protected ElementCollector<Set<Element>> getNewCollector() {
 		return new RootElementCollector();
 	}
-} 
+}
