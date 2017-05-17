@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Collects all received root elements.
  */
-public class RootElementCollector extends ElementCollector<ImmutableSet<Element>> {
+public class RootElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	@Override
