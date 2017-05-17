@@ -12,7 +12,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A collector which only collects elements annotated with a specific annotation.
+ * A collector which collects elements based on their annotations.
  */
 public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	/**
@@ -26,8 +26,8 @@ public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	private final Class<? extends Annotation> targetAnnotation;
 	
 	/**
-	 * Constructs a new AnnotatedElementCollector. The collector will collect all elements found during processing
-	 * which are annotated with the supplied annotation.
+	 * Constructs a new AnnotatedElementCollector. Only elements annotated with the supplied annotation will be
+	 * collected.
 	 *
 	 * @param targetAnnotation
 	 * 		the annotation to search for when collecting elements, not null
@@ -36,9 +36,7 @@ public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	 * 		if {@code targetAnnotation} is null
 	 */
 	public AnnotatedElementCollector(final Class<? extends Annotation> targetAnnotation) {
-		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
-		
-		this.targetAnnotation = targetAnnotation;
+		this.targetAnnotation = checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
 	}
 	
 	@Override
