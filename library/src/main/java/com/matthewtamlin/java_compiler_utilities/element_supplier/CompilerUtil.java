@@ -25,7 +25,7 @@ public class CompilerUtil {
 	 * Compiles the supplied Java file object using the supplied collector. All generated files are stored in memory
 	 * and will not be written to persistent storage.
 	 *
-	 * @param javaFileObject
+	 * @param source
 	 * 		the source to compile, not null
 	 * @param collector
 	 * 		the collector to use when compiling, not null
@@ -38,12 +38,12 @@ public class CompilerUtil {
 	 * 		if {@code collector} is null
 	 */
 	public static void compileUsingCollector(
-			final JavaFileObject javaFileObject,
+			final JavaFileObject source,
 			final ElementCollector<?> collector)
 			throws CompilerMissingException {
 		
-		checkNotNull(javaFileObject, "Argument \'javaFileObject\' cannot be null.");
-		checkNotNull(javaFileObject, "Argument \'collector\' cannot be null.");
+		checkNotNull(source, "Argument \'javaFileObject\' cannot be null.");
+		checkNotNull(source, "Argument \'collector\' cannot be null.");
 		
 		final JavaCompiler compiler = checkNotNull(ToolProvider.getSystemJavaCompiler(), NO_COMPILER_EXCEPTION);
 		final DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<>();
@@ -57,7 +57,7 @@ public class CompilerUtil {
 				diagnostic,
 				null,
 				null,
-				ImmutableSet.of(javaFileObject));
+				ImmutableSet.of(source));
 		
 		task.setProcessors(ImmutableSet.of(collector));
 		task.call();
