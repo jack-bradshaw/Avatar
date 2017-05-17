@@ -13,7 +13,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Set;
 
-import static com.matthewtamlin.java_compiler_utilities.element_supplier.ElementNameUtil.getElementNames;
+import static com.matthewtamlin.java_compiler_utilities.element_supplier.testing_utils.ElementNameUtil.getElementNames;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
