@@ -5,5 +5,5 @@ import javax.tools.JavaFileObject;
 import java.util.Collection;
 
 public interface ElementSupplier<T extends Collection<? extends Element>> {
-	public T getFrom(final JavaFileObject source);
+	public T getFrom(final JavaFileObject source) throws CompilerMissingException;
 }
