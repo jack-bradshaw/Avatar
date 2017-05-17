@@ -12,7 +12,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A collector which collects elements based on their annotations.
+ * Collects elements which have particular annotations.
  */
 public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	/**
@@ -21,7 +21,7 @@ public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
-	 * The annotation to search for. Elements will only be collected if they are have this annotation.
+	 * Elements will only be collected if they are have this annotation.
 	 */
 	private final Class<? extends Annotation> targetAnnotation;
 	
