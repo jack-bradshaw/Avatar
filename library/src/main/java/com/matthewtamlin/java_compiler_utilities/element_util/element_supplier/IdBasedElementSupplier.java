@@ -16,7 +16,7 @@ public class IdBasedElementSupplier {
 		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
 	}
 	
-	public Set<Element> getElements(final String id) throws CompilerMissingException {
+	public Set<Element> getElementsWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
 		final ElementCollector<Set<Element>> collector = new IdBasedElementCollector(id);
@@ -26,10 +26,10 @@ public class IdBasedElementSupplier {
 		return collector.getCollectedElements();
 	}
 	
-	public Element getUniqueElement(final String id) throws CompilerMissingException {
+	public Element getUniqueElementWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
-		final Set<Element> elements = getElements(id);
+		final Set<Element> elements = getElementsWithId(id);
 		
 		if (elements.isEmpty()) {
 			throw new UniqueElementNotFoundException("No elements found for ID: " + id);
