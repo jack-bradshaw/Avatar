@@ -11,7 +11,6 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 public class AnnotatedElementSupplier {
-	
 	private final JavaFileObject source;
 	
 	public AnnotatedElementSupplier(final JavaFileObject source) {
