@@ -1,8 +1,8 @@
-package com.matthewtamlin.java_compiler_utilities.element_util.element_supplier;
+package com.matthewtamlin.java_compiler_utilities.element_supplier;
 
 import com.google.common.collect.ImmutableSet;
-import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
-import com.matthewtamlin.java_compiler_utilities.element_util.in_memory_file_utils.InMemoryJavaFileManager;
+import com.matthewtamlin.java_compiler_utilities.collectors.ElementCollector;
+import com.matthewtamlin.java_compiler_utilities.in_memory_file_utils.InMemoryJavaFileManager;
 
 import javax.tools.*;
 import java.util.Locale;

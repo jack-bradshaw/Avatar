@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_util.collectors;
+package com.matthewtamlin.java_compiler_utilities.collectors;
 
 import com.google.common.collect.ImmutableSet;
 
