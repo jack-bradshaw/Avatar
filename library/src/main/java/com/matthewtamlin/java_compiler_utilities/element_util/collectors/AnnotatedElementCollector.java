@@ -15,7 +15,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 /**
  * A collector which only collects elements tagged with specific annotations.
  */
-public class TaggedElementCollector extends ElementCollector<Set<Element>> {
+public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
@@ -24,7 +24,7 @@ public class TaggedElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Class<? extends Annotation>> tags;
 	
 	/**
-	 * Constructs a new TaggedElementCollector. The collector will collect all received annotations which have at
+	 * Constructs a new AnnotatedElementCollector. The collector will collect all received annotations which have at
 	 * least one of the supplied tags.
 	 *
 	 * @param tags
@@ -33,7 +33,7 @@ public class TaggedElementCollector extends ElementCollector<Set<Element>> {
 	 * @throws IllegalArgumentException
 	 * 		if {@code tags} is null
 	 */
-	public TaggedElementCollector(final Set<Class<? extends Annotation>> tags) {
+	public AnnotatedElementCollector(final Set<Class<? extends Annotation>> tags) {
 		checkNotNull(tags, "Argument \'tags\' cannot be null.");
 		checkEachElementIsNotNull(tags, "Argument \'tags\' cannot contain null.");
 		
