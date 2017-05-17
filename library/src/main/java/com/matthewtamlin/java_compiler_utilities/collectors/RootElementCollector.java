@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_util;
+package com.matthewtamlin.java_compiler_utilities.collectors;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -9,10 +9,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Collects all received root elements.
+ * A collector which collects all root elements.
  */
-public class RootElementCollector extends ElementCollector<ImmutableSet<Element>> {
+public class RootElementCollector extends ElementCollector<Set<Element>> {
+	/**
+	 * The elements which have been collected during processing.
+	 */
 	private final Set<Element> collectedElements = new HashSet<>();
+	
+	/**
+	 * Constructs a new RootElementCollector.
+	 */
+	public RootElementCollector() {}
 	
 	@Override
 	public Set<String> getSupportedAnnotationTypes() {
@@ -27,7 +35,7 @@ public class RootElementCollector extends ElementCollector<ImmutableSet<Element>
 	}
 	
 	@Override
-	public ImmutableSet<Element> getCollectedElements() {
-		return ImmutableSet.copyOf(collectedElements);
+	public Set<Element> getCollectedElements() {
+		return new HashSet<>(collectedElements);
 	}
 }

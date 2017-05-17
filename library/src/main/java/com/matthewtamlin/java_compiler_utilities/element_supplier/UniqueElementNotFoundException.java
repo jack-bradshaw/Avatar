@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_util;
+package com.matthewtamlin.java_compiler_utilities.element_supplier;
 
 /**
  * An exception to indicate that a unique element for some criteria could not be found when searching a source file.

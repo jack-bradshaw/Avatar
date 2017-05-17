@@ -1,4 +1,4 @@
-package com.matthewtamlin.java_compiler_utilities.element_util;
+package com.matthewtamlin.java_compiler_utilities.collectors;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.lang.model.element.Element;
@@ -6,7 +6,7 @@ import java.util.Collection;
 
 /**
  * An annotation processor which collects elements as it processes them. The implementation is free to discriminate
- * between elements and choose which (if any) are collected.
+ * between elements and can choose which (if any) are collected.
  */
 public abstract class ElementCollector<T extends Collection<? extends Element>> extends AbstractProcessor {
 	/**
