@@ -15,7 +15,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
  * A collector which collects elements based on ID, where element IDs are defined using the {@link ElementId}
  * annotation.
  */
-public class SpecificIdElementCollector extends ElementCollector<Set<Element>> {
+public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	/**
 	 * The elements which have been collected during processing.
 	 */
@@ -27,7 +27,7 @@ public class SpecificIdElementCollector extends ElementCollector<Set<Element>> {
 	private final String id;
 	
 	/**
-	 * Constructs a new SpecificIdElementCollector. Only elements with the supplied ID will be collected, where IDs
+	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs
 	 * are defined by placing {@link ElementId} annotations in the source.
 	 *
 	 * @param id
@@ -36,7 +36,7 @@ public class SpecificIdElementCollector extends ElementCollector<Set<Element>> {
 	 * @throws IllegalArgumentException
 	 * 		if {@code id} is null
 	 */
-	public SpecificIdElementCollector(final String id) {
+	public IdBasedElementCollector(final String id) {
 		this.id = checkNotNull(id, "Argument \'id\' cannot be null.");
 	}
 	

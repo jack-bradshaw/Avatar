@@ -1,7 +1,7 @@
 package com.matthewtamlin.java_compiler_utilities.element_util.element_supplier;
 
 import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
-import com.matthewtamlin.java_compiler_utilities.element_util.collectors.SpecificIdElementCollector;
+import com.matthewtamlin.java_compiler_utilities.element_util.collectors.IdBasedElementCollector;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
@@ -19,7 +19,7 @@ public class IdBasedElementSupplier {
 	public Set<Element> getElements(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
-		final ElementCollector<Set<Element>> collector = new SpecificIdElementCollector(id);
+		final ElementCollector<Set<Element>> collector = new IdBasedElementCollector(id);
 		
 		CompilerUtil.compileUsingCollector(source, collector);
 		
