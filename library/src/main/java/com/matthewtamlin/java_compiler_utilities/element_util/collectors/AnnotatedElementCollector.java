@@ -9,60 +9,52 @@ import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkEachElementIsNotNull;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A collector which only collects elements tagged with specific annotations.
+ * A collector which only collects elements annotated with a specific annotation.
  */
 public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
+	/**
+	 * The elements which have been collected during processing.
+	 */
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
-	 * The tags to search for. Elements will only be collected if they have at least one of the contained annotations.
+	 * The annotation to search for. Elements will only be collected if they are annotated with this annotation.
 	 */
-	private final Set<Class<? extends Annotation>> tags;
+	private final Class<? extends Annotation> targetAnnotation;
 	
 	/**
-	 * Constructs a new AnnotatedElementCollector. The collector will collect all received annotations which have at
-	 * least one of the supplied tags.
+	 * Constructs a new AnnotatedElementCollector. The collector will collect all elements found during processing
+	 * which are annotated with the supplied annotation.
 	 *
-	 * @param tags
-	 * 		the tags to use when collecting elements, not null
+	 * @param targetAnnotation
+	 * 		the annotation to search for when collecting elements, not null
 	 *
 	 * @throws IllegalArgumentException
-	 * 		if {@code tags} is null
+	 * 		if {@code targetAnnotation} is null
 	 */
-	public AnnotatedElementCollector(final Set<Class<? extends Annotation>> tags) {
-		checkNotNull(tags, "Argument \'tags\' cannot be null.");
-		checkEachElementIsNotNull(tags, "Argument \'tags\' cannot contain null.");
+	public AnnotatedElementCollector(final Class<? extends Annotation> targetAnnotation) {
+		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
 		
-		this.tags = ImmutableSet.copyOf(tags);
+		this.targetAnnotation = targetAnnotation;
 	}
 	
 	@Override
 	public Set<String> getSupportedAnnotationTypes() {
-		final Set<String> targetClassesFullyQualified = new HashSet<>();
-		
-		for (final Class<? extends Annotation> targetClass : tags) {
-			targetClassesFullyQualified.add(targetClass.getCanonicalName());
-		}
-		
-		return targetClassesFullyQualified;
+		return ImmutableSet.of(targetAnnotation.getCanonicalName());
 	}
 	
 	@Override
 	public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-		
-		for (final Class<? extends Annotation> tagClass : tags) {
-			collectedElements.addAll(roundEnv.getElementsAnnotatedWith(tagClass));
-		}
+		collectedElements.addAll(roundEnv.getElementsAnnotatedWith(targetAnnotation));
 		
 		return false;
 	}
 	
 	@Override
-	public ImmutableSet<Element> getCollectedElements() {
-		return ImmutableSet.copyOf(collectedElements);
+	public Set<Element> getCollectedElements() {
+		return new HashSet<>(collectedElements);
 	}
 }
