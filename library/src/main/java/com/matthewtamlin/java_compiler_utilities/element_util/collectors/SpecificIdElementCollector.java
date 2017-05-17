@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
-public class SpecificIdElementCollector extends ElementCollector<ImmutableSet<Element>> {
+public class SpecificIdElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	private final String id;
