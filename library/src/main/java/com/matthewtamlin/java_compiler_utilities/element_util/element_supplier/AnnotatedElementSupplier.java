@@ -18,7 +18,7 @@ public class AnnotatedElementSupplier {
 		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
 	}
 	
-	public Set<Element> getElements(final Class<? extends Annotation> targetAnnotation)
+	public Set<Element> getElementsWithAnnotation(final Class<? extends Annotation> targetAnnotation)
 			throws CompilerMissingException {
 		
 		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
