@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A collector which collects all root elements.
+ * Collects root elements.
  */
 public class RootElementCollector extends ElementCollector<Set<Element>> {
 	/**
