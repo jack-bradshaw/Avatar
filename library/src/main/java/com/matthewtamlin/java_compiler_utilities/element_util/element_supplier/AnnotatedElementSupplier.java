@@ -13,7 +13,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
  * Gets all elements from a JavaFileObject which are marked with a particular annotation. The annotation to look
  * for is defined by passing its class to the constructor.
  */
-public class AnnotatedElementSupplier extends CollectorBasedElementSupplier<Set<Element>> {
+public class AnnotatedElementSupplier extends ElementSupplier {
 	private final Class<? extends Annotation> targetAnnotation;
 	
 	public AnnotatedElementSupplier(final Class<? extends Annotation> targetAnnotation) {
