@@ -21,7 +21,7 @@ public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
-	 * The annotation to search for. Elements will only be collected if they are annotated with this annotation.
+	 * The annotation to search for. Elements will only be collected if they are have this annotation.
 	 */
 	private final Class<? extends Annotation> targetAnnotation;
 	
