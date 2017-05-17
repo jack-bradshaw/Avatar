@@ -9,7 +9,7 @@ import java.util.Collection;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * An element supplier which uses ElementCollectors to find elements in source fiels.
+ * An element supplier which uses an {@link ElementCollector} to find elements in source files.
  */
 public abstract class CollectorBasedElementSupplier<T extends Collection<? extends Element>>
 		implements ElementSupplier<T> {
