@@ -1,7 +1,7 @@
-package com.matthewtamlin.java_compiler_utilities.element_util.collectors;
+package com.matthewtamlin.java_compiler_utilities.collectors;
 
 import com.google.common.collect.ImmutableSet;
-import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.ElementId;
+import com.matthewtamlin.java_compiler_utilities.element_supplier.ElementId;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;

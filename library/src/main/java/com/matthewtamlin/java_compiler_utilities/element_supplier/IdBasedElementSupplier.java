@@ -1,7 +1,7 @@
-package com.matthewtamlin.java_compiler_utilities.element_util.element_supplier;
+package com.matthewtamlin.java_compiler_utilities.element_supplier;
 
-import com.matthewtamlin.java_compiler_utilities.element_util.collectors.ElementCollector;
-import com.matthewtamlin.java_compiler_utilities.element_util.collectors.IdBasedElementCollector;
+import com.matthewtamlin.java_compiler_utilities.collectors.ElementCollector;
+import com.matthewtamlin.java_compiler_utilities.collectors.IdBasedElementCollector;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;

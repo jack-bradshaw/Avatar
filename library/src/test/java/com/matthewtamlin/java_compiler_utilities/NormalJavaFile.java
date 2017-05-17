@@ -1,6 +1,6 @@
-package com.matthewtamlin.java_compiler_utilities.element_util;
+package com.matthewtamlin.java_compiler_utilities;
 
-import com.matthewtamlin.java_compiler_utilities.element_util.element_supplier.ElementId;
+import com.matthewtamlin.java_compiler_utilities.element_supplier.ElementId;
 
 public class NormalJavaFile {
 	@Tag1
