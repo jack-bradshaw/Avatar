@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.java_compiler_utilities.element_supplier.CompilerMissingException;
 import com.matthewtamlin.java_compiler_utilities.element_supplier.IdBasedElementSupplier;
+import com.matthewtamlin.java_compiler_utilities.element_supplier.UniqueElementNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,5 +99,39 @@ public class TestIdBasedElementSupplier {
 		
 		assertThat("Returned set should never be null.", elements, is(notNullValue()));
 		assertThat("Returned set should be empty.", elements.isEmpty(), is(true));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUniqueElementWithId_nullId() throws CompilerMissingException {
+		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
+		
+		supplier.getUniqueElementWithId(null);
+	}
+	
+	@Test(expected = UniqueElementNotFoundException.class)
+	public void testGetUniqueElementWithId_idNotFound() throws CompilerMissingException {
+		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
+		
+		supplier.getUniqueElementWithId("0");
+	}
+	
+	@Test
+	public void testGetUniqueElementWithId_idFoundOnce() throws CompilerMissingException {
+		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
+		
+		final Element element = supplier.getUniqueElementWithId("1");
+		
+		final String expectedElementName = ID1_NAMES.iterator().next();
+		final String actualElementName = element.getSimpleName().toString();
+		
+		assertThat("Returned element should never be null.", element, is(notNullValue()));
+		assertThat("Returned element did not match expected element.", actualElementName, is(expectedElementName));
+	}
+	
+	@Test(expected = UniqueElementNotFoundException.class)
+	public void testGetUniqueElementWithId_elementFoundTwice() throws CompilerMissingException {
+		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
+		
+		supplier.getUniqueElementWithId("2");
 	}
 }
