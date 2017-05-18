@@ -2,6 +2,7 @@ package com.matthewtamlin.java_compiler_utilities.element_supplier;
 
 import com.matthewtamlin.java_compiler_utilities.collectors.ElementCollector;
 import com.matthewtamlin.java_compiler_utilities.collectors.IdBasedElementCollector;
+import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
@@ -12,6 +13,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 /**
  * Gets specific elements from a {@link JavaFileObject} via {@link ElementId} annotations in the source code.
  */
+@Tested(testMethod = "automated")
 public class IdBasedElementSupplier {
 	/**
 	 * The source to get elements from.
