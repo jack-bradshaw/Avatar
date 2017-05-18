@@ -5,7 +5,7 @@ package com.matthewtamlin.java_compiler_utilities.element_supplier;
  */
 public @interface ElementId {
 	/**
-	 * @return the identifier, not necessary unique
+	 * @return the ID for the annotated element, not necessary unique
 	 */
 	String value();
 }
