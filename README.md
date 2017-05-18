@@ -127,7 +127,7 @@ Found element field2
 
 In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
-## End-to-end example
+## Realistic scenario
 This example demonstrates how to use the library to test a validator for an annotation processor. First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
