@@ -1,7 +1,7 @@
 package com.matthewtamlin.java_compiler_utilities.element_supplier;
 
-import com.matthewtamlin.java_compiler_utilities.collectors.RootElementCollector;
 import com.matthewtamlin.java_compiler_utilities.collectors.ElementCollector;
+import com.matthewtamlin.java_compiler_utilities.collectors.RootElementCollector;
 
 import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
@@ -10,7 +10,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * Gets all root elements from a JavaFileObject.
+ * Gets all root elements from a {@link JavaFileObject}.
  */
 public class RootElementSupplier {
 	private JavaFileObject source;
