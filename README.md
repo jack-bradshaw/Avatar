@@ -1,7 +1,7 @@
 # JavaCompilerUtilities
-While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no way to easily instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of articulating the problem in his [blog post](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be an easy way to create elements for unit tests. 
+While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no easy way to instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of [articulating the problem](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be a simple way to create elements for unit tests. 
 
-This library solves the problem by providing a utility which directly converts source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
+This library solves the problem by providing utilities for directly converting source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
 
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.0.0'` to your gradle build file to use the latest version.
@@ -128,14 +128,14 @@ Found element field2
 In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## Realistic scenario
-To demonstrate the usefulness of the library, this section contains an example which walks through a realistic scenario where the library is useful. The scenario involves creating and testing two components for use in an annotation processor:
-- An annotation which indicates a method returns void
+To demonstrate the usefulness of this library, this section contains an example which walks through a realistic scenario where this library is useful. The scenario involves creating and testing two components of an annotation processor project:
+- An annotation which can be used to mark methods that return void
 - A validator which checks if the annotation has been correctly applied to the source code
 
-First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
+First we will define a few source files, and then we will write some unit tests using this library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
-Consider an annotation which marks a method with a return type of void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
+Consider an annotation which we can use to mark methods that return void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
 ```java
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
@@ -182,7 +182,7 @@ We're good developers (although sadly, not test driven developers) so we decide 
 - Validation fails if the element has the annotation and returns a primitive
 - Validation fails if the element has the annotation and returns an object
 
-To test these rules, we need to pass the validator specific elements and compare the actual results to the expected outcomes. We can define the elements by creating a data class and using the library to convert it to elements. The data class is defined in `src/test/java/com/matthewtamlin/example/TestValidatorData.java` as:
+To test these rules, we need to pass the validator specific elements and compare the actual results to the expected outcomes. We can define the elements by creating a data class and using this library to convert it to elements. The data class is defined in `src/test/java/com/matthewtamlin/example/TestValidatorData.java` as:
 ```java
 public class TestValidatorData {
     @ElementId("void with annotation")
@@ -208,7 +208,7 @@ public class TestValidatorData {
 }
 ```
 
-Now that we have the data class, we can write the unit tests. The unit tests are defined in `src/test/java/com/matthewtamlin/example/TestValidator.java` as:
+Now that we have the data class, we can use it to write the unit tests. The unit tests are defined in `src/test/java/com/matthewtamlin/example/TestValidator.java` as:
 ```java
 @RunWith(JUnit4.class)
 public class TestValidator {
@@ -221,7 +221,7 @@ public class TestValidator {
     public void setUp() {
         assertThat("The source file cannot be found.", SRC_FILE.exists(), is(true));
         
-        // The Google compile-testing library contains a great utility for creating JavaFileObjects
+        // Using the Google compile-testing library again
         srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toURL());
         
         supplier = new IdBasedElementSupplier(srcFileObject);
