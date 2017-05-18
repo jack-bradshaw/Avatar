@@ -12,10 +12,10 @@ The public API of this library consists of three classes:
 - AnnotatedElementSupplier
 - IdBasedElementSupplier
 
-All of the examples in this section require a JavaFileObject, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
+All of the examples in this section require a `JavaFileObject`, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
 ### RootElementSupplier
-Use the RootElementSupplier class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `RootElementSupplier` class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     public void method1() {}
@@ -46,7 +46,7 @@ Found element MyOtherClass
 ```
 
 ### AnnotatedElementSupplier
-Use the AnnotatedElementSupplier class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `AnnotatedElementSupplier` class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -86,7 +86,7 @@ Found element field3
 ```
 
 ### IdBasedElementSupplier
-Use the IdBasedElementSupplier class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `IdBasedElementSupplier` class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @ElementId("Cat")
@@ -127,11 +127,15 @@ Found element field2
 
 In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
-## End-to-end example
-This example demonstrates how to use the library to test a validator for an annotation processor. First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
+## Realistic scenario
+To demonstrate the usefulness of the library, this section contains an example which walks through a realistic scenario where the library is useful. The scenario involves creating and testing two components for use in an annotation processor:
+- An annotation which indicates a method returns void
+- A validator which checks if the annotation has been correctly applied to the source code
+
+First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
-Consider an annotation which can be used to mark a method which returns void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
+Consider an annotation which marks a method with a return type of void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
 ```java
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
@@ -165,8 +169,10 @@ public class Validator {
 }
 ```
 
+Great, now we have some source files.
+
 ### Test files
-We're good developers, so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
+We're good developers (although sadly, not test driven developers) so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
 - Validation passes if the element is null
 - Validation passes if the element is not an ExecutableElement
 - Validation passes if the element is missing the annotation and returns void
@@ -264,7 +270,7 @@ public class TestValidator {
 }
 ```
 
-These tests can now be run to verify the behaviour of the validator.
+Viola! We now have some units tests which can verify the behaviour of the validator.
 
 ## Licensing
 This library is licenced under the Apache v2.0 licence. Have a look at [the license](LICENSE) for details.
