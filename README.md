@@ -128,10 +128,14 @@ Found element field2
 In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## Realistic scenario
-This example demonstrates how to use the library to test a validator for an annotation processor. First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
+To demonstrate the usefulness of the library, this section contains an example which walks through a realistic scenario where the library is useful. The scenario involves creating and testing two components for use in an annotation processor:
+- An annotation which indicates a method returns void
+- A validator which checks if the annotation has been correctly applied to the source code
+
+First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
-Consider an annotation which can be used to mark a method which returns void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
+Consider an annotation which marks a method with a return type of void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
 ```java
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
@@ -165,8 +169,10 @@ public class Validator {
 }
 ```
 
+Great, now we have some source files.
+
 ### Test files
-We're good developers, so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
+We're good developers (although sadly, not test driven developers) so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
 - Validation passes if the element is null
 - Validation passes if the element is not an ExecutableElement
 - Validation passes if the element is missing the annotation and returns void
@@ -264,7 +270,7 @@ public class TestValidator {
 }
 ```
 
-These tests can now be run to verify the behaviour of the validator.
+Viola! We now have some units tests which can verify the behaviour of the validator.
 
 ## Licensing
 This library is licenced under the Apache v2.0 licence. Have a look at [the license](LICENSE) for details.
