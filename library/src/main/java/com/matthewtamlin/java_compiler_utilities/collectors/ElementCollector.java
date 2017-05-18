@@ -13,7 +13,7 @@ public abstract class ElementCollector<T extends Collection<? extends Element>> 
 	 * Gets the elements which have been collected. This method will not return meaningful data unless processing is
 	 * complete. This method might return an empty collection but it will never return null.
 	 *
-	 * @return the elements collected by this collector, not null
+	 * @return the collected elements, not null
 	 */
 	public abstract T getCollectedElements();
 }
