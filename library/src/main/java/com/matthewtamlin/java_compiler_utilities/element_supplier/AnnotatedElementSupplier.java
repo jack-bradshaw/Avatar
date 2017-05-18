@@ -11,7 +11,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * Gets specific elements from a {@link JavaFileObject} via annotations in the source.
+ * Gets specific elements from a {@link JavaFileObject} via annotations in the source code.
  */
 public class AnnotatedElementSupplier {
 	/**
