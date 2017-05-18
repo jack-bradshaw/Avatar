@@ -12,7 +12,7 @@ These examples provide just enough information to start using the library. The f
 - AnnotatedElementSupplier
 - IdBasedElementSupplier
 
-In all of the examples a JavaFileObject is needed. The JavaFileObject interface is not trivial to implement, and the existing implementations are not always easy to work with. Luckly, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which simplifies things. This class is referenced in many of the examples.
+In all of the examples a JavaFileObject is needed, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
 ### Get all root elements
 The ElementUtil class can be used to get all root elements in a source file.
