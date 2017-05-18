@@ -54,8 +54,8 @@ produces:
 Found element MyClass
 Found element MyOtherClass
 ```
-### Get all elements with a particular annotation
-The ElementUtil class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
+### AnnotatedElementSupplier
+The AnnotatedElementSupplier class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
 
 If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
@@ -76,12 +76,10 @@ class MyOtherClass {
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-// Get all Unobtainium elements from the source file
-Set<Element> foundElements = ElementUtil.getTaggedElements(srcFileObject, Unobtainium.class);
+AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getElementsWithAnnotation(Unobtainium.class);
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
