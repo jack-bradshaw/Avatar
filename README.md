@@ -12,10 +12,10 @@ The public API of this library consists of three classes:
 - AnnotatedElementSupplier
 - IdBasedElementSupplier
 
-All of the examples in this section require a JavaFileObject, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
+All of the examples in this section require a `JavaFileObject`, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
 ### RootElementSupplier
-Use the RootElementSupplier class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `RootElementSupplier` class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     public void method1() {}
@@ -46,7 +46,7 @@ Found element MyOtherClass
 ```
 
 ### AnnotatedElementSupplier
-Use the AnnotatedElementSupplier class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `AnnotatedElementSupplier` class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -86,7 +86,7 @@ Found element field3
 ```
 
 ### IdBasedElementSupplier
-Use the IdBasedElementSupplier class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the `IdBasedElementSupplier` class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @ElementId("Cat")
