@@ -9,13 +9,34 @@ import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
+/**
+ * Gets specific elements from a {@link JavaFileObject} via {@link ElementId} annotations in the source code.
+ */
 public class IdBasedElementSupplier {
+	/**
+	 * The source to get elements from.
+	 */
 	private JavaFileObject source;
 	
+	/**
+	 * Constructs a new IdBasedElementSupplier.
+	 *
+	 * @param source
+	 * 		the JavaFileObject to get elements from, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code source} is null
+	 */
 	public IdBasedElementSupplier(final JavaFileObject source) {
 		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
 	}
 	
+	/**
+	 *
+	 * @param id
+	 * @return
+	 * @throws CompilerMissingException
+	 */
 	public Set<Element> getElementsWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
@@ -26,6 +47,12 @@ public class IdBasedElementSupplier {
 		return collector.getCollectedElements();
 	}
 	
+	/**
+	 *
+	 * @param id
+	 * @return
+	 * @throws CompilerMissingException
+	 */
 	public Element getUniqueElementWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
