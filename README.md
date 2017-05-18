@@ -14,8 +14,8 @@ These examples provide just enough information to start using the library. The f
 
 In all of the examples a JavaFileObject is needed, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
-### Get all root elements
-The ElementUtil class can be used to get all root elements in a source file.
+### RootElementSupplier
+The RootElementSupplier class can be used to get all root elements from a source file.
 
 If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
@@ -40,11 +40,10 @@ class MyOtherClass {
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-Set<Element> foundElements = ElementUtil.getRootElements(srcFileObject);
+RootElementSupplier supplier = new RootElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getRootElements();
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
@@ -55,7 +54,6 @@ produces:
 Found element MyClass
 Found element MyOtherClass
 ```
-
 ### Get all elements with a particular annotation
 The ElementUtil class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
 
