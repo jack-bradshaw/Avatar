@@ -6,32 +6,24 @@ This library solves the problem by providing a utility which directly converts s
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.0.0'` to your gradle build file to use the latest version.
 
-## Basic examples
-These examples provide just enough information to start using the library. The following classes are covered:
+## Usage
+The public API of this library consists of three classes:
 - RootElementSupplier
 - AnnotatedElementSupplier
 - IdBasedElementSupplier
 
-In all of the examples a JavaFileObject is needed, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
+All of the examples in this section require a JavaFileObject, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
 ### RootElementSupplier
-Use the RootElementSupplier class to get all root elements from a source file. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the RootElementSupplier class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
-    @SomeAnnotation
-    public String method1() {
-        return "example method";
-    }
+    public void method1() {}
 }
 
-@SomeAnnotation
 class MyOtherClass {
    private static final boolean field1 = true;
-   
-   @SomeAnnotation
    private static final boolean field2 = false;
-   
-   @ElementId("some other ID")
    public String field3 = "example field";
 }
 ```
@@ -47,13 +39,14 @@ for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
 Found element MyClass
 Found element MyOtherClass
 ```
+
 ### AnnotatedElementSupplier
-Use the AnnotatedElementSupplier class to get all elements in a file which have a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the AnnotatedElementSupplier class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -61,8 +54,12 @@ public class MyClass {
     public void method1() {}
 }
 
+@Carbon
 class MyOtherClass {
+   @Hydrogen
    private static final boolean field1 = true;
+   
+   @Polonium
    private static final boolean field2 = false;
    
    @Unobtainium   
@@ -81,7 +78,7 @@ for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
 Found element MyClass
 Found element method1
@@ -89,12 +86,12 @@ Found element field3
 ```
 
 ### IdBasedElementSupplier
-Use the IdBasedElementSupplier class to get all elements in a file which have a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the IdBasedElementSupplier class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @ElementId("Cat")
-    public String method1() {
-        return "example method";
+    public String method1(@ElementId("Dog") String parameter1) {
+        return parameter;
     }
 }
 
@@ -121,13 +118,14 @@ for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
-Found element field1
+Found element parameter1
+Found element MyOtherClass
 Found element field2
 ```
 
-The `getUniqueElementWithId(String)` method is also provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
+In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## End-to-end example
 Some context is necessary for a good example, so we will define a few source files and then some tests files. This example assumes you are familiar with the basic concepts of Java annotations, annotation processors and unit testing.
