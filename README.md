@@ -7,7 +7,12 @@ This library solves the problem by providing a utility which directly converts s
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.2.0'` to your gradle build file to use the latest version.
 
 ## Basic examples
-These examples provide enough information to start using the library within minutes. For a more in depth example, see the End-to-end example section. The main class of this library is the ElementsUtil class. It contains methods which can be used to convert source files to element objects.
+These examples provide just enough information to start using the library. The following classes are covered:
+- RootElementSupplier
+- AnnotatedElementSupplier
+- IdBasedElementSupplier
+
+In all of the examples a JavaFileObject is needed. The JavaFileObject interface is not trivial to implement, and the existing implementations are not always easy to work with. Luckly, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which simplifies things. This class is referenced in many of the examples.
 
 ### Get all root elements
 The ElementUtil class can be used to get all root elements in a source file.
