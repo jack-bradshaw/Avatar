@@ -12,8 +12,8 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A collector which collects elements based on ID, where element IDs are defined using the {@link ElementId}
- * annotation.
+ * Collects elements based on their IDs, where IDs are defined by applying the {@link ElementId} annotation to the
+ * source code.
  */
 public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	/**
@@ -22,13 +22,13 @@ public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	private final Set<Element> collectedElements = new HashSet<>();
 	
 	/**
-	 * The ID to search for. Elements will only be collected if they have an ElementId annotation with this ID.
+	 * Elements will only be collected if they have an ElementId annotation with this ID.
 	 */
 	private final String id;
 	
 	/**
 	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs
-	 * are defined by placing {@link ElementId} annotations in the source.
+	 * are defined by applying the {@link ElementId} to the source.
 	 *
 	 * @param id
 	 * 		the ID to search for when collecting elements, not null

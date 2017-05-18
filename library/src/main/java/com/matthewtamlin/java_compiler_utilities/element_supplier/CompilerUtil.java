@@ -10,6 +10,10 @@ import java.util.Locale;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * A utility for compiling a {@link JavaFileObject} with an {@link ElementCollector}. All generated files are stored in
+ * memory and will not be written to persistent storage.
+ */
 public class CompilerUtil {
 	/**
 	 * The exception to throw if there is no Java compiler available at runtime.
@@ -18,11 +22,11 @@ public class CompilerUtil {
 			"Cannot get elements if there is no Java compiler available at runtime.");
 	
 	/**
-	 * Compiles the supplied Java file object using the system Java compiler and the supplied collector. All
-	 * generated files are stored in memory and will not be written to the disk.
+	 * Compiles the supplied Java file object using the supplied collector. All generated files are stored in memory
+	 * and will not be written to persistent storage.
 	 *
-	 * @param javaFileObject
-	 * 		the java file object to compile, not null
+	 * @param source
+	 * 		the source to compile, not null
 	 * @param collector
 	 * 		the collector to use when compiling, not null
 	 *
@@ -34,12 +38,12 @@ public class CompilerUtil {
 	 * 		if {@code collector} is null
 	 */
 	public static void compileUsingCollector(
-			final JavaFileObject javaFileObject,
+			final JavaFileObject source,
 			final ElementCollector<?> collector)
 			throws CompilerMissingException {
 		
-		checkNotNull(javaFileObject, "Argument \'javaFileObject\' cannot be null.");
-		checkNotNull(javaFileObject, "Argument \'collector\' cannot be null.");
+		checkNotNull(source, "Argument \'javaFileObject\' cannot be null.");
+		checkNotNull(source, "Argument \'collector\' cannot be null.");
 		
 		final JavaCompiler compiler = checkNotNull(ToolProvider.getSystemJavaCompiler(), NO_COMPILER_EXCEPTION);
 		final DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<>();
@@ -53,7 +57,7 @@ public class CompilerUtil {
 				diagnostic,
 				null,
 				null,
-				ImmutableSet.of(javaFileObject));
+				ImmutableSet.of(source));
 		
 		task.setProcessors(ImmutableSet.of(collector));
 		task.call();
