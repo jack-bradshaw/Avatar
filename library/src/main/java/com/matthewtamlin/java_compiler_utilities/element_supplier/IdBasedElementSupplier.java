@@ -32,10 +32,18 @@ public class IdBasedElementSupplier {
 	}
 	
 	/**
+	 * Gets all elements from the source which have an {@link ElementId} annotation with the supplied ID. This method
+	 * might return an empty set, but it will never return null.
 	 *
 	 * @param id
-	 * @return
+	 * 		the ID to search for, not null
+	 *
+	 * @return all elements found in the source with the supplied ID, not null
+	 *
 	 * @throws CompilerMissingException
+	 * 		if there is no Java compiler available at runtime
+	 * @throws IllegalArgumentException
+	 * 		if {@code id} is null
 	 */
 	public Set<Element> getElementsWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
@@ -48,10 +56,23 @@ public class IdBasedElementSupplier {
 	}
 	
 	/**
+	 * Gets a single element from the source by searching for an element which has an {@link ElementId} annotation with
+	 * the supplied ID. This method expects to find exactly one such element, and will throw an exception if none or
+	 * multiple are found.
 	 *
 	 * @param id
-	 * @return
+	 * 		the id to search for, not null
+	 *
+	 * @return the element found in the source with the supplied ID
+	 *
 	 * @throws CompilerMissingException
+	 * 		if there is no Java compiler available at runtime
+	 * @throws IllegalArgumentException
+	 * 		if {@code id} is null
+	 * @throws UniqueElementNotFoundException
+	 * 		if no element is found with the supplied ID
+	 * @throws UniqueElementNotFoundException
+	 * 		if multiple elements are found with the supplied ID
 	 */
 	public Element getUniqueElementWithId(final String id) throws CompilerMissingException {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
