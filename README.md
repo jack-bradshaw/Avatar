@@ -15,9 +15,7 @@ These examples provide just enough information to start using the library. The f
 In all of the examples a JavaFileObject is needed, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
 ### RootElementSupplier
-The RootElementSupplier class can be used to get all root elements from a source file.
-
-If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the RootElementSupplier class to get all root elements from a source file. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @SomeAnnotation
@@ -55,9 +53,7 @@ Found element MyClass
 Found element MyOtherClass
 ```
 ### AnnotatedElementSupplier
-The AnnotatedElementSupplier class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
-
-If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Use the AnnotatedElementSupplier class to get all elements in a file which have a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -92,10 +88,8 @@ Found element method1
 Found element field3
 ```
 
-### Get all elements with a particular ID
-The ElementUtil class can be used to get all elements in a source file which have a particular ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element and uses Strings for IDs.
-
-If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+### IdBasedElementSupplier
+Use the IdBasedElementSupplier class to get all elements in a file which have a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @ElementId("Cat")
@@ -118,11 +112,10 @@ class MyOtherClass {
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-Set<Element> foundElements = ElementUtil.getElementsById(srcFileObject, "Dog");
+IdBasedElementSupplier supplier = new IdBasedElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getElementsWithId("Dog");
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
@@ -134,7 +127,7 @@ Found element field1
 Found element field2
 ```
 
-For convenience, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method is also provided. This method returns a single element, but it will throw an exception if the requested ID is not unique or is not found.
+The `getUniqueElementWithId(String)` method is also provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## End-to-end example
 Some context is necessary for a good example, so we will define a few source files and then some tests files. This example assumes you are familiar with the basic concepts of Java annotations, annotation processors and unit testing.
