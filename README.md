@@ -1,65 +1,52 @@
 # JavaCompilerUtilities
-While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit test for classes which use `javax.tools.Element` objects. There's no way to easily instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of articulating the problem in his [blog post](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other that to say there needs to be an easy way to create elements for unit tests. 
+While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no way to easily instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of articulating the problem in his [blog post](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be an easy way to create elements for unit tests. 
 
-This library solves the problem by providing a utility which directly converts source files to element models. This is the simplest way to create elements, because the developer only has to write normal source code and can ignore the complexities of the element API.
+This library solves the problem by providing a utility which directly converts source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
 
 ## Download
-Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.2.0'` to your gradle build file to use the latest version.
+Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.0.0'` to your gradle build file to use the latest version.
 
-## Basic examples
-These examples provide just enough information to start using the library. The following classes are covered:
+## Usage
+The public API of this library consists of three classes:
 - RootElementSupplier
 - AnnotatedElementSupplier
 - IdBasedElementSupplier
 
-In all of the examples a JavaFileObject is needed. The JavaFileObject interface is not trivial to implement, and the existing implementations are not always easy to work with. Luckly, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which simplifies things. This class is referenced in many of the examples.
+All of the examples in this section require a JavaFileObject, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
 
-### Get all root elements
-The ElementUtil class can be used to get all root elements in a source file.
-
-If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+### RootElementSupplier
+Use the RootElementSupplier class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
-    @SomeAnnotation
-    public String method1() {
-        return "example method";
-    }
+    public void method1() {}
 }
 
-@SomeAnnotation
 class MyOtherClass {
    private static final boolean field1 = true;
-   
-   @SomeAnnotation
    private static final boolean field2 = false;
-   
-   @ElementId("some other ID")
    public String field3 = "example field";
 }
 ```
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-Set<Element> foundElements = ElementUtil.getRootElements(srcFileObject);
+RootElementSupplier supplier = new RootElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getRootElements();
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
 Found element MyClass
 Found element MyOtherClass
 ```
 
-### Get all elements with a particular annotation
-The ElementUtil class can be used to get all elements in a source file with a particular annotation. Consider an example where we wish to get all elements annotated with `@Unobtainium`.
-
-If a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+### AnnotatedElementSupplier
+Use the AnnotatedElementSupplier class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 @Unobtainium
 public class MyClass {
@@ -67,8 +54,12 @@ public class MyClass {
     public void method1() {}
 }
 
+@Carbon
 class MyOtherClass {
+   @Hydrogen
    private static final boolean field1 = true;
+   
+   @Polonium
    private static final boolean field2 = false;
    
    @Unobtainium   
@@ -78,33 +69,29 @@ class MyOtherClass {
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-// Get all Unobtainium elements from the source file
-Set<Element> foundElements = ElementUtil.getTaggedElements(srcFileObject, Unobtainium.class);
+AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getElementsWithAnnotation(Unobtainium.class);
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
 Found element MyClass
 Found element method1
 Found element field3
 ```
 
-### Get all elements with a particular ID
-The ElementUtil class can be used to get all elements in a source file which have a particular ID, where the IDs are defined using the `@ElementId` annotation. This annotation can be applied to any source element and uses Strings for IDs.
-
-If the source is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+### IdBasedElementSupplier
+Use the IdBasedElementSupplier class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
 ```java
 public class MyClass {
     @ElementId("Cat")
-    public String method1() {
-        return "example method";
+    public String method1(@ElementId("Dog") String parameter1) {
+        return parameter;
     }
 }
 
@@ -122,38 +109,36 @@ class MyOtherClass {
 then executing the following code:
 ```java
 File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-
-// Using a utility from the Google compile testing library to create the JavaFileObject
 JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
 
-Set<Element> foundElements = ElementUtil.getElementsById(srcFileObject, "Dog");
+IdBasedElementSupplier supplier = new IdBasedElementSupplier(srcFileObject);
+Set<Element> foundElements = supplier.getElementsWithId("Dog");
 
 for (Element e : foundElements) {
     System.out.println("Found element " + e.getSimpleName().toString());
 }
 ```
-produces:
+would produce:
 ```
-Found element field1
+Found element parameter1
+Found element MyOtherClass
 Found element field2
 ```
 
-For convenience, the `ElementUtil.getUniqueElementById(JavaFileObject, String)` method is also provided. This method returns a single element, but it will throw an exception if the requested ID is not unique or is not found.
+In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## End-to-end example
-Some context is necessary for a good example, so we will define a few source files and then some tests files. This example assumes you are familiar with the basic concepts of Java annotations, annotation processors and unit testing.
+This example demonstrates how to use the library to test a validator for an annotation processor. First we will define a few source files, and then we will write some unit tests using the library. I'm going to assume you're familiar with the basic concepts of Java annotations, annotation processors and unit testing.
 
 ### Source files
-Imagine we have an annotation which can be used to mark methods which return void. If the annotation is used in an annotation processor, we probably want to write a validator to make sure the annotation has actually been applied correctly.
-
-The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
+Consider an annotation which can be used to mark a method which returns void. This doesn't seem to have much practical benefit, but it's useful for the example. The annotation is defined in `src/main/java/com/matthewtamlin/example/ReturnsNothing.java` as:
 ```java
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface ReturnsNothing {}
 ```
 
-The validator is defined in `src/main/java/com/matthewtamlin/example/Validator.java` as:
+If we wish to use the annotation in an annotation processor, we probably want to write a validator to make sure the annotation has been correctly applied to the source code. The validator is defined in `src/main/java/com/matthewtamlin/example/Validator.java` as:
 ```java
 public class Validator {
     public static void validate(Element element) throws ValidationException {
@@ -179,6 +164,7 @@ public class Validator {
     }
 }
 ```
+
 ### Test files
 We're good developers, so we decide we want to write some unit tests to make sure the validation logic is working as expected. We want to make sure the validator obeys the following rules:
 - Validation passes if the element is null
@@ -190,9 +176,7 @@ We're good developers, so we decide we want to write some unit tests to make sur
 - Validation fails if the element has the annotation and returns a primitive
 - Validation fails if the element has the annotation and returns an object
 
-To test the validator, we need to pass it specific elements and compare the actual results to the expected outcomes. Getting mock elements which actually behave as real elements is hard, but luckily this library provides the ElementUtil class. This utility allows us to directly convert a source file to an element model, so that we can use real elements in our unit test. 
-
-We define the source file we wish to convert in `src/test/java/com/matthewtamlin/example/TestValidatorData.java` as:
+To test these rules, we need to pass the validator specific elements and compare the actual results to the expected outcomes. We can define the elements by creating a data class and using the library to convert it to elements. The data class is defined in `src/test/java/com/matthewtamlin/example/TestValidatorData.java` as:
 ```java
 public class TestValidatorData {
     @ElementId("void with annotation")
@@ -218,14 +202,14 @@ public class TestValidatorData {
 }
 ```
 
-The `@ElementId` annotations provide unique identifiers for the elements, so that the `ElementUtil.getUniqueElementById()` method can be used to get references to them. Using the utility class we define our test class in `src/test/java/com/matthewtamlin/example/TestValidator.java` as:
+Now that we have the data class, we can write the unit tests. The unit tests are defined in `src/test/java/com/matthewtamlin/example/TestValidator.java` as:
 ```java
 @RunWith(JUnit4.class)
 public class TestValidator {
     private static final File SRC_FILE = new File("src/test/java/com/matthewtamlin/example" +
             "/TestValidatorData.java");
     
-    private JavaFileObject srcFileObject;
+    private IdBasedElementSupplier supplier;
     
     @Before
     public void setUp() {
@@ -233,6 +217,8 @@ public class TestValidator {
         
         // The Google compile-testing library contains a great utility for creating JavaFileObjects
         srcFileObject = JavaFileObjects.forResource(SRC_FILE.toURI().toURL());
+        
+        supplier = new IdBasedElementSupplier(srcFileObject);
     }
     
     @Test
@@ -242,58 +228,51 @@ public class TestValidator {
     
     @Test
     public void testValidate_noAnnotationVoidReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "void without annotation");
-                
+        Element e = supplier.getUniqueElementForId("void without annotation");
         Validator.validate(e);
     }
     
     @Test
     public void testValidate_noAnnotationPrimitiveReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "primitive without annotation");
-                
+        Element e = supplier.getUniqueElementForId("primitive without annotation");
         Validator.validate(e);
     }
     
     @Test
     public void testValidate_noAnnotationObjectReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "object without annotation");
-                
+        Element e = supplier.getUniqueElementForId("object without annotation");
         Validator.validate(e);
     }
     
     @Test
     public void testValidate_annotationPresentVoidReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "void with annotation");
-                
+        Element e = supplier.getUniqueElementForId("void with annotation");
         Validator.validate(e);
     }
     
     @Test(expected = ValidationException.class)
     public void testValidate_annotationPresentPrimitiveReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "primitive with annotation");
-                
+        Element e = supplier.getUniqueElementForId("primitive with annotation");
         Validator.validate(e);
     }
     
     @Test(expected = ValidationException.class)
     public void testValidate_annotationPresentObjectReturn() {
-        Element e = ElementUtil.getUniqueElementById(
-                srcFileObject, 
-                "object with annotation");
-                
+        Element e = supplier.getUniqueElementForId("object with annotation");
         Validator.validate(e);
     }
 }
 ```
 
-This produces a standard test class which can be run against the JVM. And thus concludes our in depth example.
+These tests can now be run to verify the behaviour of the validator.
+
+## Licensing
+This library is licenced under the Apache v2.0 licence. Have a look at [the license](LICENSE) for details.
+
+## Dependencies and Attribution
+This library uses the following open source libraries as level 1 dependencies:
+- [Guava](https://github.com/google/guava), licensed under the Apache 2.0 license.
+- [Java Utilities](https://github.com/MatthewTamlin/JavaUtilities), licensed under the Apache 2.0 license.
+
+## Compatibility
+This library is compatible with Java 1.7 and up.
