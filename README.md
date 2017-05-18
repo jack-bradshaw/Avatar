@@ -1,7 +1,7 @@
 # JavaCompilerUtilities
 While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no way to easily instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of articulating the problem in his [blog post](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be an easy way to create elements for unit tests. 
 
-This library solves the problem by providing a utility which directly converts source files to element models. This is the simplest way to create elements, because the developer only has to write normal source code and can ignore the complexities of the element API.
+This library solves the problem by providing a utility which directly converts source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
 
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.0.0'` to your gradle build file to use the latest version.
