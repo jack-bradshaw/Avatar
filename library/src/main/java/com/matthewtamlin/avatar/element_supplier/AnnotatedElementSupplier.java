@@ -48,8 +48,7 @@ public class AnnotatedElementSupplier {
 	 * @throws IllegalArgumentException
 	 * 		if {@code targetAnnotation} is null
 	 */
-	public Set<Element> getElementsWithAnnotation(final Class<? extends Annotation> targetAnnotation)
-			throws CompilerMissingException {
+	public Set<Element> getElementsWithAnnotation(final Class<? extends Annotation> targetAnnotation) {
 		
 		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
 		

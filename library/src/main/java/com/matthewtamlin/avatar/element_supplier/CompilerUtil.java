@@ -37,11 +37,7 @@ public class CompilerUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code collector} is null
 	 */
-	public static void compileUsingCollector(
-			final JavaFileObject source,
-			final ElementCollector<?> collector)
-			throws CompilerMissingException {
-		
+	public static void compileUsingCollector(final JavaFileObject source, final ElementCollector<?> collector) {
 		checkNotNull(source, "Argument \'javaFileObject\' cannot be null.");
 		checkNotNull(source, "Argument \'collector\' cannot be null.");
 		

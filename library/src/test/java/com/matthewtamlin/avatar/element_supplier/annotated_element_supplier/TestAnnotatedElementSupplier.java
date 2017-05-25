@@ -3,7 +3,6 @@ package com.matthewtamlin.avatar.element_supplier.annotated_element_supplier;
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.element_supplier.AnnotatedElementSupplier;
-import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,14 +53,14 @@ public class TestAnnotatedElementSupplier {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetElementsWithAnnotation_nullAnnotation() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_nullAnnotation() {
 		final AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(normalJavaFileObject);
 		
 		supplier.getElementsWithAnnotation(null);
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_elementIsNotFound() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_elementIsNotFound() {
 		final AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithAnnotation(UnusedAnnotation.class);
@@ -71,7 +70,7 @@ public class TestAnnotatedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_elementIsFoundOnce() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_elementIsFoundOnce() {
 		final AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithAnnotation(UsedOnceAnnotation.class);
@@ -81,7 +80,7 @@ public class TestAnnotatedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_elementIsFoundMultipleTimes() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_elementIsFoundMultipleTimes() {
 		final AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithAnnotation(UsedTwiceAnnotation.class);
@@ -91,7 +90,7 @@ public class TestAnnotatedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_fileIsEmpty() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_fileIsEmpty() {
 		final AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(emptyJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithAnnotation(UsedOnceAnnotation.class);

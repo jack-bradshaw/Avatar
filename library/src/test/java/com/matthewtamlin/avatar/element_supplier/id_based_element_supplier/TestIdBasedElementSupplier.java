@@ -2,7 +2,6 @@ package com.matthewtamlin.avatar.element_supplier.id_based_element_supplier;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
-import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 import com.matthewtamlin.avatar.element_supplier.IdBasedElementSupplier;
 import com.matthewtamlin.avatar.element_supplier.UniqueElementNotFoundException;
 import org.junit.Before;
@@ -55,14 +54,14 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetElementsWithId_nullAnnotation() throws CompilerMissingException {
+	public void testGetElementsWithId_nullAnnotation() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		supplier.getElementsWithId(null);
 	}
 	
 	@Test
-	public void testGetElementsWithId_idNotFound() throws CompilerMissingException {
+	public void testGetElementsWithId_idNotFound() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithId("0");
@@ -72,7 +71,7 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_elementIsFoundOnce() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_elementIsFoundOnce() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithId("1");
@@ -82,7 +81,7 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_elementIsFoundMultipleTimes() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_elementIsFoundMultipleTimes() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithId("2");
@@ -92,7 +91,7 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_fileIsEmpty() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_fileIsEmpty() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(emptyJavaFileObject);
 		
 		final Set<Element> elements = supplier.getElementsWithId("1");
@@ -102,21 +101,21 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetUniqueElementWithId_nullId() throws CompilerMissingException {
+	public void testGetUniqueElementWithId_nullId() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		supplier.getUniqueElementWithId(null);
 	}
 	
 	@Test(expected = UniqueElementNotFoundException.class)
-	public void testGetUniqueElementWithId_idNotFound() throws CompilerMissingException {
+	public void testGetUniqueElementWithId_idNotFound() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		supplier.getUniqueElementWithId("0");
 	}
 	
 	@Test
-	public void testGetUniqueElementWithId_idFoundOnce() throws CompilerMissingException {
+	public void testGetUniqueElementWithId_idFoundOnce() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		final Element element = supplier.getUniqueElementWithId("1");
@@ -129,7 +128,7 @@ public class TestIdBasedElementSupplier {
 	}
 	
 	@Test(expected = UniqueElementNotFoundException.class)
-	public void testGetUniqueElementWithId_elementFoundTwice() throws CompilerMissingException {
+	public void testGetUniqueElementWithId_elementFoundTwice() {
 		final IdBasedElementSupplier supplier = new IdBasedElementSupplier(normalJavaFileObject);
 		
 		supplier.getUniqueElementWithId("2");
