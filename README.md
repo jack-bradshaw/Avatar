@@ -6,7 +6,7 @@ While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, 
 This library solves the problem by providing utilities for directly converting source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
 
 ## Download
-Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:java-compiler-utilities:1.0.0'` to your gradle build file to use the latest version.
+Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.0'` to your gradle build file to use the latest version.
 
 ## Usage
 The public API of this library consists of three classes:
