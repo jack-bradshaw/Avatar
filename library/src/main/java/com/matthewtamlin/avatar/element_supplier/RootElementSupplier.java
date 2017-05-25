@@ -41,7 +41,7 @@ public class RootElementSupplier {
 	 * @throws CompilerMissingException
 	 * 		if there is no Java compiler available at runtime
 	 */
-	public Set<Element> getRootElements() throws CompilerMissingException {
+	public Set<Element> getRootElements() {
 		final ElementCollector<Set<Element>> collector = new RootElementCollector();
 		
 		CompilerUtil.compileUsingCollector(source, collector);
