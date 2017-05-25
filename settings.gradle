@@ -1,4 +1,4 @@
-rootProject.name = 'java-compiler-utilities'
+rootProject.name = 'avatar'
 
 include 'library'
 findProject(':library')?.name = 'Library'
