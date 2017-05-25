@@ -1,4 +1,6 @@
-# JavaCompilerUtilities
+# Avatar
+Tools for creating Java source code elements in unit tests.
+
 While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no easy way to instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of [articulating the problem](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be a simple way to create elements for unit tests. 
 
 This library solves the problem by providing utilities for directly converting source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
