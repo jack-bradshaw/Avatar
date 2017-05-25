@@ -5,7 +5,7 @@ import javax.tools.JavaCompiler;
 /**
  * Exception which indicates the absence of a {@link JavaCompiler} at runtime.
  */
-public class CompilerMissingException extends Exception {
+public class CompilerMissingException extends RuntimeException {
 	public CompilerMissingException() {
 		super();
 	}

@@ -47,7 +47,7 @@ public class IdBasedElementSupplier {
 	 * @throws IllegalArgumentException
 	 * 		if {@code id} is null
 	 */
-	public Set<Element> getElementsWithId(final String id) throws CompilerMissingException {
+	public Set<Element> getElementsWithId(final String id) {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
 		final ElementCollector<Set<Element>> collector = new IdBasedElementCollector(id);
@@ -76,7 +76,7 @@ public class IdBasedElementSupplier {
 	 * @throws UniqueElementNotFoundException
 	 * 		if multiple elements are found with the supplied ID
 	 */
-	public Element getUniqueElementWithId(final String id) throws CompilerMissingException {
+	public Element getUniqueElementWithId(final String id) {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
 		final Set<Element> elements = getElementsWithId(id);

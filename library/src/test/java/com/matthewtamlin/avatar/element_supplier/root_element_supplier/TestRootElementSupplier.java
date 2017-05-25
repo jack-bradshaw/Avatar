@@ -2,7 +2,6 @@ package com.matthewtamlin.avatar.element_supplier.root_element_supplier;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
-import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 import com.matthewtamlin.avatar.element_supplier.RootElementSupplier;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class TestRootElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_normalFile() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_normalFile() {
 		final RootElementSupplier supplier = new RootElementSupplier(normalJavaFileObject);
 		
 		final Set<Element> elements = supplier.getRootElements();
@@ -62,7 +61,7 @@ public class TestRootElementSupplier {
 	}
 	
 	@Test
-	public void testGetElementsWithAnnotation_emptyFile() throws CompilerMissingException {
+	public void testGetElementsWithAnnotation_emptyFile() {
 		final RootElementSupplier supplier = new RootElementSupplier(emptyJavaFileObject);
 		
 		final Set<Element> elements = supplier.getRootElements();
