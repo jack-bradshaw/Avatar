@@ -44,7 +44,7 @@ public class RootElementSupplier {
 	public Set<Element> getRootElements() {
 		final ElementCollector<Set<Element>> collector = new RootElementCollector();
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}

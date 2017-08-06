@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
 import com.matthewtamlin.avatar.in_memory_file_utils.InMemoryJavaFileManager;
 
+import javax.annotation.processing.Processor;
 import javax.tools.*;
 import java.util.Locale;
 
@@ -22,22 +23,22 @@ public class CompilerUtil {
 			"Cannot get elements if there is no Java compiler available at runtime.");
 	
 	/**
-	 * Compiles the supplied Java file object using the supplied collector. All generated files are stored in memory
+	 * Compiles the supplied Java file object using the supplied processor. All generated files are stored in memory
 	 * and will not be written to persistent storage.
 	 *
 	 * @param source
 	 * 		the source to compile, not null
-	 * @param collector
-	 * 		the collector to use when compiling, not null
+	 * @param processor
+	 * 		the processor to use when compiling, not null
 	 *
 	 * @throws CompilerMissingException
 	 * 		if no Java compiler is found at runtime
 	 * @throws IllegalArgumentException
 	 * 		if {@code javaFileObject} is null
 	 * @throws IllegalArgumentException
-	 * 		if {@code collector} is null
+	 * 		if {@code processor} is null
 	 */
-	public static void compileUsingCollector(final JavaFileObject source, final ElementCollector<?> collector) {
+	public static void compileUsingProcessor(final JavaFileObject source, final Processor processor) {
 		checkNotNull(source, "Argument \'javaFileObject\' cannot be null.");
 		checkNotNull(source, "Argument \'collector\' cannot be null.");
 		
@@ -55,7 +56,7 @@ public class CompilerUtil {
 				null,
 				ImmutableSet.of(source));
 		
-		task.setProcessors(ImmutableSet.of(collector));
+		task.setProcessors(ImmutableSet.of(processor));
 		task.call();
 	}
 }

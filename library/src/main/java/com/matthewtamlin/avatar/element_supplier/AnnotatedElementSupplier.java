@@ -49,12 +49,11 @@ public class AnnotatedElementSupplier {
 	 * 		if {@code targetAnnotation} is null
 	 */
 	public Set<Element> getElementsWithAnnotation(final Class<? extends Annotation> targetAnnotation) {
-		
 		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
 		
 		final ElementCollector<Set<Element>> collector = new AnnotatedElementCollector(targetAnnotation);
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}

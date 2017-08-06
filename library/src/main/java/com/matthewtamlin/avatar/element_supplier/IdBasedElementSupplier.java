@@ -52,7 +52,7 @@ public class IdBasedElementSupplier {
 		
 		final ElementCollector<Set<Element>> collector = new IdBasedElementCollector(id);
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}
