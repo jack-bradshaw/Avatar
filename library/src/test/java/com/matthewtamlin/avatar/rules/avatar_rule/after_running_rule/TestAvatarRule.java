@@ -1,7 +1,7 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
 
-import com.matthewtamlin.avatar.element_supplier.UniqueElementNotFoundException;
 import com.matthewtamlin.avatar.rules.AvatarRule;
+import com.matthewtamlin.avatar.rules.UniqueElementNotFoundException;
 import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
 
-import com.matthewtamlin.avatar.element_supplier.ElementId;
+import com.matthewtamlin.avatar.rules.ElementId;
 
 @ElementId("public root")
 public class Data {
