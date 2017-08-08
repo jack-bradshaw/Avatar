@@ -2,13 +2,13 @@ package com.matthewtamlin.avatar.compilation;
 
 import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
-import com.matthewtamlin.avatar.compilation.CompilationResult;
-import com.matthewtamlin.avatar.compilation.DiagnosticCollector;
-import com.matthewtamlin.avatar.compilation.InMemoryJavaFileManager;
 import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 
 import javax.annotation.processing.Processor;
-import javax.tools.*;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileManager;
+import javax.tools.JavaFileObject;
+import javax.tools.ToolProvider;
 import java.util.Locale;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
