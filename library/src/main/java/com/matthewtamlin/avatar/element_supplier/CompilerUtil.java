@@ -2,6 +2,8 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilationResult;
+import com.matthewtamlin.avatar.compilation.DiagnosticCollector;
 import com.matthewtamlin.avatar.in_memory_file_utils.InMemoryJavaFileManager;
 
 import javax.annotation.processing.Processor;
@@ -38,15 +40,15 @@ public class CompilerUtil {
 	 * @throws IllegalArgumentException
 	 * 		if {@code processor} is null
 	 */
-	public static void compileUsingProcessor(final JavaFileObject source, final Processor processor) {
+	public static CompilationResult compileUsingProcessor(final JavaFileObject source, final Processor processor) {
 		checkNotNull(source, "Argument \'javaFileObject\' cannot be null.");
-		checkNotNull(source, "Argument \'collector\' cannot be null.");
+		checkNotNull(source, "Argument \'processor\' cannot be null.");
 		
 		final JavaCompiler compiler = checkNotNull(ToolProvider.getSystemJavaCompiler(), NO_COMPILER_EXCEPTION);
-		final DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<>();
 		
-		final JavaFileManager fileManager = compiler.getStandardFileManager(diagnostic, Locale.getDefault(), UTF_8);
-		final JavaFileManager inMemoryFileManager = new InMemoryJavaFileManager(fileManager);
+		final DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<>();
+		final JavaFileManager baseFileManager = compiler.getStandardFileManager(diagnostic, Locale.getDefault(), UTF_8);
+		final InMemoryJavaFileManager inMemoryFileManager = new InMemoryJavaFileManager(baseFileManager);
 		
 		final JavaCompiler.CompilationTask task = compiler.getTask(
 				null,
@@ -57,6 +59,9 @@ public class CompilerUtil {
 				ImmutableSet.of(source));
 		
 		task.setProcessors(ImmutableSet.of(processor));
-		task.call();
+		
+		final boolean success = task.call();
+		
+		return CompilationResult.create(success, diagnostic.getDiagnostics(), inMemoryFileManager.getOutputFiles());
 	}
 }

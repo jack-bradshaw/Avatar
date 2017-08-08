@@ -8,7 +8,9 @@ import javax.tools.JavaFileObject.Kind;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
@@ -110,6 +112,10 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	@Override
 	public void close() throws IOException {
 		super.close();
+	}
+	
+	public Set<JavaFileObject> getOutputFiles() {
+		return new HashSet<>(files.values());
 	}
 	
 	/**
