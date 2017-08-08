@@ -13,7 +13,10 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Gets all root elements from a {@link JavaFileObject}.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 @Tested(testMethod = "automated")
 public class RootElementSupplier {
 	/**
