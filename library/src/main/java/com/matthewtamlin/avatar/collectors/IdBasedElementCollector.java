@@ -27,8 +27,8 @@ public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	private final String id;
 	
 	/**
-	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs
-	 * are defined by applying the {@link ElementId} to the source.
+	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs are
+	 * defined by applying the {@link ElementId} to the source.
 	 *
 	 * @param id
 	 * 		the ID to search for when collecting elements, not null
