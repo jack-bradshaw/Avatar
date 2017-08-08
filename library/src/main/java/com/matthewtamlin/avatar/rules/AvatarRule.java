@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
 import com.matthewtamlin.avatar.compilation.CompilerUtil;
-import com.matthewtamlin.avatar.element_supplier.ElementId;
-import com.matthewtamlin.avatar.element_supplier.UniqueElementNotFoundException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
