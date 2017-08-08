@@ -36,8 +36,8 @@ public class AnnotatedElementSupplier {
 	}
 	
 	/**
-	 * Gets all elements from the source which have the supplied annotation. This method might return an empty set,
-	 * but it will never return null.
+	 * Gets all elements from the source which have the supplied annotation. This method might return an empty set, but
+	 * it will never return null.
 	 *
 	 * @param targetAnnotation
 	 * 		the annotation to search for, not null
