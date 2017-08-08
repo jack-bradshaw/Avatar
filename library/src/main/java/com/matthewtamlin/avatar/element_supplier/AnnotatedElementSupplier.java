@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.matthewtamlin.avatar.collectors.AnnotatedElementCollector;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
