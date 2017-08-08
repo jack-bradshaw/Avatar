@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.matthewtamlin.avatar.collectors.ElementCollector;
 import com.matthewtamlin.avatar.collectors.IdBasedElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
@@ -12,7 +13,11 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Gets specific elements from a {@link JavaFileObject} via {@link ElementId} annotations in the source code.
+ *
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 @Tested(testMethod = "automated")
 public class IdBasedElementSupplier {
 	/**
@@ -52,7 +57,7 @@ public class IdBasedElementSupplier {
 		
 		final ElementCollector<Set<Element>> collector = new IdBasedElementCollector(id);
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}

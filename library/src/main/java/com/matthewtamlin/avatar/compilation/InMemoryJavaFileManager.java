@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.in_memory_file_utils;
+package com.matthewtamlin.avatar.compilation;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
@@ -8,13 +8,15 @@ import javax.tools.JavaFileObject.Kind;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A Java file manager which stores files in memory instead writing them to the disk. This class is not currently
- * part of the public API because if does not fully comply with the {@link JavaFileManager} interface contract.
+ * A Java file manager which stores files in memory instead writing them to the disk. This class is not currently part
+ * of the public API because if does not fully comply with the {@link JavaFileManager} interface contract.
  */
 public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
 	private static final String BASE_LOCATION = "memory:///";
@@ -110,6 +112,10 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	@Override
 	public void close() throws IOException {
 		super.close();
+	}
+	
+	public Set<JavaFileObject> getOutputFiles() {
+		return new HashSet<>(files.values());
 	}
 	
 	/**

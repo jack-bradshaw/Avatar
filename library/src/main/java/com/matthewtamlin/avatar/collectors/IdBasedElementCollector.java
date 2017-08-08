@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.collectors;
 
 import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.element_supplier.ElementId;
+import com.matthewtamlin.avatar.rules.AvatarRule;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -14,7 +15,10 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 /**
  * Collects elements based on their IDs, where IDs are defined by applying the {@link ElementId} annotation to the
  * source code.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	/**
 	 * The elements which have been collected during processing.
@@ -27,8 +31,8 @@ public class IdBasedElementCollector extends ElementCollector<Set<Element>> {
 	private final String id;
 	
 	/**
-	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs
-	 * are defined by applying the {@link ElementId} to the source.
+	 * Constructs a new IdBasedElementCollector. Only elements with the supplied ID will be collected, where IDs are
+	 * defined by applying the {@link ElementId} to the source.
 	 *
 	 * @param id
 	 * 		the ID to search for when collecting elements, not null

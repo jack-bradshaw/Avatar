@@ -1,11 +1,8 @@
-package com.matthewtamlin.avatar.element_supplier;
+package com.matthewtamlin.avatar.rules;
 
 /**
  * Exception which indicates that a unique element for some criteria could not be found when searching a source file.
- *
- * @deprecated use {@link com.matthewtamlin.avatar.rules.UniqueElementNotFoundException}
  */
-@Deprecated
 public class UniqueElementNotFoundException extends RuntimeException {
 	public UniqueElementNotFoundException() {
 		super();

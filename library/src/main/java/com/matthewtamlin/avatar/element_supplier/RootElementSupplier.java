@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.matthewtamlin.avatar.collectors.ElementCollector;
 import com.matthewtamlin.avatar.collectors.RootElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
@@ -12,7 +13,10 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Gets all root elements from a {@link JavaFileObject}.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 @Tested(testMethod = "automated")
 public class RootElementSupplier {
 	/**
@@ -44,7 +48,7 @@ public class RootElementSupplier {
 	public Set<Element> getRootElements() {
 		final ElementCollector<Set<Element>> collector = new RootElementCollector();
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}
