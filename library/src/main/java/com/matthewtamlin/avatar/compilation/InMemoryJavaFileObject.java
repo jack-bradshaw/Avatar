@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.in_memory_file_utils;
+package com.matthewtamlin.avatar.compilation;
 
 import com.google.common.io.ByteSource;
 

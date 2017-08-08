@@ -3,7 +3,7 @@ package com.matthewtamlin.avatar.rules;
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
-import com.matthewtamlin.avatar.element_supplier.CompilerUtil;
+import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.avatar.element_supplier.ElementId;
 import com.matthewtamlin.avatar.element_supplier.UniqueElementNotFoundException;
 import org.junit.rules.TestRule;
@@ -20,7 +20,6 @@ import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 

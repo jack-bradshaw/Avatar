@@ -1,10 +1,11 @@
-package com.matthewtamlin.avatar.element_supplier;
+package com.matthewtamlin.avatar.compilation;
 
 import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
 import com.matthewtamlin.avatar.compilation.DiagnosticCollector;
-import com.matthewtamlin.avatar.in_memory_file_utils.InMemoryJavaFileManager;
+import com.matthewtamlin.avatar.compilation.InMemoryJavaFileManager;
+import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 
 import javax.annotation.processing.Processor;
 import javax.tools.*;
