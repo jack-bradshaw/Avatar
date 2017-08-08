@@ -101,6 +101,46 @@ public class TestAvatarRule {
 		rule.getElementWithUniqueId("ID2");
 	}
 	
+	@Test
+	public void testGetElementWithUniqueId_canFindClasses() {
+		final Element element = rule.getElementWithUniqueId("class");
+		
+		assertThat("Element must not be null.", element, is(notNullValue()));
+		assertThat("Element must be ClassA.", element.getSimpleName().toString(), is("ClassA"));
+	}
+	
+	@Test
+	public void testGetElementWithUniqueId_canFindInterfaces() {
+		final Element element = rule.getElementWithUniqueId("interface");
+		
+		assertThat("Element must not be null.", element, is(notNullValue()));
+		assertThat("Element must be InterfaceA.", element.getSimpleName().toString(), is("InterfaceA"));
+	}
+	
+	@Test
+	public void testGetElementWithUniqueId_canFindMethods() {
+		final Element element = rule.getElementWithUniqueId("method");
+		
+		assertThat("Element must not be null.", element, is(notNullValue()));
+		assertThat("Element must be methodC.", element.getSimpleName().toString(), is("methodC"));
+	}
+	
+	@Test
+	public void testGetElementWithUniqueId_canFindFields() {
+		final Element element = rule.getElementWithUniqueId("field");
+		
+		assertThat("Element must not be null.", element, is(notNullValue()));
+		assertThat("Element must be fieldC.", element.getSimpleName().toString(), is("fieldC"));
+	}
+	
+	@Test
+	public void testGetElementWithUniqueId_canFindMethodParameters() {
+		final Element element = rule.getElementWithUniqueId("parameter");
+		
+		assertThat("Element must not be null.", element, is(notNullValue()));
+		assertThat("Element must be parameterA.", element.getSimpleName().toString(), is("parameterA"));
+	}
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetElementsWithAnnotation_nullAnnotation() {
 		rule.getElementsWithAnnotation(null);
