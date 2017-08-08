@@ -79,17 +79,17 @@ public class TestAvatarRule {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testGetElementsWithUniqueId_nullId() {
+	public void testGetElementWithUniqueId_nullId() {
 		rule.getElementWithUniqueId(null);
 	}
 	
 	@Test(expected = UniqueElementNotFoundException.class)
-	public void testGetElementsWithUniqueId_idMatchesNoElements() {
+	public void testGetElementWithUniqueId_idMatchesNoElements() {
 		rule.getElementWithUniqueId("ID0");
 	}
 	
 	@Test
-	public void testGetElementsWithUniqueId_idMatchesOneElement() {
+	public void testGetElementWithUniqueId_idMatchesOneElement() {
 		final Element element = rule.getElementWithUniqueId("ID1");
 		
 		assertThat("Element must not be null.", element, is(notNullValue()));
@@ -97,7 +97,7 @@ public class TestAvatarRule {
 	}
 	
 	@Test(expected = UniqueElementNotFoundException.class)
-	public void testGetElementsWithUniqueId_idMatchesMultipleElements() {
+	public void testGetElementWithUniqueId_idMatchesMultipleElements() {
 		rule.getElementWithUniqueId("ID2");
 	}
 	
