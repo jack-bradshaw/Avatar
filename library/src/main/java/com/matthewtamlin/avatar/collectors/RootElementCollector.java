@@ -10,7 +10,10 @@ import java.util.Set;
 
 /**
  * Collects root elements.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 public class RootElementCollector extends ElementCollector<Set<Element>> {
 	/**
 	 * The elements which have been collected during processing.

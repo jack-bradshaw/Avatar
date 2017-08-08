@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.matthewtamlin.avatar.collectors.AnnotatedElementCollector;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.java_utilities.testing.Tested;
 
 import javax.lang.model.element.Element;
@@ -13,7 +14,10 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Gets specific elements from a {@link JavaFileObject} via annotations in the source code.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 @Tested(testMethod = "automated")
 public class AnnotatedElementSupplier {
 	/**
@@ -35,8 +39,8 @@ public class AnnotatedElementSupplier {
 	}
 	
 	/**
-	 * Gets all elements from the source which have the supplied annotation. This method might return an empty set,
-	 * but it will never return null.
+	 * Gets all elements from the source which have the supplied annotation. This method might return an empty set, but
+	 * it will never return null.
 	 *
 	 * @param targetAnnotation
 	 * 		the annotation to search for, not null
@@ -49,12 +53,11 @@ public class AnnotatedElementSupplier {
 	 * 		if {@code targetAnnotation} is null
 	 */
 	public Set<Element> getElementsWithAnnotation(final Class<? extends Annotation> targetAnnotation) {
-		
 		checkNotNull(targetAnnotation, "Argument \'targetAnnotation\' cannot be null.");
 		
 		final ElementCollector<Set<Element>> collector = new AnnotatedElementCollector(targetAnnotation);
 		
-		CompilerUtil.compileUsingCollector(source, collector);
+		CompilerUtil.compileUsingProcessor(source, collector);
 		
 		return collector.getCollectedElements();
 	}

@@ -1,6 +1,7 @@
 package com.matthewtamlin.avatar.collectors;
 
 import com.google.common.collect.ImmutableSet;
+import com.matthewtamlin.avatar.rules.AvatarRule;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -13,7 +14,10 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Collects elements which have particular annotations.
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 public class AnnotatedElementCollector extends ElementCollector<Set<Element>> {
 	/**
 	 * The elements which have been collected during processing.
