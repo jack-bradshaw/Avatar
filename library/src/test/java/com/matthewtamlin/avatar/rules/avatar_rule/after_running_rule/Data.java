@@ -17,4 +17,18 @@ public class Data {
 	@Annotation2
 	@ElementId("ID2")
 	private String fieldB;
+	
+	@ElementId("method")
+	private void methodC() {}
+	
+	@ElementId("field")
+	public Object fieldC;
+	
+	@ElementId("class")
+	public static class ClassA {}
+	
+	@ElementId("interface")
+	public interface InterfaceA{}
+	
+	public void methodD(@ElementId("parameter") String parameterA) {}
 }
