@@ -13,7 +13,11 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 
 /**
  * Gets specific elements from a {@link JavaFileObject} via {@link ElementId} annotations in the source code.
+ *
+ *
+ * @deprecated use {@link AvatarRule}
  */
+@Deprecated
 @Tested(testMethod = "automated")
 public class IdBasedElementSupplier {
 	/**
