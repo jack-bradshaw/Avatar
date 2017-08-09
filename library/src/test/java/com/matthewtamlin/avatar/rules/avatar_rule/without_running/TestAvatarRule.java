@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.mock;
 
+@SuppressWarnings("RedundantArrayCreation")
 @RunWith(JUnit4.class)
 public class TestAvatarRule {
 	private static final String DATA_FILE_PATH =
@@ -62,30 +63,22 @@ public class TestAvatarRule {
 	
 	@Test
 	public void testForJavaFileObjects_varargVariant_emptyArray() {
-		final JavaFileObject[] sources = new JavaFileObject[]{};
-		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule.forJavaFileObjects(new JavaFileObject[]{});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testForJavaFileObjects_varargVariant_arrayContainingNull() {
-		final JavaFileObject[] sources = new JavaFileObject[] {null};
-		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule.forJavaFileObjects(new JavaFileObject[]{null});
 	}
 	
 	@Test
 	public void testForJavaFileObjects_varargVariant_arrayContainingOneValidItem() {
-		final JavaFileObject[] sources = new JavaFileObject[] {mock(JavaFileObject.class)};
-		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule.forJavaFileObjects(mock(JavaFileObject.class));
 	}
 	
 	@Test
 	public void testForJavaFileObjects_varargVariant_iterableContainingMultipleValidItems() {
-		final JavaFileObject[] sources = new JavaFileObject[] {mock(JavaFileObject.class), mock(JavaFileObject.class)};
-		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule.forJavaFileObjects(mock(JavaFileObject.class), mock(JavaFileObject.class));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -140,37 +133,27 @@ public class TestAvatarRule {
 	
 	@Test
 	public void testForFiles_varargVariant_emptyArray() {
-		final File[] sources = new File[]{};
-		
-		AvatarRule.forFiles(sources);
+		AvatarRule.forFiles(new File[]{});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testForFiles_varargVariant_arrayContainingNull() {
-		final File[] sources = new File[] {null};
-		
-		AvatarRule.forFiles(sources);
+		AvatarRule.forFiles(new File[]{null});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testForFiles_varargVariant_arrayContainingNonExistentFile() {
-		final File[] sources = new File[] {new File("I don't exist")};
-		
-		AvatarRule.forFiles(sources);
+		AvatarRule.forFiles(new File("I don't exist"));
 	}
 	
 	@Test
 	public void testForFiles_varargVariant_arrayContainingOneValidItem() {
-		final File[] sources = new File[] {new File(DATA_FILE_PATH)};
-		
-		AvatarRule.forFiles(sources);
+		AvatarRule.forFiles(new File(DATA_FILE_PATH));
 	}
 	
 	@Test
 	public void testForFiles_varargVariant_iterableContainingMultipleValidItems() {
-		final File[] sources = new File[] {new File(DATA_FILE_PATH), new File(DATA_FILE_PATH)};
-		
-		AvatarRule.forFiles(sources);
+		AvatarRule.forFiles(new File(DATA_FILE_PATH), new File(DATA_FILE_PATH));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -225,37 +208,27 @@ public class TestAvatarRule {
 	
 	@Test
 	public void testForFilesAt_varargVariant_emptyArray() {
-		final String[] sources = new String[]{};
-		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule.forFilesAt(new String[]{});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testForFilesAt_varargVariant_arrayContainingNull() {
-		final String[] sources = new String[] {null};
-		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule.forFilesAt(new String[]{null});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testForFilesAt_varargVariant_arrayContainingNonExistentFilePath() {
-		final String[] sources = new String[] {"I don't exist"};
-		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule.forFilesAt(new String[]{"I don't exist"});
 	}
 	
 	@Test
 	public void testForFilesAt_varargVariant_arrayContainingOneValidItem() {
-		final String[] sources = new String[] {DATA_FILE_PATH};
-		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule.forFilesAt(new String[]{DATA_FILE_PATH});
 	}
 	
 	@Test
 	public void testForFilesAt_varargVariant_iterableContainingMultipleValidItems() {
-		final String[] sources = new String[] {DATA_FILE_PATH, DATA_FILE_PATH};
-		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule.forFilesAt(new String[]{DATA_FILE_PATH, DATA_FILE_PATH});
 	}
 	
 	@Test(expected = IllegalStateException.class)
