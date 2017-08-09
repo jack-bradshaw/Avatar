@@ -1,5 +1,6 @@
 package com.matthewtamlin.avatar.rules;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
@@ -19,10 +20,11 @@ import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.util.*;
 
+import static com.matthewtamlin.avatar.util.IterableNullChecker.checkNotContainsNull;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 public class AvatarRule implements TestRule {
-	private final JavaFileObject source;
+	private final Iterable<JavaFileObject> sources;
 	
 	private final List<RoundEnvironment> roundEnvironments = new ArrayList<>();
 	
@@ -36,26 +38,76 @@ public class AvatarRule implements TestRule {
 	
 	private CompilationResult compilationResult;
 	
-	public AvatarRule(final JavaFileObject source) {
-		this.source = checkNotNull(source, "Argument \'source\' cannot be null.");
+	private AvatarRule(final Iterable<JavaFileObject> sources) {
+		checkNotNull(sources, "Argument \'sources\' cannot be null.");
+		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
+		
+		this.sources = ImmutableList.copyOf(sources);
 	}
 	
-	public AvatarRule(final File source) {
-		checkNotNull(source, "Argument \'source\' cannot be null.");
+	public static AvatarRule forJavaFileObjects(final Iterable<JavaFileObject> sources) {
+		checkNotNull(sources, "Argument \'sources\' cannot be null.");
+		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
 		
-		if (!source.exists()) {
-			throw new IllegalArgumentException("File \'" + source + "\' does not exist.");
-		}
-		
-		try {
-			this.source = JavaFileObjects.forResource(source.toURI().toURL());
-		} catch (final MalformedURLException e) {
-			throw new RuntimeException("Could not get URL for source file.", e);
-		}
+		return new AvatarRule(sources);
 	}
 	
-	public AvatarRule(final String sourceFilePath) {
-		this(new File(checkNotNull(sourceFilePath, "Argument \'sourceFilePath\' cannot be null.")));
+	public static AvatarRule forJavaFileObjects(final JavaFileObject... sources) {
+		checkNotNull(sources, "Argument \'sources\' cannot be null.");
+		
+		return AvatarRule.forJavaFileObjects(Arrays.asList(sources));
+	}
+	
+	public static AvatarRule forFiles(final Iterable<File> sources) {
+		checkNotNull(sources, "Argument \'sources\' cannot be null.");
+		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
+		
+		final List<JavaFileObject> javaFileObjects = new ArrayList<>();
+		
+		for (final File source : sources) {
+			if (!source.exists()) {
+				throw new IllegalArgumentException("File \'" + source + "\' does not exist.");
+			}
+			
+			try {
+				javaFileObjects.add(JavaFileObjects.forResource(source.toURI().toURL()));
+			} catch (final MalformedURLException e) {
+				throw new RuntimeException("Could not get URL for file \'" + source + "\'.", e);
+			}
+		}
+		
+		return AvatarRule.forJavaFileObjects(javaFileObjects);
+	}
+	
+	public static AvatarRule forFiles(final File... sources) {
+		checkNotNull(sources, "Argument \'sources\' cannot be null.");
+		
+		return AvatarRule.forFiles(Arrays.asList(sources));
+	}
+	
+	public static AvatarRule forFilesAt(final Iterable<String> sourcePaths) {
+		checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
+		checkNotContainsNull(sourcePaths, "Argument \'sourcePaths\' cannot contain null.");
+		
+		final List<File> files = new ArrayList<>();
+		
+		for (final String sourcePath : sourcePaths) {
+			final File sourceFile = new File(sourcePath);
+			
+			if (!sourceFile.exists()) {
+				throw new IllegalArgumentException("File \'" + sourceFile + "\' does not exist.");
+			}
+			
+			files.add(sourceFile);
+		}
+		
+		return AvatarRule.forFiles(files);
+	}
+	
+	public static AvatarRule forFilesAt(final String... sourcePaths) {
+		checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
+		
+		return AvatarRule.forFilesAt(Arrays.asList(sourcePaths));
 	}
 	
 	@Override
@@ -63,63 +115,7 @@ public class AvatarRule implements TestRule {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				compilationResult = CompilerUtil.compileUsingProcessor(source, new AbstractProcessor() {
-					@Override
-					public synchronized void init(final ProcessingEnvironment processingEnvironment) {
-						super.init(processingEnvironment);
-						AvatarRule.this.processingEnvironment = processingEnvironment;
-					}
-					
-					@Override
-					public Set<String> getSupportedAnnotationTypes() {
-						return ImmutableSet.of("*");
-					}
-					
-					@Override
-					public boolean process(
-							final Set<? extends TypeElement> annotations,
-							final RoundEnvironment roundEnvironment) {
-						
-						roundEnvironments.add(roundEnvironment);
-						rootElements.addAll(roundEnvironment.getRootElements());
-						
-						collectElementsByAnnotation(annotations, roundEnvironment);
-						collectElementsById(roundEnvironment);
-						
-						return false;
-					}
-					
-					private void collectElementsByAnnotation(
-							final Set<? extends TypeElement> annotations,
-							final RoundEnvironment roundEnvironment) {
-						
-						for (final TypeElement annotation : annotations) {
-							final String annotationName = annotation.getQualifiedName().toString();
-							
-							if (!elementsByAnnotationName.containsKey(annotationName)) {
-								elementsByAnnotationName.put(annotationName, new HashSet<Element>());
-							}
-							
-							elementsByAnnotationName
-									.get(annotationName)
-									.addAll(roundEnvironment.getElementsAnnotatedWith(annotation));
-						}
-					}
-					
-					private void collectElementsById(final RoundEnvironment roundEnvironment) {
-						
-						for (final Element e : roundEnvironment.getElementsAnnotatedWith(ElementId.class)) {
-							final ElementId elementId = e.getAnnotation(ElementId.class);
-							final String id = elementId.value();
-							
-							if (!elementsById.containsKey(id)) {
-								elementsById.put(id, new HashSet<Element>());
-							}
-							
-							elementsById.get(id).add(e);
-						}
-					}
-				});
+				compilationResult = CompilerUtil.compileUsingProcessor(new AvatarRule.Processor(), sources);
 				
 				base.evaluate();
 			}
@@ -202,5 +198,62 @@ public class AvatarRule implements TestRule {
 		}
 		
 		return rootElements;
+	}
+	
+	private class Processor extends AbstractProcessor {
+		@Override
+		public synchronized void init(final ProcessingEnvironment processingEnvironment) {
+			super.init(processingEnvironment);
+			AvatarRule.this.processingEnvironment = processingEnvironment;
+		}
+		
+		@Override
+		public Set<String> getSupportedAnnotationTypes() {
+			return ImmutableSet.of("*");
+		}
+		
+		@Override
+		public boolean process(
+				final Set<? extends TypeElement> annotations,
+				final RoundEnvironment roundEnvironment) {
+			
+			roundEnvironments.add(roundEnvironment);
+			rootElements.addAll(roundEnvironment.getRootElements());
+			
+			collectElementsByAnnotation(annotations, roundEnvironment);
+			collectElementsById(roundEnvironment);
+			
+			return false;
+		}
+		
+		private void collectElementsByAnnotation(
+				final Set<? extends TypeElement> annotations,
+				final RoundEnvironment roundEnvironment) {
+			
+			for (final TypeElement annotation : annotations) {
+				final String annotationName = annotation.getQualifiedName().toString();
+				
+				if (!elementsByAnnotationName.containsKey(annotationName)) {
+					elementsByAnnotationName.put(annotationName, new HashSet<Element>());
+				}
+				
+				elementsByAnnotationName
+						.get(annotationName)
+						.addAll(roundEnvironment.getElementsAnnotatedWith(annotation));
+			}
+		}
+		
+		private void collectElementsById(final RoundEnvironment roundEnvironment) {
+			for (final Element e : roundEnvironment.getElementsAnnotatedWith(ElementId.class)) {
+				final ElementId elementId = e.getAnnotation(ElementId.class);
+				final String id = elementId.value();
+				
+				if (!elementsById.containsKey(id)) {
+					elementsById.put(id, new HashSet<Element>());
+				}
+				
+				elementsById.get(id).add(e);
+			}
+		}
 	}
 }
