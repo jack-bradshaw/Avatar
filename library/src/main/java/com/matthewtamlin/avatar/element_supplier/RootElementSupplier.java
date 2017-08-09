@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.element_supplier;
 
 import com.matthewtamlin.avatar.collectors.ElementCollector;
 import com.matthewtamlin.avatar.collectors.RootElementCollector;
+import com.matthewtamlin.avatar.compilation.CompilerMissingException;
 import com.matthewtamlin.avatar.compilation.CompilerUtil;
 import com.matthewtamlin.java_utilities.testing.Tested;
 

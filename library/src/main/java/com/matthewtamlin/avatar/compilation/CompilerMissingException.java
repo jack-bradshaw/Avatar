@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.element_supplier;
+package com.matthewtamlin.avatar.compilation;
 
 import javax.tools.JavaCompiler;
 
