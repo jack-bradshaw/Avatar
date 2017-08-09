@@ -2,7 +2,6 @@ package com.matthewtamlin.avatar.compilation;
 
 import com.google.common.collect.ImmutableSet;
 import com.matthewtamlin.avatar.collectors.ElementCollector;
-import com.matthewtamlin.avatar.element_supplier.CompilerMissingException;
 
 import javax.annotation.processing.Processor;
 import javax.tools.JavaCompiler;
