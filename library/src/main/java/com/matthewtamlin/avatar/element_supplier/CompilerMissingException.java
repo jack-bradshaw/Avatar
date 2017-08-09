@@ -4,10 +4,7 @@ import javax.tools.JavaCompiler;
 
 /**
  * Exception which indicates the absence of a {@link JavaCompiler} at runtime.
- *
- * @deprecated use {@link AvatarRule}
  */
-@Deprecated
 public class CompilerMissingException extends RuntimeException {
 	public CompilerMissingException() {
 		super();
