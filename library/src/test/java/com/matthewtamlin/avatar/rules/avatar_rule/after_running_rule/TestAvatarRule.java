@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(JUnit4.class)
 public class TestAvatarRule {
 	@Rule
-	public final AvatarRule rule = new AvatarRule(
+	public final AvatarRule rule = AvatarRule.forFilesAt(
 			"src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/after_running_rule/Data.java");
 	
 	@Test
