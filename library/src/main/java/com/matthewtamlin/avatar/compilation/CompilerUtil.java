@@ -1,7 +1,6 @@
 package com.matthewtamlin.avatar.compilation;
 
 import com.google.common.collect.ImmutableSet;
-import com.matthewtamlin.avatar.collectors.ElementCollector;
 
 import javax.annotation.processing.Processor;
 import javax.tools.JavaCompiler;
@@ -16,8 +15,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
- * A utility for compiling a {@link JavaFileObject} with an {@link ElementCollector}. All generated files are stored in
- * memory and will not be written to persistent storage.
+ * A utility for compiling java source code. All generated files are stored in memory.
  */
 public class CompilerUtil {
 	/**
@@ -28,7 +26,8 @@ public class CompilerUtil {
 	
 	/**
 	 * Compiles the supplied sources using the supplied processor. All generated files are stored in memory and will
-	 * not be written to persistent storage.
+	 * not
+	 * be written to persistent storage.
 	 *
 	 * @param processor
 	 * 		the processor to use when compiling, not null
@@ -50,7 +49,8 @@ public class CompilerUtil {
 	
 	/**
 	 * Compiles the supplied sources using the supplied processor. All generated files are stored in memory and will
-	 * not be written to persistent storage.
+	 * not
+	 * be written to persistent storage.
 	 *
 	 * @param processor
 	 * 		the processor to use when compiling, not null
