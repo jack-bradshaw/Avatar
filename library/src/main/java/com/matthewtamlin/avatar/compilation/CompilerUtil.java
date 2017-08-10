@@ -19,12 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class CompilerUtil {
 	/**
-	 * The exception to throw if there is no Java compiler available at runtime.
-	 */
-	private static final CompilerMissingException NO_COMPILER_EXCEPTION = new CompilerMissingException(
-			"Cannot get elements if there is no Java compiler available at runtime.");
-	
-	/**
 	 * Compiles the supplied sources with the system Java compiler and the supplied processor. All generated files are
 	 * stored in memory.
 	 *
@@ -70,11 +64,12 @@ public class CompilerUtil {
 		checkNotNull(sources, "Argument \'sources\' cannot be null.");
 		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
 		
-		final JavaCompiler compiler = checkNotNull(ToolProvider.getSystemJavaCompiler(), NO_COMPILER_EXCEPTION);
+		final JavaCompiler compiler = checkNotNull(
+				ToolProvider.getSystemJavaCompiler(),
+				new CompilerMissingException("Cannot get elements if there is no Java compiler available at runtime."));
 		
 		final DiagnosticCollector<JavaFileObject> diagnostic = new DiagnosticCollector<>();
-		final JavaFileManager baseFileManager = compiler.getStandardFileManager(diagnostic, Locale.getDefault(),
-				UTF_8);
+		final JavaFileManager baseFileManager = compiler.getStandardFileManager(diagnostic, Locale.getDefault(), UTF_8);
 		final InMemoryJavaFileManager inMemoryFileManager = new InMemoryJavaFileManager(baseFileManager);
 		
 		final JavaCompiler.CompilationTask task = compiler.getTask(
