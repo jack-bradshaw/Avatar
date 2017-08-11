@@ -58,8 +58,10 @@ public class CompilerUtil {
 	 * @throws IllegalArgumentException
 	 * 		if (@code sources} contains null
 	 */
-	public static CompilationResult compileUsingProcessor(final Processor processor, Iterable<JavaFileObject>
-			sources) {
+	public static CompilationResult compileUsingProcessor(
+			final Processor processor,
+			final Iterable<JavaFileObject> sources) {
+		
 		checkNotNull(processor, "Argument \'processor\' cannot be null.");
 		checkNotNull(sources, "Argument \'sources\' cannot be null.");
 		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
