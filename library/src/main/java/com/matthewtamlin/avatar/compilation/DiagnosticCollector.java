@@ -14,7 +14,7 @@ import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull
  * 		the type of diagnostic to collect
  */
 public class DiagnosticCollector<T> implements DiagnosticListener<T> {
-	private List<Diagnostic<? extends T>> diagnostics = new ArrayList<>();
+	private final List<Diagnostic<? extends T>> diagnostics = new ArrayList<>();
 	
 	@Override
 	public void report(final Diagnostic<? extends T> diagnostic) {
