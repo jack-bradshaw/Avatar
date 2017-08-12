@@ -121,10 +121,16 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	}
 	
 	/**
-	 * Creates a URI for a class file of the form "BASE_LOCATION" + "location" + "/" + "packageName" + "/" +
-	 * "relativeName". All '.' characters in the packageName are replaced with '/' characters.
+	 * Creates a URI for a class file using a location, a package name, and a relative class name.
 	 *
-	 * @return the URI
+	 * @param location
+	 * 		the location of the file relative to {@code BASE_LOCATION}, not null
+	 * @param packageName
+	 * 		the package name of the class, not null
+	 * @param relativeName
+	 * 		the name of the class, relative to the package name, not null
+	 *
+	 * @return the URI, not null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
@@ -148,9 +154,16 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	}
 	
 	/**
-	 * Creates a URI for a class file. The URI is of the form "BASE_LOCATION" + "location" + "/" + "className" +
-	 * "extension", where all '.' characters in the className are replaced with '/' characters, and the extension is
-	 * defined by the kind.
+	 * Creates a URI for a class file using a location, a class name, and a kind.
+	 *
+	 * @param location
+	 * 		the location of the file relative to {@code BASE_LOCATION}, not null
+	 * @param className
+	 * 		the name of the class, not null
+	 * @param kind
+	 * 		the kind of the class, not null
+	 *
+	 * @return the URI, not null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
