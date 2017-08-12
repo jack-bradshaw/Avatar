@@ -131,11 +131,22 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	 * 		the name of the class, relative to the package name, not null
 	 *
 	 * @return the URI, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code location} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code packageName} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code relativeName} is null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
 			final String packageName,
 			final String relativeName) {
+		
+		checkNotNull(location, "Argument \'location\' cannot be null.");
+		checkNotNull(packageName, "Argument \'packageName\' cannot be null.");
+		checkNotNull(relativeName, "Argument \'relativeName\' cannot be null.");
 		
 		final StringBuilder uri = new StringBuilder();
 		
@@ -164,6 +175,13 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	 * 		the kind of the class, not null
 	 *
 	 * @return the URI, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code location} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code className} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code kind} is null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
