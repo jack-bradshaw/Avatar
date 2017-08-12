@@ -17,7 +17,7 @@ public class InMemoryJavaFileObject extends SimpleJavaFileObject {
 	/**
 	 * The encoding used by the file.
 	 */
-	private final Charset charset = Charset.defaultCharset();
+	private static final Charset charset = Charset.defaultCharset();
 	
 	/**
 	 * The contents of the file.
