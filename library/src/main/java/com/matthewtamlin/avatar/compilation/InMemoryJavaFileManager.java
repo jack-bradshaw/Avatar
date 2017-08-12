@@ -46,8 +46,8 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 		
 		if (location.isOutputLocation()) {
 			final URI uri = createUri(location, packageName, relativeName);
-			return files.containsKey(uri) ? files.get(uri) : null;
 			
+			return files.containsKey(uri) ? files.get(uri) : null;
 		} else {
 			return super.getFileForInput(location, packageName, relativeName);
 		}
@@ -68,7 +68,6 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 			}
 			
 			return files.get(uri);
-			
 		} else {
 			return super.getJavaFileForInput(location, className, kind);
 		}
