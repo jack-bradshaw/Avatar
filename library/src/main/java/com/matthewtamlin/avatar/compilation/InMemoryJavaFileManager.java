@@ -15,8 +15,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A Java file manager which stores files in memory instead writing them to the disk. This class is not currently part
- * of the public API because if does not fully comply with the {@link JavaFileManager} interface contract.
+ * A Java file manager which stores files in memory.
  */
 public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
 	private static final String BASE_LOCATION = "memory:///";
@@ -27,7 +26,7 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	 * Constructs a new InMemoryJavaFileManager by wrapping the supplied file manager and storing its files in memory.
 	 *
 	 * @param fileManager
-	 * 		the file manager to wrap
+	 * 		the file manager to wrap, not null
 	 */
 	public InMemoryJavaFileManager(final JavaFileManager fileManager) {
 		super(fileManager);
@@ -114,6 +113,9 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 		super.close();
 	}
 	
+	/**
+	 * @return all output files, may be empty, not null
+	 */
 	public Set<JavaFileObject> getOutputFiles() {
 		return new HashSet<>(files.values());
 	}
