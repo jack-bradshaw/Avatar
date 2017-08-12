@@ -39,7 +39,7 @@ public class InMemoryJavaFileObject extends SimpleJavaFileObject {
 	 * 		if {@code uri} is null
 	 */
 	public InMemoryJavaFileObject(final URI uri) {
-		super(uri, getKindFromExtension(uri));
+		super(checkNotNull(uri, "Argument \'uri\' cannot be null."), getKindFromExtension(uri));
 	}
 	
 	@Override
