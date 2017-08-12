@@ -33,7 +33,7 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	}
 	
 	@Override
-	public boolean isSameFile(FileObject a, FileObject b) {
+	public boolean isSameFile(final FileObject a, final FileObject b) {
 		return a.toUri().equals(b.toUri());
 	}
 	
