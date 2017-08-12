@@ -19,6 +19,7 @@ public class DiagnosticCollector<T> implements DiagnosticListener<T> {
 	@Override
 	public void report(final Diagnostic<? extends T> diagnostic) {
 		checkNotNull(diagnostic, "Argument \'diagnostic\' cannot be null.");
+		
 		diagnostics.add(diagnostic);
 	}
 	
