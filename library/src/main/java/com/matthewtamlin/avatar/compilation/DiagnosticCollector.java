@@ -26,6 +26,6 @@ public class DiagnosticCollector<T> implements DiagnosticListener<T> {
 	 * @return the collected diagnostics, may be empty, not null
 	 */
 	public List<Diagnostic<? extends T>> getDiagnostics() {
-		return diagnostics;
+		return new ArrayList<>(diagnostics);
 	}
 }
