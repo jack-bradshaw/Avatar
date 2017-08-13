@@ -72,76 +72,8 @@ public class AvatarRule implements TestRule {
 	 */
 	private CompilationResult compilationResult;
 	
-	private AvatarRule(final Iterable<JavaFileObject> sources) {
-		checkNotNull(sources, "Argument \'sources\' cannot be null.");
-		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
-		
-		this.sources = ImmutableList.copyOf(sources);
-	}
-	
-	public static AvatarRule forJavaFileObjects(final Iterable<JavaFileObject> sources) {
-		checkNotNull(sources, "Argument \'sources\' cannot be null.");
-		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
-		
-		return new AvatarRule(sources);
-	}
-	
-	public static AvatarRule forJavaFileObjects(final JavaFileObject... sources) {
-		checkNotNull(sources, "Argument \'sources\' cannot be null.");
-		
-		return AvatarRule.forJavaFileObjects(Arrays.asList(sources));
-	}
-	
-	public static AvatarRule forFiles(final Iterable<File> sources) {
-		checkNotNull(sources, "Argument \'sources\' cannot be null.");
-		checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
-		
-		final List<JavaFileObject> javaFileObjects = new ArrayList<>();
-		
-		for (final File source : sources) {
-			if (!source.exists()) {
-				throw new IllegalArgumentException("File \'" + source + "\' does not exist.");
-			}
-			
-			try {
-				javaFileObjects.add(JavaFileObjects.forResource(source.toURI().toURL()));
-			} catch (final MalformedURLException e) {
-				throw new RuntimeException("Could not get URL for file \'" + source + "\'.", e);
-			}
-		}
-		
-		return AvatarRule.forJavaFileObjects(javaFileObjects);
-	}
-	
-	public static AvatarRule forFiles(final File... sources) {
-		checkNotNull(sources, "Argument \'sources\' cannot be null.");
-		
-		return AvatarRule.forFiles(Arrays.asList(sources));
-	}
-	
-	public static AvatarRule forFilesAt(final Iterable<String> sourcePaths) {
-		checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
-		checkNotContainsNull(sourcePaths, "Argument \'sourcePaths\' cannot contain null.");
-		
-		final List<File> files = new ArrayList<>();
-		
-		for (final String sourcePath : sourcePaths) {
-			final File sourceFile = new File(sourcePath);
-			
-			if (!sourceFile.exists()) {
-				throw new IllegalArgumentException("File \'" + sourceFile + "\' does not exist.");
-			}
-			
-			files.add(sourceFile);
-		}
-		
-		return AvatarRule.forFiles(files);
-	}
-	
-	public static AvatarRule forFilesAt(final String... sourcePaths) {
-		checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
-		
-		return AvatarRule.forFilesAt(Arrays.asList(sourcePaths));
+	private AvatarRule(final Builder builder) {
+		this.sources = ImmutableList.copyOf(builder.sources);
 	}
 	
 	@Override
@@ -387,6 +319,110 @@ public class AvatarRule implements TestRule {
 				
 				elementsById.get(id).add(e);
 			}
+		}
+	}
+	
+	public static class Builder {
+		private Iterable<JavaFileObject> sources;
+		
+		public AvatarRule build() {
+			checkNotNull(sources, "Sources must be provided before AvatarRule can be built.");
+			
+			return new AvatarRule(this);
+		}
+		
+		public Builder withSourceFileObjects(final Iterable<JavaFileObject> sources) {
+			if (sources == null) {
+				this.sources = null;
+				
+				return this;
+			}
+			
+			checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
+			
+			this.sources = sources;
+			
+			return this;
+		}
+		
+		public Builder withSourceFileObjects(final JavaFileObject... sources) {
+			if (sources == null) {
+				this.sources = null;
+				
+				return this;
+			}
+			
+			return withSourceFileObjects(Arrays.asList(sources));
+		}
+		
+		public Builder withSourceFiles(final Iterable<File> sources) {
+			if (sources == null) {
+				this.sources = null;
+				
+				return this;
+			}
+			
+			final List<JavaFileObject> javaFileObjects = new ArrayList<>();
+			
+			for (final File source : sources) {
+				checkNotNull(source, "Argument \'sources\' cannot contain null.");
+				
+				if (!source.exists()) {
+					throw new IllegalArgumentException("File \'" + source + "\' does not exist.");
+				}
+				
+				try {
+					javaFileObjects.add(JavaFileObjects.forResource(source.toURI().toURL()));
+				} catch (final MalformedURLException e) {
+					throw new RuntimeException("Could not get URL for file \'" + source + "\'.", e);
+				}
+			}
+			
+			return withSourceFileObjects(javaFileObjects);
+		}
+		
+		public Builder withSourceFiles(final File... sources) {
+			if (sources == null) {
+				this.sources = null;
+				
+				return this;
+			}
+			
+			return withSourceFiles(Arrays.asList(sources));
+		}
+		
+		public Builder withSourcesAt(final Iterable<String> sourcePaths) {
+			if (sourcePaths == null) {
+				sources = null;
+				
+				return this;
+			}
+			
+			final List<File> files = new ArrayList<>();
+			
+			for (final String sourcePath : sourcePaths) {
+				checkNotNull(sourcePath, "Argument \'sourcePaths\' cannot contain null.");
+				
+				final File sourceFile = new File(sourcePath);
+				
+				if (!sourceFile.exists()) {
+					throw new IllegalArgumentException("File \'" + sourceFile + "\' does not exist.");
+				}
+				
+				files.add(sourceFile);
+			}
+			
+			return withSourceFiles(files);
+		}
+		
+		public Builder withSourcesAt(final String... sourcePaths) {
+			if (sourcePaths == null) {
+				sources = null;
+				
+				return this;
+			}
+			
+			return withSourcesAt(Arrays.asList(sourcePaths));
 		}
 	}
 }
