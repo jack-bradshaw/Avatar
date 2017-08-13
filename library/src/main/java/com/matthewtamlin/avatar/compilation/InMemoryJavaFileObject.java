@@ -11,18 +11,35 @@ import java.nio.charset.Charset;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A Java file object which stores data in memory instead of on disk. This class is not currently part of the public API
- * because if does not fully comply with the {@link JavaFileObject} interface contract.
+ * A Java file object which stores data in memory.
  */
 public class InMemoryJavaFileObject extends SimpleJavaFileObject {
-	private final Charset charset = Charset.defaultCharset();
+	/**
+	 * The encoding used by the file.
+	 */
+	private static final Charset charset = Charset.defaultCharset();
 	
+	/**
+	 * The contents of the file.
+	 */
 	private ByteSource data;
 	
+	/**
+	 * The time this file was last modified, measured in milliseconds since the epoch date.
+	 */
 	private long lastModifiedMsFromEpoch = 0L;
 	
+	/**
+	 * Constructs a new InMemoryJavaFileObject for the file located at the supplied URI.
+	 *
+	 * @param uri
+	 * 		a URI pointing at the file, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code uri} is null
+	 */
 	public InMemoryJavaFileObject(final URI uri) {
-		super(uri, getKindFromExtension(uri));
+		super(checkNotNull(uri, "Argument \'uri\' cannot be null."), getKindFromExtension(uri));
 	}
 	
 	@Override
@@ -89,6 +106,17 @@ public class InMemoryJavaFileObject extends SimpleJavaFileObject {
 		return true;
 	}
 	
+	/**
+	 * Extracts the {@link Kind} from a file.
+	 *
+	 * @param uri
+	 * 		points at the file to get the kind of, not null
+	 *
+	 * @return the kind of the file, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code uri} is null
+	 */
 	private static JavaFileObject.Kind getKindFromExtension(final URI uri) {
 		checkNotNull(uri, "Argument \'uri\' cannot be null.");
 		
