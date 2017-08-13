@@ -257,6 +257,13 @@ public class AvatarRule implements TestRule {
 	}
 	
 	/**
+	 * @return a new {@link Builder}, not null
+	 */
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	/**
 	 * A processor which collects elements and other important objects during compilation, and assigns them to the
 	 * member
 	 * variables of the AvatarRule.
