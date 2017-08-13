@@ -1,9 +1,12 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.without_running;
 
+import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import org.junit.Test;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.junit.runners.model.Statement;
 
 import javax.tools.JavaFileObject;
 import java.io.File;
@@ -424,5 +427,27 @@ public class TestAvatarRule {
 				.build();
 		
 		rule.getRootElements();
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationRequired() throws Throwable {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
+				.withSuccessfulCompilationRequired(true)
+				.build()
+				.apply(mock(Statement.class), mock(Description.class))
+				.evaluate();
+	}
+	
+	@Test
+	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationNotRequired() throws Throwable {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
+				.withSuccessfulCompilationRequired(false)
+				.build()
+				.apply(mock(Statement.class), mock(Description.class))
+				.evaluate();
 	}
 }
