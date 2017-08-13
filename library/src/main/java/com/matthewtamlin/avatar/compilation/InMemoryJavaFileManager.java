@@ -15,8 +15,7 @@ import java.util.Set;
 import static com.matthewtamlin.java_utilities.checkers.NullChecker.checkNotNull;
 
 /**
- * A Java file manager which stores files in memory instead writing them to the disk. This class is not currently part
- * of the public API because if does not fully comply with the {@link JavaFileManager} interface contract.
+ * A Java file manager which stores files in memory.
  */
 public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
 	private static final String BASE_LOCATION = "memory:///";
@@ -27,14 +26,14 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	 * Constructs a new InMemoryJavaFileManager by wrapping the supplied file manager and storing its files in memory.
 	 *
 	 * @param fileManager
-	 * 		the file manager to wrap
+	 * 		the file manager to wrap, not null
 	 */
 	public InMemoryJavaFileManager(final JavaFileManager fileManager) {
 		super(fileManager);
 	}
 	
 	@Override
-	public boolean isSameFile(FileObject a, FileObject b) {
+	public boolean isSameFile(final FileObject a, final FileObject b) {
 		return a.toUri().equals(b.toUri());
 	}
 	
@@ -47,8 +46,8 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 		
 		if (location.isOutputLocation()) {
 			final URI uri = createUri(location, packageName, relativeName);
-			return files.containsKey(uri) ? files.get(uri) : null;
 			
+			return files.containsKey(uri) ? files.get(uri) : null;
 		} else {
 			return super.getFileForInput(location, packageName, relativeName);
 		}
@@ -69,7 +68,6 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 			}
 			
 			return files.get(uri);
-			
 		} else {
 			return super.getJavaFileForInput(location, className, kind);
 		}
@@ -114,20 +112,40 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 		super.close();
 	}
 	
+	/**
+	 * @return all output files, may be empty, not null
+	 */
 	public Set<JavaFileObject> getOutputFiles() {
 		return new HashSet<>(files.values());
 	}
 	
 	/**
-	 * Creates a URI for a class file of the form "BASE_LOCATION" + "location" + "/" + "packageName" + "/" +
-	 * "relativeName". All '.' characters in the packageName are replaced with '/' characters.
+	 * Creates a URI for a class file using a location, a package name, and a relative class name.
 	 *
-	 * @return the URI
+	 * @param location
+	 * 		the location of the file relative to {@code BASE_LOCATION}, not null
+	 * @param packageName
+	 * 		the package name of the class, not null
+	 * @param relativeName
+	 * 		the name of the class, relative to the package name, not null
+	 *
+	 * @return the URI, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code location} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code packageName} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code relativeName} is null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
 			final String packageName,
 			final String relativeName) {
+		
+		checkNotNull(location, "Argument \'location\' cannot be null.");
+		checkNotNull(packageName, "Argument \'packageName\' cannot be null.");
+		checkNotNull(relativeName, "Argument \'relativeName\' cannot be null.");
 		
 		final StringBuilder uri = new StringBuilder();
 		
@@ -146,9 +164,23 @@ public class InMemoryJavaFileManager extends ForwardingJavaFileManager<JavaFileM
 	}
 	
 	/**
-	 * Creates a URI for a class file. The URI is of the form "BASE_LOCATION" + "location" + "/" + "className" +
-	 * "extension", where all '.' characters in the className are replaced with '/' characters, and the extension is
-	 * defined by the kind.
+	 * Creates a URI for a class file using a location, a class name, and a kind.
+	 *
+	 * @param location
+	 * 		the location of the file relative to {@code BASE_LOCATION}, not null
+	 * @param className
+	 * 		the name of the class, not null
+	 * @param kind
+	 * 		the kind of the class, not null
+	 *
+	 * @return the URI, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if {@code location} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code className} is null
+	 * @throws IllegalArgumentException
+	 * 		if {@code kind} is null
 	 */
 	private static URI createUri(
 			final JavaFileManager.Location location,
