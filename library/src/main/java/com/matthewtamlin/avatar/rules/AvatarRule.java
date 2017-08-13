@@ -343,7 +343,7 @@ public class AvatarRule implements TestRule {
 	}
 	
 	/**
-	 * Builds AvatarRule instances.
+	 * Builds {@link AvatarRule} instances.
 	 */
 	public static class Builder {
 		/**
@@ -352,21 +352,33 @@ public class AvatarRule implements TestRule {
 		private Iterable<JavaFileObject> sources;
 		
 		/**
-		 * If true, compilation must succeed without error.
+		 * Whether or not compilation must complete without error.
 		 */
 		private boolean requireSuccessfulCompilation = true;
 		
 		/**
-		 * Constructs a new AvatarRule based on the values provided to this builder.
+		 * Constructs a new {@link AvatarRule} based on the values provided to this builder. The operation will fail if
+		 * no sources have been set.
 		 *
 		 * @return the new AvatarRule, not null
 		 */
 		public AvatarRule build() {
-			checkNotNull(sources, new IllegalStateException("Sources must be provided before AvatarRule can be built."));
+			checkNotNull(sources, new IllegalStateException("Sources must be set before AvatarRule can be built."));
 			
 			return new AvatarRule(this);
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sources
+		 * 		the sources to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 */
 		public Builder withSourceFileObjects(final Iterable<JavaFileObject> sources) {
 			if (sources == null) {
 				this.sources = null;
@@ -381,6 +393,17 @@ public class AvatarRule implements TestRule {
 			return this;
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sources
+		 * 		the sources to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 */
 		public Builder withSourceFileObjects(final JavaFileObject... sources) {
 			if (sources == null) {
 				this.sources = null;
@@ -391,6 +414,19 @@ public class AvatarRule implements TestRule {
 			return withSourceFileObjects(Arrays.asList(sources));
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sources
+		 * 		the source files to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the files are non-existent
+		 */
 		public Builder withSourceFiles(final Iterable<File> sources) {
 			if (sources == null) {
 				this.sources = null;
@@ -417,6 +453,19 @@ public class AvatarRule implements TestRule {
 			return withSourceFileObjects(javaFileObjects);
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sources
+		 * 		the source files to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the files are non-existent
+		 */
 		public Builder withSourceFiles(final File... sources) {
 			if (sources == null) {
 				this.sources = null;
@@ -427,6 +476,19 @@ public class AvatarRule implements TestRule {
 			return withSourceFiles(Arrays.asList(sources));
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sourcePaths
+		 * 		the paths of the source files to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the paths point to non-existent files
+		 */
 		public Builder withSourcesAt(final Iterable<String> sourcePaths) {
 			if (sourcePaths == null) {
 				sources = null;
@@ -451,6 +513,19 @@ public class AvatarRule implements TestRule {
 			return withSourceFiles(files);
 		}
 		
+		/**
+		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 *
+		 * @param sourcePaths
+		 * 		the paths of the source files to compile, may be null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the paths point to non-existent files
+		 */
 		public Builder withSourcesAt(final String... sourcePaths) {
 			if (sourcePaths == null) {
 				sources = null;
@@ -461,6 +536,14 @@ public class AvatarRule implements TestRule {
 			return withSourcesAt(Arrays.asList(sourcePaths));
 		}
 		
+		/**
+		 * Sets whether or not compilation must succeed without error, replacing any value which has been set previously.
+		 *
+		 * @param required
+		 * 		true if compilation must succeed without error, false otherwise
+		 *
+		 * @return this builder
+		 */
 		public Builder withSuccessfulCompilationRequired(final boolean required) {
 			requireSuccessfulCompilation = required;
 			
