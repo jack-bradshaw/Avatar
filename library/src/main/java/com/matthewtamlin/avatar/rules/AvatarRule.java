@@ -362,7 +362,7 @@ public class AvatarRule implements TestRule {
 		 * @return the new AvatarRule, not null
 		 */
 		public AvatarRule build() {
-			checkNotNull(sources, "Sources must be provided before AvatarRule can be built.");
+			checkNotNull(sources, new IllegalStateException("Sources must be provided before AvatarRule can be built."));
 			
 			return new AvatarRule(this);
 		}
