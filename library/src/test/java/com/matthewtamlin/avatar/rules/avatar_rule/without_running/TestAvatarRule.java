@@ -19,263 +19,409 @@ public class TestAvatarRule {
 	private static final String DATA_FILE_PATH =
 			"src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/without_running/Data.java";
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testForJavaFileObjects_iterableVariant_nullIterable() {
-		AvatarRule.forJavaFileObjects((Iterable<JavaFileObject>) null);
+	@Test(expected = IllegalStateException.class)
+	public void testInstantiateViaBuilder_noSourcesSet() {
+		AvatarRule
+				.builder()
+				.withSuccessfulCompilationRequired(false)
+				.build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_iterableVariant_emptyIterable() {
+	public void testInstantiateViaBuilder_noSuccessfulCompilationRequiredFlagSet() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInstantiateViaBuilder_sourcesSetThenCleared() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.withSourcesAt((Iterable<String>) null)
+				.build();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_nullIterable() {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects((Iterable<JavaFileObject>) null)
+				.build();
+	}
+	
+	@Test
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_emptyIterable() {
 		final List<JavaFileObject> sources = new ArrayList<>();
 		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForJavaFileObjects_iterableVariant_iterableContainingNull() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_iterableContainingNull() {
 		final List<JavaFileObject> sources = new ArrayList<>();
 		sources.add(null);
 		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_iterableVariant_iterableContainingOneValidItem() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_iterableContainingOneValidItem() {
 		final List<JavaFileObject> sources = new ArrayList<>();
 		sources.add(mock(JavaFileObject.class));
 		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_iterableVariant_iterableContainingMultipleValidItems() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_iterableContainingMultipleValidItems() {
 		final List<JavaFileObject> sources = new ArrayList<>();
 		sources.add(mock(JavaFileObject.class));
 		sources.add(mock(JavaFileObject.class));
 		
-		AvatarRule.forJavaFileObjects(sources);
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForJavaFileObjects_varargVariant_nullValue() {
-		AvatarRule.forJavaFileObjects((JavaFileObject) null);
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_nullArray() {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects((JavaFileObject) null)
+				.build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_varargVariant_emptyArray() {
-		AvatarRule.forJavaFileObjects(new JavaFileObject[]{});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_emptyArray() {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(new JavaFileObject[]{})
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForJavaFileObjects_varargVariant_arrayContainingNull() {
-		AvatarRule.forJavaFileObjects(new JavaFileObject[]{null});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_arrayContainingNull() {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(new JavaFileObject[]{null})
+				.build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_varargVariant_arrayContainingOneValidItem() {
-		AvatarRule.forJavaFileObjects(mock(JavaFileObject.class));
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_arrayContainingOneValidItem() {
+		AvatarRule.builder().withSourceFileObjects(new JavaFileObject[]{mock(JavaFileObject.class)}).build();
 	}
 	
 	@Test
-	public void testForJavaFileObjects_varargVariant_iterableContainingMultipleValidItems() {
-		AvatarRule.forJavaFileObjects(mock(JavaFileObject.class), mock(JavaFileObject.class));
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_arrayContainingMultipleValidItems() {
+		AvatarRule
+				.builder()
+				.withSourceFileObjects(mock(JavaFileObject.class), mock(JavaFileObject.class))
+				.build();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_iterableVariant_nullIterable() {
-		AvatarRule.forFiles((Iterable<File>) null);
+	@Test(expected = IllegalStateException.class)
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_nullIterable() {
+		AvatarRule
+				.builder()
+				.withSourceFiles((Iterable<File>) null)
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_iterableVariant_emptyIterable() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_emptyIterable() {
 		final List<File> sources = new ArrayList<>();
 		
-		AvatarRule.forFiles(sources);
+		AvatarRule
+				.builder()
+				.withSourceFiles(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_iterableVariant_iterableContainingNull() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_iterableContainingNull() {
 		final List<File> sources = new ArrayList<>();
 		sources.add(null);
 		
-		AvatarRule.forFiles(sources);
+		AvatarRule
+				.builder()
+				.withSourceFiles(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_iterableVariant_iterableContainingNonExistentFile() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_iterableContainingNonExistentFile() {
 		final List<File> sources = new ArrayList<>();
 		sources.add(new File("I don't exist"));
 		
-		AvatarRule.forFiles(sources);
+		AvatarRule
+				.builder()
+				.withSourceFiles(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_iterableVariant_iterableContainingOneValidItem() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_iterableContainingOneValidItem() {
 		final List<File> sources = new ArrayList<>();
 		sources.add(new File(DATA_FILE_PATH));
 		
-		AvatarRule.forFiles(sources);
+		AvatarRule
+				.builder()
+				.withSourceFiles(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_iterableVariant_iterableContainingMultipleValidItems() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_iterableContainingMultipleValidItems() {
 		final List<File> sources = new ArrayList<>();
 		sources.add(new File(DATA_FILE_PATH));
 		sources.add(new File(DATA_FILE_PATH));
 		
-		AvatarRule.forFiles(sources);
+		AvatarRule
+				.builder()
+				.withSourceFiles(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_varargVariant_nullValue() {
-		AvatarRule.forFiles((File) null);
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_nullArray() {
+		AvatarRule
+				.builder()
+				.withSourceFiles((File) null)
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_varargVariant_emptyArray() {
-		AvatarRule.forFiles(new File[]{});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_emptyArray() {
+		AvatarRule
+				.builder()
+				.withSourceFiles(new File[]{})
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_varargVariant_arrayContainingNull() {
-		AvatarRule.forFiles(new File[]{null});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_arrayContainingNull() {
+		AvatarRule
+				.builder()
+				.withSourceFiles(new File[]{null})
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFiles_varargVariant_arrayContainingNonExistentFile() {
-		AvatarRule.forFiles(new File("I don't exist"));
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_arrayContainingNonExistentFile() {
+		AvatarRule
+				.builder()
+				.withSourceFiles(new File("I don't exist"))
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_varargVariant_arrayContainingOneValidItem() {
-		AvatarRule.forFiles(new File(DATA_FILE_PATH));
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_arrayContainingOneValidItem() {
+		AvatarRule
+				.builder()
+				.withSourceFiles(new File(DATA_FILE_PATH))
+				.build();
 	}
 	
 	@Test
-	public void testForFiles_varargVariant_iterableContainingMultipleValidItems() {
-		AvatarRule.forFiles(new File(DATA_FILE_PATH), new File(DATA_FILE_PATH));
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_arrayContainingMultipleValidItems() {
+		AvatarRule
+				.builder()
+				.withSourceFiles(new File(DATA_FILE_PATH), new File(DATA_FILE_PATH))
+				.build();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_iterableVariant_nullIterable() {
-		AvatarRule.forFilesAt((Iterable<String>) null);
+	@Test(expected = IllegalStateException.class)
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_nullIterable() {
+		AvatarRule
+				.builder()
+				.withSourcesAt((Iterable<String>) null)
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_iterableVariant_emptyIterable() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_emptyIterable() {
 		final List<String> sources = new ArrayList<>();
 		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule
+				.builder()
+				.withSourcesAt(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_iterableVariant_iterableContainingNull() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_iterableContainingNull() {
 		final List<String> sources = new ArrayList<>();
 		sources.add(null);
 		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule
+				.builder()
+				.withSourcesAt(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_iterableVariant_iterableContainingNonExistentFilePath() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_iterableContainingNonExistentFilePath() {
 		final List<String> sources = new ArrayList<>();
 		sources.add("I don't exist");
 		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule
+				.builder()
+				.withSourcesAt(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_iterableVariant_iterableContainingOneValidItem() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_iterableContainingOneValidItem() {
 		final List<String> sources = new ArrayList<>();
 		sources.add(DATA_FILE_PATH);
 		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule
+				.builder()
+				.withSourcesAt(sources)
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_iterableVariant_iterableContainingMultipleValidItems() {
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_iterableContainingMultipleValidItems() {
 		final List<String> sources = new ArrayList<>();
 		sources.add(DATA_FILE_PATH);
 		sources.add(DATA_FILE_PATH);
 		
-		AvatarRule.forFilesAt(sources);
+		AvatarRule
+				.builder()
+				.withSourcesAt(sources)
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_varargVariant_nullValue() {
-		AvatarRule.forFilesAt((String) null);
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_nullValue() {
+		AvatarRule
+				.builder()
+				.withSourcesAt((String) null)
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_varargVariant_emptyArray() {
-		AvatarRule.forFilesAt(new String[]{});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_emptyArray() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(new String[]{})
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_varargVariant_arrayContainingNull() {
-		AvatarRule.forFilesAt(new String[]{null});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_arrayContainingNull() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(new String[]{null})
+				.build();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testForFilesAt_varargVariant_arrayContainingNonExistentFilePath() {
-		AvatarRule.forFilesAt(new String[]{"I don't exist"});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_arrayContainingNonExistentFilePath() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(new String[]{"I don't exist"})
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_varargVariant_arrayContainingOneValidItem() {
-		AvatarRule.forFilesAt(new String[]{DATA_FILE_PATH});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_arrayContainingOneValidItem() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(new String[]{DATA_FILE_PATH})
+				.build();
 	}
 	
 	@Test
-	public void testForFilesAt_varargVariant_iterableContainingMultipleValidItems() {
-		AvatarRule.forFilesAt(new String[]{DATA_FILE_PATH, DATA_FILE_PATH});
+	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_arrayContainingMultipleValidItems() {
+		AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH, DATA_FILE_PATH)
+				.build();
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetProcessingEnvironment_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+				
 		
 		rule.getProcessingEnvironment();
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetCompilationResult_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getCompilationResult();
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetRoundEnvironments_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getRoundEnvironments();
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetElementsWithId_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getElementsWithId("");
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetElementsWithUniqueId_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getElementWithUniqueId("");
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetElementsWithAnnotation_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getElementsWithAnnotation(Annotation.class);
 	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testGetRootElements_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule.forFilesAt(DATA_FILE_PATH);
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
 		
 		rule.getRootElements();
 	}
