@@ -1,7 +1,7 @@
 package com.matthewtamlin.avatar.rules;
 
 /**
- * Exception which indicates that a unique element for some criteria could not be found when searching a source file.
+ * Exception to indicates that a unique element for some criteria could not be found when searching a source file.
  */
 public class UniqueElementNotFoundException extends RuntimeException {
 	/**
