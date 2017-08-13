@@ -289,7 +289,8 @@ public class AvatarRule implements TestRule {
 		
 		/**
 		 * Maps the elements in the supplied round environment to the supplied annotations. The mappings are added to
-		 * the {@link AvatarRule#elementsByAnnotationName} map.
+		 * the
+		 * {@link AvatarRule#elementsByAnnotationName} map.
 		 *
 		 * @param annotations
 		 * 		the annotations to map, not null
@@ -314,8 +315,8 @@ public class AvatarRule implements TestRule {
 		}
 		
 		/**
-		 * Maps the elements in the supplied round environment to their IDs. The mappings are added to
-		 * the {@link AvatarRule#elementsById} map. Elements with no ID are ignored.
+		 * Maps the elements in the supplied round environment to their IDs. The mappings are added to the {@link
+		 * AvatarRule#elementsById} map. Elements with no ID are ignored.
 		 *
 		 * @param roundEnvironment
 		 * 		contains the elements to map, not null
@@ -334,11 +335,25 @@ public class AvatarRule implements TestRule {
 		}
 	}
 	
+	/**
+	 * Builds AvatarRule instances.
+	 */
 	public static class Builder {
+		/**
+		 * The sources to compile. Must be non-null before building AvatarRule.
+		 */
 		private Iterable<JavaFileObject> sources;
 		
+		/**
+		 * If true, compilation must succeed without error.
+		 */
 		private boolean requireSuccessfulCompilation = true;
 		
+		/**
+		 * Constructs a new AvatarRule based on the values provided to this builder.
+		 *
+		 * @return the new AvatarRule, not null
+		 */
 		public AvatarRule build() {
 			checkNotNull(sources, "Sources must be provided before AvatarRule can be built.");
 			
