@@ -1,9 +1,10 @@
 # Avatar
-Tools for creating Java source code elements in unit tests.
+Tools for testing Java annotation processors.
 
-While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I was frustrated by how difficult it is to write unit tests for classes which use `javax.tools.Element` objects. There's no easy way to instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. Andrew Phillips has done a great job of [articulating the problem](http://blog.xebia.com/testing-annotation-processors/) so I wont go into further detail, other than to say there needs to be a simple way to create elements for unit tests. 
+## Motivation
+While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I discovered how difficult it is to write unit tests for classes that consume `javax.tools.Element` instances. There's no easy way to instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. This problem has been extensively covered in Andrew Phillips' [blog post](http://blog.xebia.com/testing-annotation-processors/) so I won't go into further detail. To summarise the problem: Annotation processors cannot be tested without on-demand access to elements and the utilities for processing them.
 
-This library solves the problem by providing utilities for directly converting source files to elements. This is the simplest way to create elements, because the developer only has to write normal source code and can largely ignore the complexities of the element API. The elements created by this library behave exactly as elements would in a real scenario (they are after all, real elements) which avoids the need for complex mocking and stubbing.
+This library provides a JUnit test rule which solves the problem. The rule directly converts normal source code to an element model which eliminates the need for complex mocking. Unlike previous iterations of the library, the current release also provides means of getting access to the standard annotation processing utilities.
 
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.1'` to your gradle build file to use the latest version.
