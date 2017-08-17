@@ -1,10 +1,7 @@
 # Avatar
 Tools for testing Java annotation processors.
 
-## Motivation
-While testing my [Spyglass](https://github.com/MatthewTamlin/Spyglass) library, I discovered how difficult it is to write unit tests for classes that consume `javax.tools.Element` instances. There's no easy way to instantiate elements directly, and the usual mocking frameworks produce interconnected networks of unmaintainable mess. This problem has been extensively covered in Andrew Phillips' [blog post](http://blog.xebia.com/testing-annotation-processors/) so I won't go into further detail. To summarise the problem: Annotation processors cannot be tested without on-demand access to elements and the utilities for processing them.
-
-This library provides a JUnit test rule which solves the problem. The rule directly converts normal source code to an element model which eliminates the need for complex mocking. Unlike previous iterations of the library, the current release also provides means of getting access to the standard annotation processing utilities.
+Writing automated tests for annotation processors is a difficult task. Many important classes in the annotation processing API cannot be directly instantiated, and the complexity of the API renders the standard mocking frameworks ineffective. This library addresses these issues with a custom JUnit test rule.
 
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.1'` to your gradle build file to use the latest version.
