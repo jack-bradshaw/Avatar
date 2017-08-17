@@ -6,7 +6,17 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.1'` to your gradle build file to use the latest version.
 
-## Usage
+## Tutorial
+This tutorial covers the following:
+- Getting started
+- Using Avatar to get `javax.model.Element` objects in tests
+- Using Avatar to get annotation processing utilities in tests
+- Using Avatar to get compiler information in tests
+
+### Getting started
+All the functionality of the Avatar library is contained in the `AvatarRule` class.
+
+
 The public API of this library consists of three classes:
 - RootElementSupplier
 - AnnotatedElementSupplier
