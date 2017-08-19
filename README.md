@@ -114,7 +114,7 @@ public void TestSomething {
 	@Test
 	public void test() {
 		// Contains the 'TestData' type element
-		final Set<Element> elements = rule.getRootElements();
+		Set<Element> elements = rule.getRootElements();
 	}
 }
 ```
@@ -132,13 +132,13 @@ public void TestSomething {
 	@Test
 	public void test() {
 		// The 'TestData' type element
-		final Element classElement = rule.getUniqueElementWithId("class");
+		Element classElement = rule.getUniqueElementWithId("class");
 		
 		// The 'someMethod' executable element 
-		final Element methodElement = rule.getUniqueElementWithId("method");
+		Element methodElement = rule.getUniqueElementWithId("method");
 		
 		// Contains the 'val1' and 'val2' variable element
-		final Set<Element> parameterElements = rule.getElementsWithId("param");
+		Set<Element> parameterElements = rule.getElementsWithId("param");
 	}
 }
 ```
@@ -159,7 +159,7 @@ public void TestSomething {
 		 * Contains the 'someMethod2' executable element, as well as the 'someField1' and 
 		 * 'someField2' variable elements.
 		 */
-		final Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
+		Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
 	}
 }
 ```
