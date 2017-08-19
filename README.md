@@ -166,6 +166,38 @@ public void TestSomething {
 }
 ```
 
+### Getting compilation utilities
+The avatar rule provides access to the utilities used during annotation processing, such as the `Elements` class and the `Types` class. For example:
+```java
+public void TestSomething {
+	@Rule
+	public final AvatarRule rule = AvatarRule
+			.builder()
+			.withSourcesAt("some_path/SomeFile.java")
+			.build();
+	
+	private Elements elementUtil;
+	
+	private Types typeUtil;
+	
+	private Filer filer;
+	
+	private Messager messager;
+	
+	@Before
+	public void setupUtils() {
+		final ProcessingEnvironment environment = rule.getProcessingEnvironment();
+		
+		elementUtil = environment.getElementUtils();
+		typeUtil = environment.getTypeUtils();
+		filer = environment.getFiler();
+		messager = environment.getMessager();
+	}
+}
+```
+
+The returned objects are fully functional and can be used to unit test dependent classes.
+
 ## Realistic scenario
 To demonstrate the usefulness of this library, this section contains an example which walks through a realistic scenario where this library is useful. The scenario involves creating and testing two components of an annotation processor project:
 - An annotation which can be used to mark methods that return void
