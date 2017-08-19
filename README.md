@@ -7,7 +7,7 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 - Providing access to other compile-time resources data.
 
 ## Dependency
-Releases are published to [JCenter](https://bintray.com/bintray/jcenter).
+Releases are published to [JCenter](https://bintray.com/bintray/jcenter). To use the latest release:
 
 Gradle:
 ```
