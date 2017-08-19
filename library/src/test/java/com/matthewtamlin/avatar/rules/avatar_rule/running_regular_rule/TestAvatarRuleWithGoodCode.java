@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(JUnit4.class)
-public class TestAvatarRule {
+public class TestAvatarRuleWithGoodCode {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
