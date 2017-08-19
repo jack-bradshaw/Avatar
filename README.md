@@ -85,6 +85,8 @@ When the avatar rule runs, it collects elements from the compiled sources so tha
 
 Consider a source file at `src/test/com/example` containing:
 ```java
+package com.example;
+
 @ElementId("class")
 public class TestData {
 	@ElementId("method")
