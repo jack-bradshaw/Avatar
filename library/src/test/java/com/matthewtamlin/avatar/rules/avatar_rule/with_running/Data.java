@@ -28,7 +28,7 @@ public class Data {
 	public static class ClassA {}
 	
 	@ElementId("interface")
-	public interface InterfaceA{}
+	public interface InterfaceA {}
 	
 	public void methodD(@ElementId("parameter") String parameterA) {}
 }
