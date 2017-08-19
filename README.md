@@ -34,47 +34,49 @@ This tutorial covers the following:
 - Using Avatar to get other compile-time resources in tests.
 		
 ### Getting started		
-Start by instantiating the `AvatarRule` in the test class using the builder pattern. The builder provides methods for defining  the sources to compile and setting whether or not compilation must succeed. Some examples:
+Start by instantiating the `AvatarRule` in the test class. The builder pattern provides methods for defining the sources to compile and setting whether or not compilation must succeed. Some examples:
 		
 ```java
 public class Tests {
-// Compiles one source file, referenced by path.
-@Rule
-public AvatarRule rule1 = AvatarRule
-		.builder()
-		.withSourcesAt("src/com/example/Source.java")
-		.build();
+	// Compiles one source file, referenced by path.
+	@Rule
+	public AvatarRule rule1 = AvatarRule
+			.builder()
+			.withSourcesAt("src/com/example/Source.java")
+			.build();
 	
-// Compiles multiple source files, both referenced by path.
-@Rule
-public AvatarRule rule2 = AvatarRule
-		.builder()
-		.withSourcesAt("src/com/example/Source1.java", "src/com/example/Source2.java")
-		.build();
+	// Compiles multiple source files, both referenced by path.
+	@Rule
+	public AvatarRule rule2 = AvatarRule
+			.builder()
+			.withSourcesAt(
+				"src/com/example/Source1.java", 
+				"src/com/example/Source2.java")
+			.build();
 	
-// Compiles multiple source files, one referenced by path and one referenced by file.
-@Rule
-public AvatarRule rule3 = AvatarRule
-		.builder()
-		.withSources(new File("some_path/File.java"))
-		.withSourcesAt("some_other_path/File.java")
-		.build();
+	// Compiles multiple source files, one referenced by path and one referenced by file.
+	@Rule
+	public AvatarRule rule3 = AvatarRule
+			.builder()
+			.withSources(new File("some_path/File.java"))
+			.withSourcesAt("some_other_path/File.java")
+			.build();
 	
-// Compilation will fail, causing the the rule to fail before the tests run.
-@Rule
-public AvatarRule rule4 = AvatarRule
-		.builder()
-		.withSourcesAt("src/com/DoesntCompile.java")
-		.withSuccessfulCompilationRequired(true)
-		.build();
+	// Compilation will fail, causing the the rule to fail before the tests run.
+	@Rule
+	public AvatarRule rule4 = AvatarRule
+			.builder()
+			.withSourcesAt("src/com/DoesntCompile.java")
+			.withSuccessfulCompilationRequired(true)
+			.build();
 
-// Compilation will fail, but the rule will still pass and the tests will run.
-@Rule
-public AvatarRule rule5 = AvatarRule
-		.builder()
-		.withSourcesAt("src/com/DoesntCompile.java")
-		.withSuccessfulCompilationRequired(false)
-		.build();
+	// Compilation will fail, but the rule will still pass and the tests will run.
+	@Rule
+	public AvatarRule rule5 = AvatarRule
+			.builder()
+			.withSourcesAt("src/com/DoesntCompile.java")
+			.withSuccessfulCompilationRequired(false)
+			.build();
 }
 ```
 
