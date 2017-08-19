@@ -1,6 +1,7 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.without_running;
 
 import com.matthewtamlin.avatar.rules.AvatarRule;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -35,7 +36,7 @@ public class TestAvatarRule {
 		assertThat(rule, is(notNullValue()));
 	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test
 	public void testInstantiateViaBuilder_noSourcesSet() {
 		AvatarRule
 				.builder()
@@ -52,7 +53,7 @@ public class TestAvatarRule {
 	}
 	
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_nullIterable() {
 		AvatarRule
 				.builder()
@@ -141,7 +142,7 @@ public class TestAvatarRule {
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_nullIterable() {
 		AvatarRule
 				.builder()
@@ -252,7 +253,7 @@ public class TestAvatarRule {
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_nullIterable() {
 		AvatarRule
 				.builder()
@@ -369,7 +370,7 @@ public class TestAvatarRule {
 				.builder()
 				.withSourcesAt(DATA_FILE_PATH)
 				.build();
-				
+		
 		
 		rule.getProcessingEnvironment();
 	}
