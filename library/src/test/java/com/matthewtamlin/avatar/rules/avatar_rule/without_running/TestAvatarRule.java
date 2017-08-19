@@ -14,6 +14,9 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("RedundantArrayCreation")
@@ -21,6 +24,13 @@ import static org.mockito.Mockito.mock;
 public class TestAvatarRule {
 	private static final String DATA_FILE_PATH =
 			"src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/without_running/Data.java";
+	
+	@Test
+	public void testWithoutSources_checkNeverReturnsNull() {
+		final AvatarRule rule = AvatarRule.withoutSources();
+		
+		assertThat(rule, is(notNull()));
+	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testInstantiateViaBuilder_noSourcesSet() {
