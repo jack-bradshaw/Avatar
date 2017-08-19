@@ -32,7 +32,7 @@ public class TestAvatarRule {
 	public void testWithoutSources_checkNeverReturnsNull() {
 		final AvatarRule rule = AvatarRule.withoutSources();
 		
-		assertThat(rule, is(notNull()));
+		assertThat(rule, is(notNullValue()));
 	}
 	
 	@Test(expected = IllegalStateException.class)
