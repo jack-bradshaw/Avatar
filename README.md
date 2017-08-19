@@ -166,7 +166,7 @@ public void TestSomething {
 }
 ```
 
-### Getting compilation utilities
+### Getting annotation processing utilities
 The avatar rule provides access to the utilities used during annotation processing, such as the `Elements` class and the `Types` class. For example:
 ```java
 public void TestSomething {
@@ -194,6 +194,33 @@ public void TestSomething {
 ```
 
 The returned objects are fully functional and can be used to unit test dependent classes.
+
+### Getting other compile-time resources
+The avatar rule provides access to the compilation result and the round environments received during compilation. For example:
+```java
+public void TestSomething {
+	// Using the Google compile testing class to parse a source string
+	@Rule
+	public final AvatarRule rule = AvatarRule
+			.builder()
+			.withSourcesAt("some_path/BadJavaFile.java")
+			.withSuccessfulCompilationRequired(false)e
+			.build();
+	
+	private CompilationResult compilationResult;
+	
+	private List<RoundEnvironment> roundEnvironments;
+	
+	@Before
+	public void setupCompilerResources() {
+		// The compilation outcome (fail or pass), the generated files and any diagnostics
+		compilationResult = rule.getCompilationResult();
+		
+		// The round environments provided by the Java compiler during compilation
+		roundEnvironments = rule.getRoundEnvironments();
+	}
+}
+```
 
 ## Realistic scenario
 To demonstrate the usefulness of this library, this section contains an example which walks through a realistic scenario where this library is useful. The scenario involves creating and testing two components of an annotation processor project:
