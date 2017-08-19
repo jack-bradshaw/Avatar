@@ -51,14 +51,6 @@ public class TestAvatarRule {
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
-	public void testInstantiateViaBuilder_sourcesSetThenCleared() {
-		AvatarRule
-				.builder()
-				.withSourcesAt(DATA_FILE_PATH)
-				.withSourcesAt((Iterable<String>) null)
-				.build();
-	}
 	
 	@Test(expected = IllegalStateException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_nullIterable() {
