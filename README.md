@@ -196,7 +196,7 @@ public void TestSomething {
 The returned objects are fully functional and can be used to unit test dependent classes.
 
 ### Getting other compile-time resources
-The avatar rule provides access to the compilation result and the round environments received during compilation. For example:
+The avatar rule provides access to other compile-time resources. For example:
 ```java
 public void TestSomething {
 	// Using the Google compile testing class to parse a source string
