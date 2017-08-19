@@ -88,7 +88,10 @@ Consider a source file at `src/test/com/example` containing:
 @ElementId("class")
 public class TestData {
 	@ElementId("method")
-	public void someMethod(@ElementId("param") int val1, @ElementId("param") int val2) {}
+	public void someMethod1(@ElementId("param") int val1, @ElementId("param") int val2) {}
+	
+	@SomeAnnotation
+	public void someMethod2() {}
 	
 	@SomeAnnotation
 	public Object someField1 = null;
@@ -152,7 +155,10 @@ public void TestSomething {
 			
 	@Test
 	public void test() {
-		// Contains the 'someField1' and 'someField2' variable elements
+		/* 
+		 * Contains the 'someMethod2' executable element, as well as the 'someField1' and 
+		 * 'someField2' variable elements.
+		 */
 		final Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
 	}
 }
