@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
+package com.matthewtamlin.avatar.rules.avatar_rule.running_regular_rule;
 
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import com.matthewtamlin.avatar.rules.UniqueElementNotFoundException;
@@ -21,7 +21,7 @@ public class TestAvatarRule {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
-			.withSourcesAt("src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/after_running_rule/Data.java")
+			.withSourcesAt("src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/running_regular_rule/Data.java")
 			.build();
 	
 	@Test
