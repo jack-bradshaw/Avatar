@@ -78,8 +78,17 @@ public class AvatarRule implements TestRule {
 	private CompilationResult compilationResult;
 	
 	private AvatarRule(final Builder builder) {
-		this.sources = ImmutableList.copyOf(builder.sources);
-		this.requireSuccessfulCompilation = builder.requireSuccessfulCompilation;
+		if (builder.sources == null || !builder.sources.iterator().hasNext()) {
+			sources = ImmutableList.of(JavaFileObjects.forSourceString("", ""));
+		} else {
+			sources = builder.sources;
+		}
+		
+		requireSuccessfulCompilation = builder.requireSuccessfulCompilation;
+	}
+	
+	public static AvatarRule withoutSources() {
+		return builder().build();
 	}
 	
 	@Override
@@ -363,8 +372,6 @@ public class AvatarRule implements TestRule {
 		 * @return the new AvatarRule, not null
 		 */
 		public AvatarRule build() {
-			checkNotNull(sources, new IllegalStateException("Sources must be set before AvatarRule can be built."));
-			
 			return new AvatarRule(this);
 		}
 		
