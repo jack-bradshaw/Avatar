@@ -1,7 +1,10 @@
 # Avatar
 Tools for testing Java annotation processors.
-
-Writing automated tests for annotation processors is a difficult task. Many important classes in the annotation processing API cannot be directly instantiated, and the complexity of the API renders the standard mocking frameworks ineffective. This library addresses these issues with a custom JUnit test rule.
+		
+Writing automated tests for annotation processors is a difficult task. Many important classes in the annotation processing API cannot be directly instantiated, and the complexity of the API renders the standard mocking frameworks ineffective. This library contains a custom JUnit test rule which solves these issues by:
+- Providing `javax.model.Element` instances.
+- Providing access to the annotation processor utilities.
+- Providing access to compile-time data.
 
 ## Download
 Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.1'` to your gradle build file to use the latest version.
