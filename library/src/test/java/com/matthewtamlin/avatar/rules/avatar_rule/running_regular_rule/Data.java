@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
+package com.matthewtamlin.avatar.rules.avatar_rule.running_regular_rule;
 
 import com.matthewtamlin.avatar.rules.ElementId;
 
