@@ -171,10 +171,7 @@ The avatar rule provides access to the utilities used during annotation processi
 ```java
 public void TestSomething {
 	@Rule
-	public final AvatarRule rule = AvatarRule
-			.builder()
-			.withSourcesAt("some_path/SomeFile.java")
-			.build();
+	public final AvatarRule rule = AvatarRule.withoutSources();
 	
 	private Elements elementUtil;
 	
