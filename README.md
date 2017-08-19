@@ -6,6 +6,24 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 - Providing access to the annotation processor utilities.
 - Providing access to other compile-time resources data.
 
+## Dependency
+Gradle:
+```groovy
+compile 'com.matthew-tamlin:avatar:1.0.1'
+```
+
+Maven: 
+```
+<dependency>
+  <groupId>com.matthew-tamlin</groupId>
+  <artifactId>avatar</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+Older versions are available in [the Maven repo](https://bintray.com/matthewtamlin/maven/Avatar).
+
 ## Tutorial
 This tutorial covers the following:
 - Getting started.
@@ -13,10 +31,8 @@ This tutorial covers the following:
 - Using Avatar to get annotation processing utilities in tests.
 - Using Avatar to get other compile-time resources in tests.
 		
-### Getting started
-Start by adding the `'com.matthew-tamlin:avatar:1.0.1'` dependency to your gradle build file. Older versions are available in the Maven repo.
-		
-Next instantiate the `AvatarRule` in your test class using the builder pattern. The builder provides methods for defining  the sources to compile and setting whether or not compilation must succeed. Some examples:
+### Getting started		
+Start by instantiating the `AvatarRule` in the test class using the builder pattern. The builder provides methods for defining  the sources to compile and setting whether or not compilation must succeed. Some examples:
 		
 ```java
 public class Tests {
