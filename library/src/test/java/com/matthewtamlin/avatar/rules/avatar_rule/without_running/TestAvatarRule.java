@@ -438,26 +438,4 @@ public class TestAvatarRule {
 		
 		rule.getRootElements();
 	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationRequired() throws Throwable {
-		AvatarRule
-				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
-				.withSuccessfulCompilationRequired(true)
-				.build()
-				.apply(mock(Statement.class), mock(Description.class))
-				.evaluate();
-	}
-	
-	@Test
-	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationNotRequired() throws Throwable {
-		AvatarRule
-				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
-				.withSuccessfulCompilationRequired(false)
-				.build()
-				.apply(mock(Statement.class), mock(Description.class))
-				.evaluate();
-	}
 }
