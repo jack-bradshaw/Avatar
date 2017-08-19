@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-
 import java.util.Collection;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
