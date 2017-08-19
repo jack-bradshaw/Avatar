@@ -1,12 +1,9 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.without_running;
 
-import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.runners.model.Statement;
 
 import javax.tools.JavaFileObject;
 import java.io.File;
@@ -14,6 +11,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.notNull;
@@ -24,6 +22,11 @@ import static org.mockito.Mockito.mock;
 public class TestAvatarRule {
 	private static final String DATA_FILE_PATH =
 			"src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/without_running/Data.java";
+	
+	@BeforeClass
+	public static void setupClass() {
+		assertThat(new File(DATA_FILE_PATH).exists(), is(true));
+	}
 	
 	@Test
 	public void testWithoutSources_checkNeverReturnsNull() {
