@@ -4,141 +4,139 @@ Tools for testing Java annotation processors.
 Writing automated tests for annotation processors is a difficult task. Many important classes in the annotation processing API cannot be directly instantiated, and the complexity of the API renders the standard mocking frameworks ineffective. This library contains a custom JUnit test rule which solves these issues by:
 - Providing `javax.model.Element` instances.
 - Providing access to the annotation processor utilities.
-- Providing access to compile-time data.
-
-## Download
-Releases are made available through jCentre. Add `compile 'com.matthew-tamlin:avatar:1.0.1'` to your gradle build file to use the latest version.
+- Providing access to other compile-time resources data.
 
 ## Tutorial
 This tutorial covers the following:
-- Getting started
-- Using Avatar to get `javax.model.Element` objects in tests
-- Using Avatar to get annotation processing utilities in tests
-- Using Avatar to get compiler information in tests
-
+- Getting started.
+- Using Avatar to get element instances in tests.
+- Using Avatar to get annotation processing utilities in tests.
+- Using Avatar to get other compile-time resources in tests.
+		
 ### Getting started
-All the functionality of the Avatar library is contained in the `AvatarRule` class.
-
-
-The public API of this library consists of three classes:
-- RootElementSupplier
-- AnnotatedElementSupplier
-- IdBasedElementSupplier
-
-All of the examples in this section require a `JavaFileObject`, but unfortunately the JavaFileObject interface is not trivial to implement and the existing implementations are not always easy to work with. Lucky for us, the Google [compile testing](https://github.com/google/compile-testing) library contains the `JavaFileObjects` utility class which contains many useful methods for getting Java file objects. This utility class is referenced in all of the examples.
-
-### RootElementSupplier
-Use the `RootElementSupplier` class to get all root elements. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+Start by adding the `'com.matthew-tamlin:avatar:1.0.1'` dependency to your gradle build file. Older versions are available in the Maven repo.
+		
+Next instantiate the `AvatarRule` in your test class using the builder pattern. The builder provides methods for defining  the sources to compile and setting whether or not compilation must succeed. Some examples:
+		
 ```java
-public class MyClass {
-    public void method1() {}
-}
+public class Tests {
+// Compiles one source file, referenced by path.
+@Rule
+public AvatarRule rule1 = AvatarRule
+		.builder()
+		.withSourcesAt("src/com/example/Source.java")
+		.build();
+	
+// Compiles multiple source files, both referenced by path.
+@Rule
+public AvatarRule rule2 = AvatarRule
+		.builder()
+		.withSourcesAt("src/com/example/Source1.java", "src/com/example/Source2.java")
+		.build();
+	
+// Compiles multiple source files, one referenced by path and one referenced by file.
+@Rule
+public AvatarRule rule3 = AvatarRule
+		.builder()
+		.withSources(new File("some_path/File.java"))
+		.withSourcesAt("some_other_path/File.java")
+		.build();
+	
+// Compilation will fail, causing the the rule to fail before the tests run.
+@Rule
+public AvatarRule rule4 = AvatarRule
+		.builder()
+		.withSourcesAt("src/com/DoesntCompile.java")
+		.withSuccessfulCompilationRequired(true)
+		.build();
 
-class MyOtherClass {
-   private static final boolean field1 = true;
-   private static final boolean field2 = false;
-   public String field3 = "example field";
+// Compilation will fail, but the rule will still pass and the tests will run.
+@Rule
+public AvatarRule rule5 = AvatarRule
+		.builder()
+		.withSourcesAt("src/com/DoesntCompile.java")
+		.withSuccessfulCompilationRequired(false)
+		.build();
 }
 ```
-then executing the following code:
+
+### Getting elements
+When the avatar rule runs, it collects elements from the compiled sources so that they can be used in the tests.
+
+Consider a source file at `src/test/com/example` containing:
 ```java
-File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
-
-RootElementSupplier supplier = new RootElementSupplier(srcFileObject);
-Set<Element> foundElements = supplier.getRootElements();
-
-for (Element e : foundElements) {
-    System.out.println("Found element " + e.getSimpleName().toString());
+@ElementId("class")
+public class TestData {
+	@ElementId("method")
+	public void someMethod(@ElementId("param") int val1, @ElementId("param") int val2) {}
+	
+	@SomeAnnotation
+	public Object someField1 = null;
+	
+	@SomeAnnotation
+	public String someField2 = "";
 }
 ```
-would produce:
-```
-Found element MyClass
-Found element MyOtherClass
-```
 
-### AnnotatedElementSupplier
-Use the `AnnotatedElementSupplier` class to get all elements with a particular annotation. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+The avatar rule can be used to get all root elements from the source file, for example:
 ```java
-@Unobtainium
-public class MyClass {
-    @Unobtainium
-    public void method1() {}
-}
-
-@Carbon
-class MyOtherClass {
-   @Hydrogen
-   private static final boolean field1 = true;
-   
-   @Polonium
-   private static final boolean field2 = false;
-   
-   @Unobtainium   
-   public String field3 = "Hello, World!";
+@RunWith(JUnit4.class)
+public void TestSomething {
+	@Rule
+	public final AvatarRule rule = AvatarRule
+			.builder()
+			.withSourcesAt("src/test/com/example/TestData.java")
+			.build();
+			
+	@Test
+	public void test() {
+		// Contains the 'TestData' type element
+		final Set<Element> elements = rule.getRootElements();
+	}
 }
 ```
-then executing the following code:
+
+The avatar rule can be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
 ```java
-File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
-
-AnnotatedElementSupplier supplier = new AnnotatedElementSupplier(srcFileObject);
-Set<Element> foundElements = supplier.getElementsWithAnnotation(Unobtainium.class);
-
-for (Element e : foundElements) {
-    System.out.println("Found element " + e.getSimpleName().toString());
+@RunWith(JUnit4.class)
+public void TestSomething {
+	@Rule
+	public final AvatarRule rule = AvatarRule
+			.builder()
+			.withSourcesAt("src/test/com/example/TestData.java")
+			.build();
+			
+	@Test
+	public void test() {
+		// The 'TestData' type element
+		final Element classElement = rule.getUniqueElementWithId("class");
+		
+		// The 'someMethod' executable element 
+		final Element methodElement = rule.getUniqueElementWithId("method");
+		
+		// Contains the 'val1' and 'val2' variable element
+		final Set<Element> parameterElements = rule.getElementsWithId("param");
+	}
 }
 ```
-would produce:
-```
-Found element MyClass
-Found element method1
-Found element field3
-```
 
-### IdBasedElementSupplier
-Use the `IdBasedElementSupplier` class to get all elements with a particular ID. Element IDs are defined by adding `ElementId` annotations to the source code. For example, if a source file is defined in `src/main/java/com/matthewtamlin/example/MyClass.java` as:
+The avatar rule can be used to get elements from the source file based on the annotations, for example:
 ```java
-public class MyClass {
-    @ElementId("Cat")
-    public String method1(@ElementId("Dog") String parameter1) {
-        return parameter;
-    }
-}
-
-@ElementId("Dog")
-class MyOtherClass {
-   private static final boolean field1 = true;
-   
-   @ElementId("Dog")
-   private static final boolean field2 = false;
-   
-   @ElementId("dog")
-   public String field3 = "example field";
+@RunWith(JUnit4.class)
+public void TestSomething {
+	@Rule
+	public final AvatarRule rule = AvatarRule
+			.builder()
+			.withSourcesAt("src/test/com/example/TestData.java")
+			.build();
+			
+	@Test
+	public void test() {
+		// Contains the 'someField1' and 'someField2' variable elements
+		final Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
+	}
 }
 ```
-then executing the following code:
-```java
-File srcFile = new File("src/main/java/com/matthewtamlin/example/MyClass.java")
-JavaFileObject srcFileObject = JavaFileObjects.forResource(srcFile.toURI().toURL());
-
-IdBasedElementSupplier supplier = new IdBasedElementSupplier(srcFileObject);
-Set<Element> foundElements = supplier.getElementsWithId("Dog");
-
-for (Element e : foundElements) {
-    System.out.println("Found element " + e.getSimpleName().toString());
-}
-```
-would produce:
-```
-Found element parameter1
-Found element MyOtherClass
-Found element field2
-```
-
-In addition to the `getElementsWithId` method, the `getUniqueElementWithId(String)` method is provided for convenience. This method returns a single element to avoid the unnecessary overhead of using a set, but it will throw an exception if the supplied ID does not correspond to exactly one element in the source file.
 
 ## Realistic scenario
 To demonstrate the usefulness of this library, this section contains an example which walks through a realistic scenario where this library is useful. The scenario involves creating and testing two components of an annotation processor project:
