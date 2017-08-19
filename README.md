@@ -227,8 +227,11 @@ This library is licenced under the Apache v2.0 licence. Have a look at [the lice
 
 ## Dependencies and Attribution
 This library uses the following open source libraries as level 1 dependencies:
-- [Guava](https://github.com/google/guava), licensed under the Apache 2.0 license.
-- [Java Utilities](https://github.com/MatthewTamlin/JavaUtilities), licensed under the Apache 2.0 license.
+- [AutoValue](https://github.com/google/auto/tree/master/value), licensed under the Apache 2.0 licence.
+- [CompileTesting](https://github.com/google/compile-testing), licensed under the Apache 2.0 licence.
+- [Guava](https://github.com/google/guava), licensed under the Apache 2.0 licence.
+- [Java Utilities](https://github.com/MatthewTamlin/JavaUtilities), licensed under the Apache 2.0 licence.
+- [JUnit](http://junit.org/junit4/), licensed under the Eclipse Public License 1.0.
 
 ## Compatibility
 This library is compatible with Java 1.7 and up.
