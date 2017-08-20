@@ -1,12 +1,10 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.without_running;
 
-import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.rules.AvatarRule;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.runners.model.Statement;
 
 import javax.tools.JavaFileObject;
 import java.io.File;
@@ -14,6 +12,10 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 
 @SuppressWarnings("RedundantArrayCreation")
@@ -22,7 +24,19 @@ public class TestAvatarRule {
 	private static final String DATA_FILE_PATH =
 			"src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/without_running/Data.java";
 	
-	@Test(expected = IllegalStateException.class)
+	@BeforeClass
+	public static void setupClass() {
+		assertThat(new File(DATA_FILE_PATH).exists(), is(true));
+	}
+	
+	@Test
+	public void testWithoutSources_checkNeverReturnsNull() {
+		final AvatarRule rule = AvatarRule.withoutSources();
+		
+		assertThat(rule, is(notNullValue()));
+	}
+	
+	@Test
 	public void testInstantiateViaBuilder_noSourcesSet() {
 		AvatarRule
 				.builder()
@@ -31,23 +45,15 @@ public class TestAvatarRule {
 	}
 	
 	@Test
-	public void testInstantiateViaBuilder_noSuccessfulCompilationRequiredFlagSet() {
+	public void testInstantiateViaBuilder_successfulCompilationRequiredNotSet() {
 		AvatarRule
 				.builder()
 				.withSourcesAt(DATA_FILE_PATH)
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
-	public void testInstantiateViaBuilder_sourcesSetThenCleared() {
-		AvatarRule
-				.builder()
-				.withSourcesAt(DATA_FILE_PATH)
-				.withSourcesAt((Iterable<String>) null)
-				.build();
-	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFileObjects_nullIterable() {
 		AvatarRule
 				.builder()
@@ -136,7 +142,7 @@ public class TestAvatarRule {
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFiles_nullIterable() {
 		AvatarRule
 				.builder()
@@ -247,7 +253,7 @@ public class TestAvatarRule {
 				.build();
 	}
 	
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testInstantiateViaBuilder_sourcesSetUsingWithSourceFilesAt_nullIterable() {
 		AvatarRule
 				.builder()
@@ -364,7 +370,7 @@ public class TestAvatarRule {
 				.builder()
 				.withSourcesAt(DATA_FILE_PATH)
 				.build();
-				
+		
 		
 		rule.getProcessingEnvironment();
 	}
@@ -427,27 +433,5 @@ public class TestAvatarRule {
 				.build();
 		
 		rule.getRootElements();
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationRequired() throws Throwable {
-		AvatarRule
-				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
-				.withSuccessfulCompilationRequired(true)
-				.build()
-				.apply(mock(Statement.class), mock(Description.class))
-				.evaluate();
-	}
-	
-	@Test
-	public void testEvaluate_uncompilableSourceAndSuccessfulCompilationNotRequired() throws Throwable {
-		AvatarRule
-				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
-				.withSuccessfulCompilationRequired(false)
-				.build()
-				.apply(mock(Statement.class), mock(Description.class))
-				.evaluate();
 	}
 }
