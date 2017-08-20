@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
+package com.matthewtamlin.avatar.rules.avatar_rule.with_running;
 
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import com.matthewtamlin.avatar.rules.UniqueElementNotFoundException;
@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import javax.lang.model.element.Element;
-
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,11 +16,11 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(JUnit4.class)
-public class TestAvatarRule {
+public class TestAvatarRuleWithGoodCode {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
-			.withSourcesAt("src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/after_running_rule/Data.java")
+			.withSourcesAt("src/test/java/com/matthewtamlin/avatar/rules/avatar_rule/with_running/Data.java")
 			.build();
 	
 	@Test

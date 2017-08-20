@@ -1,4 +1,4 @@
-package com.matthewtamlin.avatar.rules.avatar_rule.after_running_rule;
+package com.matthewtamlin.avatar.rules.avatar_rule.with_running;
 
 import com.matthewtamlin.avatar.rules.ElementId;
 
@@ -28,7 +28,7 @@ public class Data {
 	public static class ClassA {}
 	
 	@ElementId("interface")
-	public interface InterfaceA{}
+	public interface InterfaceA {}
 	
 	public void methodD(@ElementId("parameter") String parameterA) {}
 }
