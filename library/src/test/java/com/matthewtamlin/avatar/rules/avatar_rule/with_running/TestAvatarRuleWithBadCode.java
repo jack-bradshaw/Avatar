@@ -7,14 +7,18 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
+import javax.tools.JavaFileObject;
+
 import static org.mockito.Mockito.mock;
 
 public class TestAvatarRuleWithBadCode {
+	private static final JavaFileObject BAD_CODE = JavaFileObjects.forSourceString("", "public final abstract Thing {}");
+	
 	@Test
 	public void testEvaluate_compilationFails_allowFailure() throws Throwable {
 		final TestRule rule = AvatarRule
 				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
+				.withSourceFileObjects(BAD_CODE)
 				.withSuccessfulCompilationRequired(false)
 				.build();
 		
@@ -25,7 +29,7 @@ public class TestAvatarRuleWithBadCode {
 	public void testEvaluate_compilationFails_disallowFailure() throws Throwable {
 		final TestRule rule = AvatarRule
 				.builder()
-				.withSourceFileObjects(JavaFileObjects.forSourceString("", "public static final abstract Thing {}"))
+				.withSourceFileObjects(BAD_CODE)
 				.withSuccessfulCompilationRequired(true)
 				.build();
 		
