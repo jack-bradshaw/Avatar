@@ -45,7 +45,7 @@ public class TestAvatarRule {
 	}
 	
 	@Test
-	public void testInstantiateViaBuilder_noSuccessfulCompilationRequiredFlagSet() {
+	public void testInstantiateViaBuilder_successfulCompilationRequiredNotSet() {
 		AvatarRule
 				.builder()
 				.withSourcesAt(DATA_FILE_PATH)
