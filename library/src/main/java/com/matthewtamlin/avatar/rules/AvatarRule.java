@@ -358,7 +358,7 @@ public class AvatarRule implements TestRule {
 		/**
 		 * The sources to compile. Must be non-null before building AvatarRule.
 		 */
-		private Iterable<JavaFileObject> sources;
+		private final Set<JavaFileObject> sources = new HashSet<>();
 		
 		/**
 		 * Whether or not compilation must complete without error.
@@ -376,70 +376,63 @@ public class AvatarRule implements TestRule {
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sources
-		 * 		the sources to compile, may be null, not containing null
+		 * 		the sources to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
 		 * @throws IllegalArgumentException
-		 * 		if {@code sourcePaths} contains null
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
 		 */
 		public Builder withSourceFileObjects(final Iterable<JavaFileObject> sources) {
-			if (sources == null) {
-				this.sources = null;
-				
-				return this;
-			}
-			
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
 			checkNotContainsNull(sources, "Argument \'sources\' cannot contain null.");
 			
-			this.sources = sources;
+			this.sources.addAll(ImmutableList.copyOf(sources));
 			
 			return this;
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sources
-		 * 		the sources to compile, may be null, not containing null
+		 * 		the sources to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
 		 * @throws IllegalArgumentException
-		 * 		if {@code sourcePaths} contains null
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
 		 */
 		public Builder withSourceFileObjects(final JavaFileObject... sources) {
-			if (sources == null) {
-				this.sources = null;
-				
-				return this;
-			}
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
 			
 			return withSourceFileObjects(Arrays.asList(sources));
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sources
-		 * 		the source files to compile, may be null, not containing null
+		 * 		the source files to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
 		 * @throws IllegalArgumentException
-		 * 		if {@code sourcePaths} contains null
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
 		 * @throws IllegalArgumentException
 		 * 		if any of the files are non-existent
 		 */
 		public Builder withSourceFiles(final Iterable<File> sources) {
-			if (sources == null) {
-				this.sources = null;
-				
-				return this;
-			}
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
 			
 			final List<JavaFileObject> javaFileObjects = new ArrayList<>();
 			
@@ -461,47 +454,43 @@ public class AvatarRule implements TestRule {
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sources
-		 * 		the source files to compile, may be null, not containing null
+		 * 		the source files to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
 		 * @throws IllegalArgumentException
-		 * 		if {@code sourcePaths} contains null
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
 		 * @throws IllegalArgumentException
 		 * 		if any of the files are non-existent
 		 */
 		public Builder withSourceFiles(final File... sources) {
-			if (sources == null) {
-				this.sources = null;
-				
-				return this;
-			}
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
 			
 			return withSourceFiles(Arrays.asList(sources));
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sourcePaths
-		 * 		the paths of the source files to compile, may be null, not containing null
+		 * 		the paths of the source files to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} is null
 		 * @throws IllegalArgumentException
 		 * 		if {@code sourcePaths} contains null
 		 * @throws IllegalArgumentException
 		 * 		if any of the paths point to non-existent files
 		 */
 		public Builder withSourcesAt(final Iterable<String> sourcePaths) {
-			if (sourcePaths == null) {
-				sources = null;
-				
-				return this;
-			}
+			checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
 			
 			final List<File> files = new ArrayList<>();
 			
@@ -521,30 +510,29 @@ public class AvatarRule implements TestRule {
 		}
 		
 		/**
-		 * Sets the sources to compile, replacing any sources which have been set previously.
+		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
 		 * @param sourcePaths
-		 * 		the paths of the source files to compile, may be null, not containing null
+		 * 		the paths of the source files to compile, not null, not containing null
 		 *
 		 * @return this builder
 		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sourcePaths} is null
 		 * @throws IllegalArgumentException
 		 * 		if {@code sourcePaths} contains null
 		 * @throws IllegalArgumentException
 		 * 		if any of the paths point to non-existent files
 		 */
 		public Builder withSourcesAt(final String... sourcePaths) {
-			if (sourcePaths == null) {
-				sources = null;
-				
-				return this;
-			}
+			checkNotNull(sourcePaths, "Argument \'sourcePaths\' cannot be null.");
 			
 			return withSourcesAt(Arrays.asList(sourcePaths));
 		}
 		
 		/**
-		 * Sets whether or not compilation must succeed without error, replacing any value which has been set previously.
+		 * Sets whether or not compilation must succeed without error, replacing any value which has been set
+		 * previously.
 		 *
 		 * @param required
 		 * 		true if compilation must succeed without error, false otherwise
