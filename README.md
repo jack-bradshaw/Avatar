@@ -11,7 +11,7 @@ Releases are published to [JCenter](https://bintray.com/bintray/jcenter). To use
 
 Gradle:
 ```
-compile 'com.matthew-tamlin:avatar:1.0.1'
+compile 'com.matthew-tamlin:avatar:2.0.0'
 ```
 
 Maven: 
@@ -19,7 +19,7 @@ Maven:
 <dependency>
   <groupId>com.matthew-tamlin</groupId>
   <artifactId>avatar</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.0</version>
   <type>pom</type>
 </dependency>
 ```
