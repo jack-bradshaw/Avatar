@@ -11,7 +11,7 @@ Releases are published to [JCenter](https://bintray.com/bintray/jcenter). To use
 
 Gradle:
 ```
-compile 'com.matthew-tamlin:avatar:2.0.0'
+compile 'com.matthew-tamlin:avatar:2.0.1'
 ```
 
 Maven: 
@@ -19,7 +19,7 @@ Maven:
 <dependency>
   <groupId>com.matthew-tamlin</groupId>
   <artifactId>avatar</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -134,10 +134,10 @@ public void TestSomething {
 	@Test
 	public void test() {
 		// The 'TestData' type element
-		Element classElement = rule.getUniqueElementWithId("class");
+		TypeElement classElement = rule.getElementWithUniqueId("class");
 		
 		// The 'someMethod' executable element 
-		Element methodElement = rule.getUniqueElementWithId("method");
+		ExecutableElement methodElement = rule.getElementWithUniqueId("method");
 		
 		// Contains the 'val1' and 'val2' variable element
 		Set<Element> parameterElements = rule.getElementsWithId("param");
