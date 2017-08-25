@@ -202,7 +202,8 @@ public class AvatarRule implements TestRule {
 	 * @throws UniqueElementNotFoundException
 	 * 		if no matches are found or multiple matches are found
 	 */
-	public Element getElementWithUniqueId(final String id) {
+	@SuppressWarnings("unchecked")
+	public <T extends Element> T getElementWithUniqueId(final String id) {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
 		if (compilationResult == null) {
@@ -217,7 +218,7 @@ public class AvatarRule implements TestRule {
 			throw new UniqueElementNotFoundException("Multiple elements found for ID \'" + id + "\'.");
 		}
 		
-		return getElementsWithId(id).iterator().next();
+		return (T) getElementsWithId(id).iterator().next();
 	}
 	
 	/**
