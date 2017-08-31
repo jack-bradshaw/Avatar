@@ -31,6 +31,46 @@ public class TestAvatarRuleWithGoodCode {
 	}
 	
 	@Test
+	public void testGetElementUtils_checkReturnIsNotNull() {
+		assertThat(
+				"Element utils must not be null.",
+				rule.getElementUtils(),
+				is(notNullValue()));
+	}
+	
+	@Test
+	public void testGetTypeUtils_checkReturnIsNotNull() {
+		assertThat(
+				"Type utils must not be null.",
+				rule.getTypeUtils(),
+				is(notNullValue()));
+	}
+	
+	@Test
+	public void testGetFiler_checkReturnIsNotNull() {
+		assertThat(
+				"Filer must not be null.",
+				rule.getFiler(),
+				is(notNullValue()));
+	}
+	
+	@Test
+	public void testGetLocale_checkReturnIsNotNull() {
+		assertThat(
+				"Locale must not be null.",
+				rule.getLocale(),
+				is(notNullValue()));
+	}
+	
+	@Test
+	public void testGetMessager_checkReturnIsNotNull() {
+		assertThat(
+				"Messager must not be null.",
+				rule.getMessager(),
+				is(notNullValue()));
+	}
+	
+	@Test
 	public void testGetRoundEnvironments_checkReturnIsNotNull() {
 		assertThat(
 				"Round environments must not be null.",
