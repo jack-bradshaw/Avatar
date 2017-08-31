@@ -29,9 +29,9 @@ Older versions are available in [the Maven repo](https://bintray.com/matthewtaml
 ## Tutorial
 This tutorial covers the following:
 - Getting started.
-- Using Avatar to get element instances in tests.
-- Using Avatar to get annotation processing utilities in tests.
-- Using Avatar to get other compile-time resources in tests.
+- Using Avatar to get source code element.
+- Using Avatar to get annotation processing utilities.
+- Using Avatar to get other compile-time resources.
 		
 ### Getting started		
 Start by instantiating the `AvatarRule` in the test class. The builder pattern provides methods for defining the sources to compile and setting whether or not compilation must succeed. Some examples:
