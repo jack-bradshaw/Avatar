@@ -96,14 +96,18 @@ public class AvatarRule implements TestRule {
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				compilationResult = CompilerUtil.compileUsingProcessor(new AvatarRule.Processor(), sources);
+				final Processor processor = new Processor(base);
+				
+				compilationResult = CompilerUtil.compileUsingProcessor(processor, sources);
 				
 				if (requireSuccessfulCompilation && !compilationResult.success()) {
 					throw new RuntimeException("Compilation failed. Use Builder" +
 							".withSuccessfulCompilationRequired(boolean) to ignore errors.");
 				}
 				
-				base.evaluate();
+				if (processor.getThrowableFromBaseStatement() != null) {
+					throw processor.getThrowableFromBaseStatement();
+				}
 			}
 		};
 	}
@@ -279,6 +283,18 @@ public class AvatarRule implements TestRule {
 	 * variables of the AvatarRule.
 	 */
 	private class Processor extends AbstractProcessor {
+		private final Statement baseStatement;
+		
+		private Throwable baseThrowable;
+		
+		public Processor(final Statement baseStatement) {
+			this.baseStatement = checkNotNull(baseStatement, "Argument \'baseStatement\' cannot be null.");
+		}
+		
+		public Throwable getThrowableFromBaseStatement() {
+			return baseThrowable;
+		}
+		
 		@Override
 		public synchronized void init(final ProcessingEnvironment processingEnvironment) {
 			super.init(processingEnvironment);
@@ -300,6 +316,10 @@ public class AvatarRule implements TestRule {
 			
 			collectElementsByAnnotation(annotations, roundEnvironment);
 			collectElementsById(roundEnvironment);
+			
+			if (roundEnvironment.processingOver()) {
+				callBaseStatement();
+			}
 			
 			return false;
 		}
@@ -348,6 +368,14 @@ public class AvatarRule implements TestRule {
 				}
 				
 				elementsById.get(id).add(e);
+			}
+		}
+		
+		private void callBaseStatement() {
+			try {
+				baseStatement.evaluate();
+			} catch (final Throwable t) {
+				baseThrowable = t;
 			}
 		}
 	}
