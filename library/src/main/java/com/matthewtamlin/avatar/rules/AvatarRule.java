@@ -113,7 +113,7 @@ public class AvatarRule implements TestRule {
 	}
 	
 	/**
-	 * Gets the processing environment supplied by the system during compilation.
+	 * Gets the {@link ProcessingEnvironment} supplied by the system during compilation.
 	 *
 	 * @return the processing environment, not null
 	 *
