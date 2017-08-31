@@ -167,33 +167,39 @@ public class TestSomething {
 ```
 
 ### Getting annotation processing utilities
-The avatar rule provides access to the utilities used during annotation processing, such as the `Elements` class and the `Types` class. For example:
+The avatar rule provides access to the utilities supplied by the system during annotation processing. For example:
 ```java
 public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule.withoutSources();
 	
-	private Elements elementUtil;
+	private ProcessingEnvironment processingEnvironment;
 	
-	private Types typeUtil;
+	private Elements elementUtils;
+	
+	private Types typeUtils;
 	
 	private Filer filer;
 	
 	private Messager messager;
 	
+	private Locale locale;
+	
 	@Before
 	public void setupUtils() {
-		final ProcessingEnvironment environment = rule.getProcessingEnvironment();
+		processingEnvironment = rule.getProcessingEnvironment();
 		
-		elementUtil = environment.getElementUtils();
-		typeUtil = environment.getTypeUtils();
-		filer = environment.getFiler();
-		messager = environment.getMessager();
+		// Convenience methods are provided to avoid rule.getProcessingEnvironment().getElementUtils() etc.
+		elementUtil = rule.getElementUtils();
+		typeUtil = rule.getTypeUtils();
+		filer = rule.getFiler();
+		messager = rule.getMessager();
+		locale = rule.getLocale();
 	}
 }
 ```
 
-The returned objects are fully functional and can be used to unit test dependent classes.
+The returned objects are fully-functional and can be used to unit test dependent classes.
 
 ### Getting other compile-time resources
 The avatar rule provides access to other compile-time resources. For example:
