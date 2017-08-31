@@ -376,6 +376,61 @@ public class TestAvatarRule {
 	}
 	
 	@Test(expected = IllegalStateException.class)
+	public void testGetElementUtils_failsWhenCalledBeforeRuleIsApplied() {
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+		
+		
+		rule.getElementUtils();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testGetTypeUtils_failsWhenCalledBeforeRuleIsApplied() {
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+		
+		
+		rule.getTypeUtils();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testGetFiler_failsWhenCalledBeforeRuleIsApplied() {
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+		
+		
+		rule.getFiler();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testGetLocale_failsWhenCalledBeforeRuleIsApplied() {
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+		
+		
+		rule.getLocale();
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testGetMessager_failsWhenCalledBeforeRuleIsApplied() {
+		final AvatarRule rule = AvatarRule
+				.builder()
+				.withSourcesAt(DATA_FILE_PATH)
+				.build();
+		
+		
+		rule.getMessager();
+	}
+	
+	@Test(expected = IllegalStateException.class)
 	public void testGetRoundEnvironments_failsWhenCalledBeforeRuleIsApplied() {
 		final AvatarRule rule = AvatarRule
 				.builder()
