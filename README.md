@@ -121,7 +121,7 @@ public class TestSomething {
 }
 ```
 
-The avatar rule can be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
+The avatar rule can also be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
 ```java
 @RunWith(JUnit4.class)
 public class TestSomething {
@@ -145,7 +145,7 @@ public class TestSomething {
 }
 ```
 
-The avatar rule can be used to get elements from the source file based on the annotations, for example:
+The avatar rule can also be used to get elements from the source file based on annotations, for example:
 ```java
 @RunWith(JUnit4.class)
 public class TestSomething {
