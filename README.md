@@ -213,16 +213,11 @@ public class TestSomething {
 			.withSuccessfulCompilationRequired(false)
 			.build();
 	
-	private CompilationResult compilationResult;
-	
 	private List<RoundEnvironment> roundEnvironments;
 	
 	@Before
 	public void setupCompilerResources() {
-		// The compilation outcome (fail or pass), the generated files and any diagnostics
-		compilationResult = rule.getCompilationResult();
-		
-		// The round environments provided by the Java compiler during compilation
+		// The round environments supplied by the system during compilation
 		roundEnvironments = rule.getRoundEnvironments();
 	}
 }
