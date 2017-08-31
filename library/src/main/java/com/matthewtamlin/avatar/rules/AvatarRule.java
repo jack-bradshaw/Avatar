@@ -2,7 +2,6 @@ package com.matthewtamlin.avatar.rules;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.testing.compile.CompilationRule;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
 import com.matthewtamlin.avatar.compilation.CompilerUtil;
@@ -10,11 +9,11 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.*;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -114,7 +113,7 @@ public class AvatarRule implements TestRule {
 	}
 	
 	/**
-	 * Gets the processing environment supplied by the system during compilation.
+	 * Gets the {@link ProcessingEnvironment} supplied by the system during compilation.
 	 *
 	 * @return the processing environment, not null
 	 *
@@ -127,6 +126,71 @@ public class AvatarRule implements TestRule {
 		}
 		
 		return processingEnvironment;
+	}
+	
+	/**
+	 * Convenience method for getting the {@link Elements} supplied by the system during compilation. Equivalent
+	 * to calling {@code getProcessingEnvironment().getElementUtils()}.
+	 *
+	 * @return the element utils, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the rule has not been applied or compilation is still in progress
+	 */
+	public Elements getElementUtils() {
+		return getProcessingEnvironment().getElementUtils();
+	}
+	
+	/**
+	 * Convenience method for getting the {@link Types} supplied by the system during compilation. Equivalent
+	 * to calling {@code getProcessingEnvironment().getTypeUtils()}.
+	 *
+	 * @return the type utils, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the rule has not been applied or compilation is still in progress
+	 */
+	public Types getTypeUtils() {
+		return getProcessingEnvironment().getTypeUtils();
+	}
+	
+	/**
+	 * Convenience method for getting the {@link Filer} supplied by the system during compilation. Equivalent
+	 * to calling {@code getProcessingEnvironment().getFiler()}.
+	 *
+	 * @return the filer, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the rule has not been applied or compilation is still in progress
+	 */
+	public Filer getFiler() {
+		return getProcessingEnvironment().getFiler();
+	}
+	
+	/**
+	 * Convenience method for getting the {@link Locale} supplied by the system during compilation. Equivalent
+	 * to calling {@code getProcessingEnvironment().getLocale()}.
+	 *
+	 * @return the locale, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the rule has not been applied or compilation is still in progress
+	 */
+	public Locale getLocale() {
+		return getProcessingEnvironment().getLocale();
+	}
+	
+	/**
+	 * Convenience method for getting the {@link Messager} supplied by the system during compilation. Equivalent
+	 * to calling {@code getProcessingEnvironment().getMessager()}.
+	 *
+	 * @return the element utils, not null
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the rule has not been applied or compilation is still in progress
+	 */
+	public Messager getMessager() {
+		return getProcessingEnvironment().getMessager();
 	}
 	
 	/**
