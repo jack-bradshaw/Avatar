@@ -1,6 +1,5 @@
 package com.matthewtamlin.avatar.rules.avatar_rule.with_running;
 
-import com.matthewtamlin.avatar.compilation.CompilationResult;
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,18 +26,6 @@ public class TestAvatarRuleWithNoCode {
 		
 		assertThat(processingEnvironment1, is(notNullValue()));
 		assertThat(processingEnvironment2, is(notNullValue()));
-	}
-	
-	@Test
-	public void testGetCompilationResult() {
-		final CompilationResult compilationResult1 = rule1.getCompilationResult();
-		final CompilationResult compilationResult2 = rule2.getCompilationResult();
-		
-		assertThat(compilationResult1, is(notNullValue()));
-		assertThat(compilationResult2, is(notNullValue()));
-		
-		assertThat(compilationResult1.success(), is(true));
-		assertThat(compilationResult2.success(), is(true));
 	}
 	
 	@Test
