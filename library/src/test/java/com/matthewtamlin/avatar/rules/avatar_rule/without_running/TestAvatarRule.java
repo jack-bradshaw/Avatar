@@ -376,16 +376,6 @@ public class TestAvatarRule {
 	}
 	
 	@Test(expected = IllegalStateException.class)
-	public void testGetCompilationResult_failsWhenCalledBeforeRuleIsApplied() {
-		final AvatarRule rule = AvatarRule
-				.builder()
-				.withSourcesAt(DATA_FILE_PATH)
-				.build();
-		
-		rule.getCompilationResult();
-	}
-	
-	@Test(expected = IllegalStateException.class)
 	public void testGetRoundEnvironments_failsWhenCalledBeforeRuleIsApplied() {
 		final AvatarRule rule = AvatarRule
 				.builder()

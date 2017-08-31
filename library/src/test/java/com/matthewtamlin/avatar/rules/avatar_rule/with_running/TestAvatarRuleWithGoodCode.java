@@ -2,7 +2,6 @@ package com.matthewtamlin.avatar.rules.avatar_rule.with_running;
 
 import com.matthewtamlin.avatar.rules.AvatarRule;
 import com.matthewtamlin.avatar.rules.UniqueElementNotFoundException;
-import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,14 +28,6 @@ public class TestAvatarRuleWithGoodCode {
 				"Processing environment must not be null.",
 				rule.getProcessingEnvironment(),
 				is(notNullValue()));
-	}
-	
-	@Test
-	public void testGetCompilationResult_checkReturnIsNotNull() {
-		assertThat(
-				"Compilation result must not be null.",
-				rule.getCompilationResult(),
-				is(CoreMatchers.notNullValue()));
 	}
 	
 	@Test
