@@ -106,7 +106,7 @@ public class TestData {
 The avatar rule can be used to get all root elements from the source file, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -124,7 +124,7 @@ public void TestSomething {
 The avatar rule can be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -148,7 +148,7 @@ public void TestSomething {
 The avatar rule can be used to get elements from the source file based on the annotations, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -169,7 +169,7 @@ public void TestSomething {
 ### Getting annotation processing utilities
 The avatar rule provides access to the utilities used during annotation processing, such as the `Elements` class and the `Types` class. For example:
 ```java
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule.withoutSources();
 	
@@ -198,13 +198,13 @@ The returned objects are fully functional and can be used to unit test dependent
 ### Getting other compile-time resources
 The avatar rule provides access to other compile-time resources. For example:
 ```java
-public void TestSomething {
+public class TestSomething {
 	// Using the Google compile testing class to parse a source string
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
 			.withSourcesAt("some_path/BadJavaFile.java")
-			.withSuccessfulCompilationRequired(false)e
+			.withSuccessfulCompilationRequired(false)
 			.build();
 	
 	private CompilationResult compilationResult;
