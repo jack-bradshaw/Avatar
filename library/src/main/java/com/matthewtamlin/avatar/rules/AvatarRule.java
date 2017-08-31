@@ -2,6 +2,7 @@ package com.matthewtamlin.avatar.rules;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.testing.compile.CompilationRule;
 import com.google.testing.compile.JavaFileObjects;
 import com.matthewtamlin.avatar.compilation.CompilationResult;
 import com.matthewtamlin.avatar.compilation.CompilerUtil;
@@ -73,9 +74,9 @@ public class AvatarRule implements TestRule {
 	private ProcessingEnvironment processingEnvironment;
 	
 	/**
-	 * The result produced by compiling the sources.
+	 * Whether or not compilation has finished. The rule may still be running even when this variable is true.
 	 */
-	private CompilationResult compilationResult;
+	private boolean compilationFinished;
 	
 	private AvatarRule(final Builder builder) {
 		if (builder.sources == null || !builder.sources.iterator().hasNext()) {
@@ -98,7 +99,7 @@ public class AvatarRule implements TestRule {
 			public void evaluate() throws Throwable {
 				final Processor processor = new Processor(base);
 				
-				compilationResult = CompilerUtil.compileUsingProcessor(processor, sources);
+				final CompilationResult compilationResult = CompilerUtil.compileUsingProcessor(processor, sources);
 				
 				if (requireSuccessfulCompilation && !compilationResult.success()) {
 					throw new RuntimeException("Compilation failed. Use Builder" +
@@ -121,7 +122,7 @@ public class AvatarRule implements TestRule {
 	 * 		if the rule has not been applied or compilation is still in progress
 	 */
 	public ProcessingEnvironment getProcessingEnvironment() {
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing processing environment.");
 		}
 		
@@ -137,7 +138,7 @@ public class AvatarRule implements TestRule {
 	 * 		if the rule has not been applied or compilation is still in progress
 	 */
 	public List<RoundEnvironment> getRoundEnvironments() {
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing round environments.");
 		}
 		
@@ -161,7 +162,7 @@ public class AvatarRule implements TestRule {
 	public Set<Element> getElementsWithId(final String id) {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing elements.");
 		}
 		
@@ -194,7 +195,7 @@ public class AvatarRule implements TestRule {
 	public <T extends Element> T getElementWithUniqueId(final String id) {
 		checkNotNull(id, "Argument \'id\' cannot be null.");
 		
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing elements.");
 		}
 		
@@ -225,7 +226,7 @@ public class AvatarRule implements TestRule {
 	public Set<Element> getElementsWithAnnotation(Class<? extends Annotation> annotationClass) {
 		checkNotNull(annotationClass, "Argument \'annotationClass\' cannot be null.");
 		
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing elements.");
 		}
 		
@@ -247,7 +248,7 @@ public class AvatarRule implements TestRule {
 	 * 		if the rule has not been applied or compilation is still in progress
 	 */
 	public Set<Element> getRootElements() {
-		if (compilationResult == null) {
+		if (!compilationFinished) {
 			throw new IllegalStateException("Rule must be evaluated before accessing elements.");
 		}
 		
@@ -302,6 +303,7 @@ public class AvatarRule implements TestRule {
 			collectElementsById(roundEnvironment);
 			
 			if (roundEnvironment.processingOver()) {
+				compilationFinished = true;
 				callBaseStatement();
 			}
 			
