@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -212,6 +214,14 @@ public class TestAvatarRuleWithGoodCode {
 		assertThat("Element set must not be null.", elements, is(notNullValue()));
 		assertThat("Element set must contain exactly one item.", elements.size(), is(1));
 		assertThat("Element set must contain Data.", containsByName(elements, "Data"));
+	}
+	
+	@Test
+	public void testUtilities_compilationTreeCanExpand() {
+		final TypeMirror number = rule.getElementUtils().getTypeElement(Number.class.getCanonicalName()).asType();
+		final TypeMirror integer = rule.getElementUtils().getTypeElement(Integer.class.getCanonicalName()).asType();
+		
+		assertThat(rule.getTypeUtils().isAssignable(integer, number), is(true));
 	}
 	
 	private boolean containsByName(final Set<? extends Element> elements, final String name) {
