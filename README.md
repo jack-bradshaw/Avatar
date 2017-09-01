@@ -29,9 +29,9 @@ Older versions are available in [the Maven repo](https://bintray.com/matthewtaml
 ## Tutorial
 This tutorial covers the following:
 - Getting started.
-- Using Avatar to get element instances in tests.
-- Using Avatar to get annotation processing utilities in tests.
-- Using Avatar to get other compile-time resources in tests.
+- Using Avatar to get source code element.
+- Using Avatar to get annotation processing utilities.
+- Using Avatar to get other compile-time resources.
 		
 ### Getting started		
 Start by instantiating the `AvatarRule` in the test class. The builder pattern provides methods for defining the sources to compile and setting whether or not compilation must succeed. Some examples:
@@ -106,7 +106,7 @@ public class TestData {
 The avatar rule can be used to get all root elements from the source file, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -121,10 +121,10 @@ public void TestSomething {
 }
 ```
 
-The avatar rule can be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
+The avatar rule can also be used to get elements from the source file based on the IDs defined by `@ElementId`, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -145,10 +145,10 @@ public void TestSomething {
 }
 ```
 
-The avatar rule can be used to get elements from the source file based on the annotations, for example:
+The avatar rule can also be used to get elements from the source file based on annotations, for example:
 ```java
 @RunWith(JUnit4.class)
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
@@ -167,56 +167,57 @@ public void TestSomething {
 ```
 
 ### Getting annotation processing utilities
-The avatar rule provides access to the utilities used during annotation processing, such as the `Elements` class and the `Types` class. For example:
+The avatar rule provides access to the utilities supplied by the system during annotation processing. For example:
 ```java
-public void TestSomething {
+public class TestSomething {
 	@Rule
 	public final AvatarRule rule = AvatarRule.withoutSources();
 	
-	private Elements elementUtil;
+	private ProcessingEnvironment processingEnvironment;
 	
-	private Types typeUtil;
+	private Elements elementUtils;
+	
+	private Types typeUtils;
 	
 	private Filer filer;
 	
 	private Messager messager;
 	
+	private Locale locale;
+	
 	@Before
 	public void setupUtils() {
-		final ProcessingEnvironment environment = rule.getProcessingEnvironment();
+		processingEnvironment = rule.getProcessingEnvironment();
 		
-		elementUtil = environment.getElementUtils();
-		typeUtil = environment.getTypeUtils();
-		filer = environment.getFiler();
-		messager = environment.getMessager();
+		// Convenience methods are provided to avoid rule.getProcessingEnvironment().getElementUtils() etc.
+		elementUtil = rule.getElementUtils();
+		typeUtil = rule.getTypeUtils();
+		filer = rule.getFiler();
+		messager = rule.getMessager();
+		locale = rule.getLocale();
 	}
 }
 ```
 
-The returned objects are fully functional and can be used to unit test dependent classes.
+The returned objects are fully-functional and can be used to unit test dependent classes.
 
 ### Getting other compile-time resources
 The avatar rule provides access to other compile-time resources. For example:
 ```java
-public void TestSomething {
+public class TestSomething {
 	// Using the Google compile testing class to parse a source string
 	@Rule
 	public final AvatarRule rule = AvatarRule
 			.builder()
 			.withSourcesAt("some_path/BadJavaFile.java")
-			.withSuccessfulCompilationRequired(false)e
+			.withSuccessfulCompilationRequired(false)
 			.build();
-	
-	private CompilationResult compilationResult;
 	
 	private List<RoundEnvironment> roundEnvironments;
 	
 	@Before
 	public void setupCompilerResources() {
-		// The compilation outcome (fail or pass), the generated files and any diagnostics
-		compilationResult = rule.getCompilationResult();
-		
-		// The round environments provided by the Java compiler during compilation
+		// The round environments supplied by the system during compilation
 		roundEnvironments = rule.getRoundEnvironments();
 	}
 }
