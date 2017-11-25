@@ -7,21 +7,19 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 - Providing access to other compile-time resources data.
 
 ## Dependency
-Releases are published to [JCenter](https://bintray.com/bintray/jcenter). To use the latest release:
+To use the library, add the following to your gradle build file:
+```groovy
+repositories {
+	jcenter()
+}
 
-Gradle:
-```
-compile 'com.matthew-tamlin:avatar:2.1.0'
-```
+dependencies {
+	// For Android Gradle plugin 3.0.0+ projects:
+	implementation 'com.matthew-tamlin:avatar:2.1.0'
 
-Maven: 
-```
-<dependency>
-  <groupId>com.matthew-tamlin</groupId>
-  <artifactId>avatar</artifactId>
-  <version>2.1.0</version>
-  <type>pom</type>
-</dependency>
+	// For older projects:
+	compile 'com.matthew-tamlin:avatar:2.1.0'
+}
 ```
 
 Older versions are available in [the Maven repo](https://bintray.com/matthewtamlin/maven/Avatar).
@@ -225,14 +223,6 @@ public class TestSomething {
 
 ## Licensing
 This library is licenced under the Apache v2.0 licence. Have a look at [the license](LICENSE) for details.
-
-## Dependencies and Attribution
-This library uses the following open source libraries as level 1 dependencies:
-- [AutoValue](https://github.com/google/auto/tree/master/value), licensed under the Apache 2.0 licence.
-- [CompileTesting](https://github.com/google/compile-testing), licensed under the Apache 2.0 licence.
-- [Guava](https://github.com/google/guava), licensed under the Apache 2.0 licence.
-- [Java Utilities](https://github.com/MatthewTamlin/JavaUtilities), licensed under the Apache 2.0 licence.
-- [JUnit](http://junit.org/junit4/), licensed under the Eclipse Public License 1.0.
 
 ## Compatibility
 This library is compatible with Java 1.7 and up.
