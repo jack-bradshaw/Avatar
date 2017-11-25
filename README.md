@@ -7,21 +7,19 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 - Providing access to other compile-time resources data.
 
 ## Dependency
-Releases are published to [JCenter](https://bintray.com/bintray/jcenter). To use the latest release:
+To use the library, add the following to your gradle build file:
+```groovy
+repositories {
+	jcenter()
+}
 
-Gradle:
-```
-compile 'com.matthew-tamlin:avatar:2.1.0'
-```
+dependencies {
+	// For Android Gradle plugin 3.0.0+ projects:
+	implementation 'com.matthew-tamlin:avatar:2.1.0'
 
-Maven: 
-```
-<dependency>
-  <groupId>com.matthew-tamlin</groupId>
-  <artifactId>avatar</artifactId>
-  <version>2.1.0</version>
-  <type>pom</type>
-</dependency>
+	// For older projects:
+	compile 'com.matthew-tamlin:avatar:2.1.0'
+}
 ```
 
 Older versions are available in [the Maven repo](https://bintray.com/matthewtamlin/maven/Avatar).
