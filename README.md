@@ -14,11 +14,7 @@ repositories {
 }
 
 dependencies {
-	// For Android Gradle plugin 3.0.0+ projects:
 	implementation 'com.matthew-tamlin:avatar:2.1.0'
-
-	// For older projects:
-	compile 'com.matthew-tamlin:avatar:2.1.0'
 }
 ```
 
