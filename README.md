@@ -10,11 +10,11 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 To use the library, add the following to your gradle build file:
 ```groovy
 repositories {
-	jcenter()
+  jcenter()
 }
 
 dependencies {
-	implementation 'com.matthew-tamlin:avatar:2.1.0'
+  implementation 'com.matthew-tamlin:avatar:2.1.0'
 }
 ```
 
@@ -32,45 +32,45 @@ Start by instantiating the `AvatarRule` in the test class. The builder pattern p
 		
 ```java
 public class Tests {
-	// Compiles one source file, referenced by path.
-	@Rule
-	public AvatarRule rule1 = AvatarRule
-			.builder()
-			.withSourcesAt("src/com/example/Source.java")
-			.build();
+  // Compiles one source file, referenced by path.
+  @Rule
+  public AvatarRule rule1 = AvatarRule
+      .builder()
+      .withSourcesAt("src/com/example/Source.java")
+      .build();
 	
-	// Compiles multiple source files, both referenced by path.
-	@Rule
-	public AvatarRule rule2 = AvatarRule
-			.builder()
-			.withSourcesAt(
-				"src/com/example/Source1.java", 
-				"src/com/example/Source2.java")
-			.build();
+  // Compiles multiple source files, both referenced by path.
+  @Rule
+  public AvatarRule rule2 = AvatarRule
+      .builder()
+      .withSourcesAt(
+          "src/com/example/Source1.java", 
+          "src/com/example/Source2.java")
+      .build();
 	
-	// Compiles multiple source files, one referenced by path and one referenced by file.
-	@Rule
-	public AvatarRule rule3 = AvatarRule
-			.builder()
-			.withSources(new File("some_path/File.java"))
-			.withSourcesAt("some_other_path/File.java")
-			.build();
+  // Compiles multiple source files, one referenced by path and one referenced by file.
+  @Rule
+  public AvatarRule rule3 = AvatarRule
+      .builder()
+      .withSources(new File("some_path/File.java"))
+      .withSourcesAt("some_other_path/File.java")
+      .build();
 	
-	// Compilation will fail, causing the the rule to fail before the tests run.
-	@Rule
-	public AvatarRule rule4 = AvatarRule
-			.builder()
-			.withSourcesAt("src/com/DoesntCompile.java")
-			.withSuccessfulCompilationRequired(true)
-			.build();
+  // Compilation will fail, causing the the rule to fail before the tests run.
+  @Rule
+  public AvatarRule rule4 = AvatarRule
+      .builder()
+      .withSourcesAt("src/com/DoesntCompile.java")
+      .withSuccessfulCompilationRequired(true)
+      .build();
 
-	// Compilation will fail, but the rule will still pass and the tests will run.
-	@Rule
-	public AvatarRule rule5 = AvatarRule
-			.builder()
-			.withSourcesAt("src/com/DoesntCompile.java")
-			.withSuccessfulCompilationRequired(false)
-			.build();
+  // Compilation will fail, but the rule will still pass and the tests will run.
+  @Rule
+  public AvatarRule rule5 = AvatarRule
+      .builder()
+      .withSourcesAt("src/com/DoesntCompile.java")
+      .withSuccessfulCompilationRequired(false)
+      .build();
 }
 ```
 
@@ -83,17 +83,17 @@ package com.example;
 
 @ElementId("class")
 public class TestData {
-	@ElementId("method")
-	public void someMethod1(@ElementId("param") int val1, @ElementId("param") int val2) {}
+  @ElementId("method")
+  public void someMethod1(@ElementId("param") int val1, @ElementId("param") int val2) {}
 	
-	@SomeAnnotation
-	public void someMethod2() {}
+  @SomeAnnotation
+  public void someMethod2() {}
 	
-	@SomeAnnotation
-	public Object someField1 = null;
+  @SomeAnnotation
+  public Object someField1 = null;
 	
-	@SomeAnnotation
-	public String someField2 = "";
+  @SomeAnnotation
+  public String someField2 = "";
 }
 ```
 
@@ -101,17 +101,17 @@ The avatar rule can be used to get all root elements from the source file, for e
 ```java
 @RunWith(JUnit4.class)
 public class TestSomething {
-	@Rule
-	public final AvatarRule rule = AvatarRule
-			.builder()
-			.withSourcesAt("src/test/com/example/TestData.java")
-			.build();
+  @Rule
+  public final AvatarRule rule = AvatarRule
+      .builder()
+      .withSourcesAt("src/test/com/example/TestData.java")
+      .build();
 			
-	@Test
-	public void test() {
-		// Contains the 'TestData' type element
-		Set<Element> elements = rule.getRootElements();
-	}
+  @Test
+  public void test() {
+    // Contains the 'TestData' type element
+    Set<Element> elements = rule.getRootElements();
+  }
 }
 ```
 
@@ -119,23 +119,23 @@ The avatar rule can also be used to get elements from the source file based on t
 ```java
 @RunWith(JUnit4.class)
 public class TestSomething {
-	@Rule
-	public final AvatarRule rule = AvatarRule
-			.builder()
-			.withSourcesAt("src/test/com/example/TestData.java")
-			.build();
+  @Rule
+  public final AvatarRule rule = AvatarRule
+      .builder()
+      .withSourcesAt("src/test/com/example/TestData.java")
+      .build();
 			
-	@Test
-	public void test() {
-		// The 'TestData' type element
-		TypeElement classElement = rule.getElementWithUniqueId("class");
+  @Test
+  public void test() {
+    // The 'TestData' type element
+    TypeElement classElement = rule.getElementWithUniqueId("class");
 		
-		// The 'someMethod' executable element 
-		ExecutableElement methodElement = rule.getElementWithUniqueId("method");
+    // The 'someMethod' executable element 
+    ExecutableElement methodElement = rule.getElementWithUniqueId("method");
 		
-		// Contains the 'val1' and 'val2' variable element
-		Set<Element> parameterElements = rule.getElementsWithId("param");
-	}
+    // Contains the 'val1' and 'val2' variable element
+    Set<Element> parameterElements = rule.getElementsWithId("param");
+  }
 }
 ```
 
@@ -143,20 +143,20 @@ The avatar rule can also be used to get elements from the source file based on a
 ```java
 @RunWith(JUnit4.class)
 public class TestSomething {
-	@Rule
-	public final AvatarRule rule = AvatarRule
-			.builder()
-			.withSourcesAt("src/test/com/example/TestData.java")
-			.build();
+  @Rule
+  public final AvatarRule rule = AvatarRule
+      .builder()
+      .withSourcesAt("src/test/com/example/TestData.java")
+      .build();
 			
-	@Test
-	public void test() {
-		/* 
-		 * Contains the 'someMethod2' executable element, as well as the 'someField1' and 
-		 * 'someField2' variable elements.
-		 */
-		Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
-	}
+  @Test
+  public void test() {
+    /* 
+     * Contains the 'someMethod2' executable element, as well as the 'someField1' and 
+     * 'someField2' variable elements.
+     */
+    Set<Element> elements = rule.getElementsWithAnnotation(SomeAnnotation.class);
+  }
 }
 ```
 
@@ -164,32 +164,32 @@ public class TestSomething {
 The avatar rule provides access to the utilities supplied by the system during annotation processing. For example:
 ```java
 public class TestSomething {
-	@Rule
-	public final AvatarRule rule = AvatarRule.withoutSources();
+  @Rule
+  public final AvatarRule rule = AvatarRule.withoutSources();
 	
-	private ProcessingEnvironment processingEnvironment;
+  private ProcessingEnvironment processingEnvironment;
 	
-	private Elements elementUtils;
+  private Elements elementUtils;
 	
-	private Types typeUtils;
+  private Types typeUtils;
 	
-	private Filer filer;
+  private Filer filer;
 	
-	private Messager messager;
+  private Messager messager;
 	
-	private Locale locale;
+  private Locale locale;
 	
-	@Before
-	public void setupUtils() {
-		processingEnvironment = rule.getProcessingEnvironment();
+  @Before
+  public void setupUtils() {
+    processingEnvironment = rule.getProcessingEnvironment();
 		
-		// Convenience methods are provided to avoid rule.getProcessingEnvironment().getElementUtils() etc.
-		elementUtil = rule.getElementUtils();
-		typeUtil = rule.getTypeUtils();
-		filer = rule.getFiler();
-		messager = rule.getMessager();
-		locale = rule.getLocale();
-	}
+    // Convenience methods are provided to avoid rule.getProcessingEnvironment().getElementUtils() etc.
+    elementUtil = rule.getElementUtils();
+    typeUtil = rule.getTypeUtils();
+    filer = rule.getFiler();
+    messager = rule.getMessager();
+    locale = rule.getLocale();
+  }
 }
 ```
 
@@ -199,26 +199,23 @@ The returned objects are fully-functional and can be used to unit test dependent
 The avatar rule provides access to other compile-time resources. For example:
 ```java
 public class TestSomething {
-	// Using the Google compile testing class to parse a source string
-	@Rule
-	public final AvatarRule rule = AvatarRule
-			.builder()
-			.withSourcesAt("some_path/BadJavaFile.java")
-			.withSuccessfulCompilationRequired(false)
-			.build();
+  // Using the Google compile testing class to parse a source string
+  @Rule
+  public final AvatarRule rule = AvatarRule
+      .builder()
+      .withSourcesAt("some_path/BadJavaFile.java")
+      .withSuccessfulCompilationRequired(false)
+      .build();
 	
-	private List<RoundEnvironment> roundEnvironments;
+  private List<RoundEnvironment> roundEnvironments;
 	
-	@Before
-	public void setupCompilerResources() {
-		// The round environments supplied by the system during compilation
-		roundEnvironments = rule.getRoundEnvironments();
-	}
+  @Before
+  public void setupCompilerResources() {
+    // The round environments supplied by the system during compilation
+    roundEnvironments = rule.getRoundEnvironments();
+  }
 }
 ```
-
-## Licensing
-This library is licenced under the Apache v2.0 licence. Have a look at [the license](LICENSE) for details.
 
 ## Compatibility
 This library is compatible with Java 1.7 and up.
