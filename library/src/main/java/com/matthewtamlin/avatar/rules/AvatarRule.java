@@ -10,6 +10,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import javax.annotation.processing.*;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
@@ -335,7 +336,13 @@ public class AvatarRule implements TestRule {
 		private final Statement baseStatement;
 		
 		private Throwable baseThrowable;
-		
+
+		@Override
+		public SourceVersion getSupportedSourceVersion()
+		{
+			return SourceVersion.latestSupported();
+		}
+
 		public Processor(final Statement baseStatement) {
 			this.baseStatement = checkNotNull(baseStatement, "Argument \'baseStatement\' cannot be null.");
 		}
