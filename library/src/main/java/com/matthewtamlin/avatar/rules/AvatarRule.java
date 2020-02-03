@@ -10,6 +10,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import javax.annotation.processing.*;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
@@ -18,6 +19,7 @@ import javax.tools.JavaFileObject;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 import static com.matthewtamlin.avatar.util.IterableNullChecker.checkNotContainsNull;
@@ -335,7 +337,13 @@ public class AvatarRule implements TestRule {
 		private final Statement baseStatement;
 		
 		private Throwable baseThrowable;
-		
+
+		@Override
+		public SourceVersion getSupportedSourceVersion()
+		{
+			return SourceVersion.latestSupported();
+		}
+
 		public Processor(final Statement baseStatement) {
 			this.baseStatement = checkNotNull(baseStatement, "Argument \'baseStatement\' cannot be null.");
 		}
@@ -553,6 +561,56 @@ public class AvatarRule implements TestRule {
 			return withSourceFiles(Arrays.asList(sources));
 		}
 		
+		/**
+		 * Sets the sources to compile, adding to any that have been set previously.
+		 *
+		 * @param sources
+		 * 		the source resources to compile, not null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the files are non-existent
+		 */
+		public Builder withSourceResources(final Iterable<URL> sources) {
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
+
+			final List<JavaFileObject> javaFileObjects = new ArrayList<>();
+
+			for (final URL source : sources) {
+				checkNotNull(source, "Argument \'sources\' cannot contain null.");
+
+				javaFileObjects.add(JavaFileObjects.forResource(source));
+			}
+
+			return withSourceFileObjects(javaFileObjects);
+		}
+
+		/**
+		 * Sets the sources to compile, adding to any that have been set previously.
+		 *
+		 * @param sources
+		 * 		the source resources to compile, not null, not containing null
+		 *
+		 * @return this builder
+		 *
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} is null
+		 * @throws IllegalArgumentException
+		 * 		if {@code sources} contains null
+		 * @throws IllegalArgumentException
+		 * 		if any of the files are non-existent
+		 */
+		public Builder withSourceResources(final URL... sources) {
+			checkNotNull(sources, "Argument \'sources\' cannot be null.");
+
+			return withSourceResources(Arrays.asList(sources));
+		}
+
 		/**
 		 * Sets the sources to compile, adding to any that have been set previously.
 		 *
