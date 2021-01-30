@@ -20,6 +20,8 @@ dependencies {
 
 Older versions are available in [the Maven repo](https://bintray.com/matthewtamlin/maven/Avatar).
 
+SUPPORT NOTICE: This library is stable and is no longer under active development. Pull requests from external developers are accepted.
+
 ## Tutorial
 This tutorial covers the following:
 - Getting started.
