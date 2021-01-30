@@ -6,6 +6,8 @@ Writing automated tests for annotation processors is a difficult task. Many impo
 - Providing access to the annotation processor utilities.
 - Providing access to other compile-time resources data.
 
+**SUPPORT NOTICE: This library is now STABLE. It is no longer under active development, however pull requests from others are still being accepted.**
+
 ## Dependency
 To use the library, add the following to your gradle build file:
 ```groovy
@@ -19,8 +21,6 @@ dependencies {
 ```
 
 Older versions are available in [the Maven repo](https://bintray.com/matthewtamlin/maven/Avatar).
-
-SUPPORT NOTICE: This library is stable and is no longer under active development. Pull requests from external developers are accepted.
 
 ## Tutorial
 This tutorial covers the following:
